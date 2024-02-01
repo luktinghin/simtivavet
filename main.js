@@ -2769,8 +2769,6 @@ function common_start_calls() {
 			}
 			loop3 = setInterval(updatechart, 5000, myChart);
 
-		loop6 = setInterval(displayWarningBanner, 60*1000);
-		
 		initshare();
 }
 
@@ -3067,7 +3065,7 @@ function preview_cpt(x,ind) {
 	drug_sets[ind].previewhistorytext = "";
 	if (drug_sets[ind].previewhistoryarray == undefined) drug_sets[ind].previewhistoryarray = new Array();
 	//new code
-
+	//drug_sets[ind].historytext = "";
 	drug_sets[ind].previewhistoryarray.length = 0;
 	if (drug_sets[ind].fentanyl_weightadjusted_flag == 1) {
 		drug_sets[ind].fentanyl_weightadjusted_target_uncorrected = drug_sets[ind].desired;
@@ -3114,7 +3112,8 @@ function preview_cpt(x,ind) {
 		drug_sets[ind].cpt_bolus = 0;
 	}
 
-
+	//new first pass
+	
 	//new code
 	//if (effect_flag == 0) {
 		scheme_bolusadmin(drug_sets[ind].cpt_bolus, ind);
@@ -3133,7 +3132,7 @@ function preview_cpt(x,ind) {
 		//drug_sets[ind].historyarrays.push([1,1,working_clock,drug_sets[ind].cpt_bolus]);
 	//}
 	//
-
+	
 	cpt_pause = 0;
 	if (est_cp >= drug_sets[ind].desired) {
 		while (est_cp>=drug_sets[ind].desired) {
@@ -3254,7 +3253,6 @@ function preview_cpt(x,ind) {
 				}
 		}
 	} else {
-
 		if (drug_sets[0].model_name == "Cattai-Propofol") {
 			if (cpt_threshold_auto == 1) {
 				if (drug_sets[ind].cpt_rates[5]*360 > 40) {
@@ -3587,11 +3585,9 @@ function preview_cpt(x,ind) {
 		drug_sets[ind].preview_rate = 0;	
 	} else {
 		drug_sets[ind].preview_rate = Math.round(drug_sets[ind].previewhistoryarray[0][1]*3600/drug_sets[ind].infusate_concentration*10)/10;
-
 		
 	}
 	drug_sets[ind].preview_downtrend = (drug_sets[ind].cpt_rates_real[Math.floor(time_in_s)] > drug_sets[ind].previewhistoryarray[0][1]);
-
 }
 
 function displaypreview(x,ind) {
@@ -3735,24 +3731,22 @@ function displaypreview_hide() {
 }
 
 function displaypreview_hide_onsubmit() {
-	if (parseloading == 0) {
-		document.getElementById("preview-expand-box").classList.remove("expand");
-		document.getElementById("preview").classList.remove("expand");
-			document.getElementById("prompts_container").classList.remove("expand");
-			document.getElementById("preview-expand-button").innerHTML = `<i class="fas fa-angle-double-down"></i> &nbsp; <span>EXPAND</span>`;
-			document.getElementById("preview-expand-button").setAttribute("onclick","displaypreview_expand()");	
-			document.getElementById("preview-expand-button").style.display = "none";
-		if (!document.getElementById("preview").classList.contains("animate"))	{
-			//situation where preview animation fade is NOT active, i.e. the hiding of preview is not yet active
-			document.getElementById("preview").classList.add("animate");
-			previewtimeout = null;
-			clearTimeout(previewtimeout);
-			previewtimeout = setTimeout(function() {
-				document.getElementById("preview").style.display = "none";
-			},11500);
-		} else {
+	document.getElementById("preview-expand-box").classList.remove("expand");
+	document.getElementById("preview").classList.remove("expand");
+		document.getElementById("prompts_container").classList.remove("expand");
+		document.getElementById("preview-expand-button").innerHTML = `<i class="fas fa-angle-double-down"></i> &nbsp; <span>EXPAND</span>`;
+		document.getElementById("preview-expand-button").setAttribute("onclick","displaypreview_expand()");	
+		document.getElementById("preview-expand-button").style.display = "none";
+	if (!document.getElementById("preview").classList.contains("animate"))	{
+		//situation where preview animation fade is NOT active, i.e. the hiding of preview is not yet active
+		document.getElementById("preview").classList.add("animate");
+		previewtimeout = null;
+		clearTimeout(previewtimeout);
+		previewtimeout = setTimeout(function() {
+			document.getElementById("preview").style.display = "none";
+		},11500);
+	} else {
 
-		}
 	}
 
 
@@ -3928,12 +3922,10 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		if (drug_sets[ind].cpt_bolus>=90) {
 			drug_sets[ind].cpt_bolus = Math.round(drug_sets[ind].cpt_bolus/10)*10;
 		} else if (drug_sets[ind].cpt_bolus>1) {
-
 			if ((mass>30) && (drug_sets[ind].cpt_bolus>=40)) {
 				drug_sets[ind].cpt_bolus = Math.ceil(drug_sets[ind].cpt_bolus/5)*5; //round up to nearest 5mg
 			} else {
 				drug_sets[ind].cpt_bolus = Math.ceil(drug_sets[ind].cpt_bolus);
-
 			}
 		} else {
 			drug_sets[ind].cpt_bolus = 0;
@@ -4004,6 +3996,7 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		e_state2[3] = e_state3[3];
 		e_state2[4] = e_state3[4];
 	}
+
 
 
 	//first pass
@@ -4112,18 +4105,17 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		}
 	} else {
 		if (cpt_threshold_auto == 1) {
-
+			if (drug_sets[ind].cpt_rates[5]*360 > 40) {
 				cpt_threshold = 0.08;
 				cpt_avgfactor = 0.667;
 			} else {
-				cpt_threshold = 0.05;
-				cpt_avgfactor = 0.62;
+				cpt_threshold = 0.13;
+				cpt_avgfactor = 0.55;
 				//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 			}
 		}
 	}
 	*/
-
 
 	//determine new thresholds
 	if (drug_sets[ind].drug_name == "Fentanyl") {
@@ -4181,17 +4173,13 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		}
 	}
 
-
+	
 
 	//new second pass (downsample infusion rates from cpt_rates and write to cpt_rates_real)
 
 	
 	//automatically determine high or low rounding factor (3600->round to 0.1, 360->round to 1)
-
 	if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<40/360)) {
-
-	if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<30/360)) {
-
 		var roundingfactor = 3600;
 	} else {
 		if (drug_sets[ind].drug_name == "Propofol") {
@@ -4542,11 +4530,7 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 
 				if (j==59) {
 					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
-
 					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval;
-
-
-
 					var rate1 = Math.round(test_rate*3600/drug_sets[ind].infusate_concentration*10)/10;
 					var rate2 = Math.round(rate1*drug_sets[ind].infusate_concentration*drug_sets[ind].inf_rate_permass_factor/mass*drug_sets[ind].inf_rate_permass_dp)/drug_sets[ind].inf_rate_permass_dp;
 					drug_sets[ind].historytext = drug_sets[ind].historytext.concat("<div class='schemeinf' data-time='" + relativetime + "'>" + "<div class='timespan'>" + converttime(relativetime) + "</div>" + rate1 + "ml/h " + "<span style='opacity:0.5'>(" + rate2 + drug_sets[ind].inf_rate_permass_unit + ")</span></div>");	
@@ -4969,11 +4953,9 @@ function preview_cet(x,ind) {
 			}
 
 			est_cp = p_state3[1] + p_state3[2] + p_state3[3];
-
 			//var compensation = (drug_sets[ind].desired*1.01 - est_cp)/drug_sets[ind].p_udf[1];
 			compensation = 0;
 			console.log("compensation, over 1secs, " + compensation);
-
 
 			//myChart.data.datasets[2].hidden = false;
 			//myChart.data.datasets[3].hidden = false;
@@ -5210,9 +5192,7 @@ function preview_cet(x,ind) {
 						cpt_avgfactor = 0.66;
 					} else {
 						cpt_threshold = 0.05;
-
 						cpt_avgfactor = 0.6;
-
 						//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 					}
 				}
@@ -5220,9 +5200,7 @@ function preview_cet(x,ind) {
 
 			//second pass
 			//automatically determine high or low rounding factor (3600->round to 0.1, 360->round to 1)
-
 			if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<40/360)) {
-
 				var roundingfactor = 3600;
 			} else {
 				if (drug_sets[ind].drug_name == "Propofol") {
@@ -5291,7 +5269,7 @@ function preview_cet(x,ind) {
 				}
 
 				if (j==59) {
-					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
+					test_rate = Math.round((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]+drug_sets[ind].cpt_rates[j])/2*roundingfactor)/roundingfactor;
 					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120;
 					var rate1 = Math.round(test_rate*3600/drug_sets[ind].infusate_concentration*10)/10;
 					var rate2 = Math.round(rate1*drug_sets[ind].infusate_concentration*drug_sets[ind].inf_rate_permass_factor/mass*drug_sets[ind].inf_rate_permass_dp)/drug_sets[ind].inf_rate_permass_dp;
@@ -5590,9 +5568,8 @@ function deliver_cet_real(x, ind) {
 			}
 
 			est_cp = p_state3[1] + p_state3[2] + p_state3[3];
-
+			//var compensation = (drug_sets[ind].desired*1.01 - est_cp)/drug_sets[ind].p_udf[1];
 			compensation = 0;
-
 			console.log("compensation, over 1secs, " + compensation);
 
 			//myChart.data.datasets[2].hidden = false;
@@ -10187,7 +10164,7 @@ function displayDisclaimer() {
 }
 
 function displayAbout() {
-	text = "Vet.SimTIVA.app V1";
+	text = "to be updated soon";
 	displayWarning("About", text);
 }
 
@@ -12059,8 +12036,6 @@ function savefile_patient() {
 function savefile_data() {
 	let outputobject = outputdataobject();
 	localStorage.setItem(uid + "DATA",JSON.stringify(outputobject));
-	//add warning banner check here
-	if (document.getElementById("warningBanner").style.display != "none") hideWarningBanner();
 }
 
 function savefile_time() {
@@ -12527,7 +12502,7 @@ function exportDataFile(input_uid) {
 				outputDataObject.P_patient[5] + "," +  //bh
 				modestring + "," + 
 				modelstring + "," + 
-				"https://vet.simtiva.app/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
+				"https://simtiva.app/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
 				// JSON.stringify(outputDataObject) + "\"\n" ;
 		return outputDataString1;
 	}
@@ -12570,7 +12545,7 @@ function previewFile() {
 		      	//preview first record and see if it's fine
 		      	let parseArrayComma = parseArrayRaw[1].split(",");
 		      	let parseArrayURL = parseArrayComma[parseArrayComma.length-1];
-		      	if (parseArrayURL.slice(0,19) != "https://vet.simtiva.app") {
+		      	if (parseArrayURL.slice(0,19) != "https://simtiva.app") {
 		      		errorMessage += "Wrong weblink reference. Possible corrupted database.";
 		      	}
 		      }
@@ -13993,7 +13968,7 @@ async function outputimage2(filename) { //arg is to write the image to share box
 		  navigator.share({
 		    files: filesArray,
 		    title: filename,
-		    text: 'From SimTIVA: https://vet.simtiva.app',
+		    text: 'From SimTIVA: https://simtiva.app',
 		  });
 
 }
@@ -14065,7 +14040,7 @@ function sharefunction() {
 }
 
 async function shareViewURL() {
-	const url = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	const url = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 	name = document.getElementById("inputFileName").value;
 	if ((name != undefined) && (name.length>0)) {
 
@@ -14248,7 +14223,7 @@ function canvasUpdate(oldCanvas, filename) {
 	},120);
 
 	//also update data-text
-	document.getElementById("sharedatatext").value = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 }
 
 function cloneCanvas(oldCanvas, filename) {
@@ -14429,7 +14404,7 @@ function cloneCanvas(oldCanvas, filename) {
     //add some remarks to picture
     context.textAlign = "right";
     context.fillText("SimTIVA Simulation Result", oldCanvas.width-50, textheight + textsize * 4);
-    context.fillText("From http://vet.simtiva.app", oldCanvas.width-50, textheight + textsize * 5.2);
+    context.fillText("From http://simtiva.app", oldCanvas.width-50, textheight + textsize * 5.2);
     context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width-50, textheight + textsize * 6.4);
     //context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     //context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
@@ -14438,7 +14413,7 @@ function cloneCanvas(oldCanvas, filename) {
 
     if (textcontent.length>1) {
     	context.fillText("SimTIVA Simulation Result", oldCanvas.width*2-50, textheight + textsize * 4);
-    	context.fillText("From http://vet.simtiva.app", oldCanvas.width*2-50, textheight + textsize * 5.2);
+    	context.fillText("From http://simtiva.app", oldCanvas.width*2-50, textheight + textsize * 5.2);
     	context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width*2-50, textheight + textsize * 6.4);
     	//context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     	//context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
@@ -16596,43 +16571,6 @@ function setBolusUnit(parameter) {
 	dropdownhide();
 }
 
-function displayWarningBanner() {
-	
-	will_end_drug_set = 0;
-	max_time = drug_sets[0].cpt_rates_real.length;
-	if (complex_mode == 1) {
-		if (drug_sets[1].cpt_rates_real.length < max_time) {
-			max_time = drug_sets[1].cpt_rates_real.length;
-			will_end_drug_set = 1;
-		}
-	}
-
-	//check if near the end, i.e. 600s before end i.e. 10 mins
-	if (Math.floor(time_in_s) > max_time - 60*10) {
-		hideallmodal();
-		//display the banner
-		document.getElementById("warningBanner").style.display = "flex";
-		document.getElementById("warningbutton").setAttribute("onclick", `extendSession(${will_end_drug_set});document.getElementById('warningBanner').style.display='none'`)
-	}
-}
-
-
-function hideWarningBanner() {
-	document.getElementById("warningBanner").style.display = "none";
-}
-
-function extendSession(ind) {
-	//first see if the target is zero or the inf rate is zero
-	if ((drug_sets[ind].cpt_active == 1) && (drug_sets[ind].desired > 0)) {
-		deliver_cpt(drug_sets[ind].desired,0,0,ind);
-	}
-	if ((drug_sets[ind].cet_active == 1) && (drug_sets[ind].IB_active==0) && (drug_sets[ind].desired > 0)) {
-		deliver_cet(drug_sets[ind].desired,ind);
-	}
-	if ((drug_sets[ind].manualmode_active == 1) && (drug_sets[ind].inf_rate_mls>0)) {
-		lookahead(0,7200,ind);
-	}
-}
 /* failed code below 
 
 let arrLines = new Array();
