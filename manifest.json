@@ -1,6 +1,6 @@
 {
-    "name": "SimTIVA",
-    "short_name": "SimTIVA",
+    "name": "Vet.SimTIVA",
+    "short_name": "VetSimTIVA",
     "orientation": "any",
     "start_url": "index.html",
     "theme_color": "#7B8092",

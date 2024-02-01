@@ -10187,7 +10187,7 @@ function displayDisclaimer() {
 }
 
 function displayAbout() {
-	text = "to be updated soon";
+	text = "Vet.SimTIVA.app V1";
 	displayWarning("About", text);
 }
 
@@ -12527,7 +12527,7 @@ function exportDataFile(input_uid) {
 				outputDataObject.P_patient[5] + "," +  //bh
 				modestring + "," + 
 				modelstring + "," + 
-				"https://simtiva.app/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
+				"https://vet.simtiva.app/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
 				// JSON.stringify(outputDataObject) + "\"\n" ;
 		return outputDataString1;
 	}
@@ -12570,7 +12570,7 @@ function previewFile() {
 		      	//preview first record and see if it's fine
 		      	let parseArrayComma = parseArrayRaw[1].split(",");
 		      	let parseArrayURL = parseArrayComma[parseArrayComma.length-1];
-		      	if (parseArrayURL.slice(0,19) != "https://simtiva.app") {
+		      	if (parseArrayURL.slice(0,19) != "https://vet.simtiva.app") {
 		      		errorMessage += "Wrong weblink reference. Possible corrupted database.";
 		      	}
 		      }
@@ -13972,14 +13972,14 @@ function previewshareoutput() {
 	
 
 	
-	document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	document.getElementById("sharedatatext").value = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 }
 
 function updatedatatext() {
 	clearTimeout(texttimeout);
 	texttimeout = setTimeout(function() {
 		savefile_patient();
-		document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());	
+		document.getElementById("sharedatatext").value = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());	
 	},500);
 }
 
@@ -13993,7 +13993,7 @@ async function outputimage2(filename) { //arg is to write the image to share box
 		  navigator.share({
 		    files: filesArray,
 		    title: filename,
-		    text: 'From SimTIVA: https://simtiva.app',
+		    text: 'From SimTIVA: https://vet.simtiva.app',
 		  });
 
 }
@@ -14065,7 +14065,7 @@ function sharefunction() {
 }
 
 async function shareViewURL() {
-	const url = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	const url = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 	name = document.getElementById("inputFileName").value;
 	if ((name != undefined) && (name.length>0)) {
 
@@ -14248,7 +14248,7 @@ function canvasUpdate(oldCanvas, filename) {
 	},120);
 
 	//also update data-text
-	document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	document.getElementById("sharedatatext").value = 'https://vet.simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 }
 
 function cloneCanvas(oldCanvas, filename) {
@@ -14429,7 +14429,7 @@ function cloneCanvas(oldCanvas, filename) {
     //add some remarks to picture
     context.textAlign = "right";
     context.fillText("SimTIVA Simulation Result", oldCanvas.width-50, textheight + textsize * 4);
-    context.fillText("From http://simtiva.app", oldCanvas.width-50, textheight + textsize * 5.2);
+    context.fillText("From http://vet.simtiva.app", oldCanvas.width-50, textheight + textsize * 5.2);
     context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width-50, textheight + textsize * 6.4);
     //context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     //context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
@@ -14438,7 +14438,7 @@ function cloneCanvas(oldCanvas, filename) {
 
     if (textcontent.length>1) {
     	context.fillText("SimTIVA Simulation Result", oldCanvas.width*2-50, textheight + textsize * 4);
-    	context.fillText("From http://simtiva.app", oldCanvas.width*2-50, textheight + textsize * 5.2);
+    	context.fillText("From http://vet.simtiva.app", oldCanvas.width*2-50, textheight + textsize * 5.2);
     	context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width*2-50, textheight + textsize * 6.4);
     	//context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     	//context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
