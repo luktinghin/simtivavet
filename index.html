@@ -57,7 +57,7 @@
 	<meta name="description" content="Simple and free TIVA simulator">
     <meta name="keywords" content="simtiva, tiva, tci, free, simulator, calculator, terence, luk, propofol, remifentanil, alfentanil, app, smartphones, apple, android">
     <meta name="author" content="Terence Luk">
-    <title>SimTIVA | Free TIVA Simulation App to Simulate Target-Controlled Infusion | Simple TCI Calculator</title>
+    <title>Vet.SimTIVA | Veterinary Simulator for TIVA/TCI</title>
 </head>
 <body class="" id="windowbody">
 		<div id="rescuebuttons">
@@ -69,16 +69,11 @@
 			<div class="modal-content" id="modalAboutcontent">
 				<div class="modal-header">ABOUT<span class="close" onClick="hidemodal('modalAbout')">&times;</span></div>
 				<div class="modal-body" style="overflow-y:auto; height: 70vh; font-size:90%">
-					<h1>SimTIVA is a computer simulation program to simulate delivery of total intravenous anaesthesia (TIVA) using a target-controlled infusion (TCI) pump. This progressive web app (PWA) is designed for use on smartphones, tablets and computers.</h1>
-					<br><b>Written by Terence Luk, 2023</b>. This work is licensed under GNU General Public License v3.0. Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!
+					<h1>Vet.SimTIVA.app</h1>
+					<br><b>Written by Terence Luk, 2024</b>. This work is licensed under GNU General Public License v3.0. Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!
 					<br>
 					<br>This is an open source project and the source code is published on <a href='https://github.com/luktinghin/simtiva/' target='_blank'>GitHub</a>.
-					<br>Last updated 20/1/2023 (V4.5) Build 97.
-					<br>
-					<br>The purposes are: (1) <i> To simulate TCI/TIVA for educational purposes</i>, and (2) <i>Potentially, to help deliver TCI/TIVA in a low resource setting with no TCI pumps available.</i>
-					<br>Coding is done in Javascript. The code to the mathematical calculations are based on "STANPUMP", which is freely available from the link below. The pharmacokinetic models available in this program are Marsh, Schnider, Paedfusor and Eleveld for propofol, and Minto and Eleveld for remifentanil. For instructions on using this app, visit the 'Help' page. For documentation of the pharmacological details, visit the 'Documentation' page.
-					<br>
-					<br>Contact us via our <a href="https://simtiva.blogspot.com/p/feedback.html" target="_blank">blog</a> page, or get in touch on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a>.
+					<br>This page to be updated soon...
               		<div class="collapsible">Licenses & Legal</div>
               		<div class="collapsiblecontent">
               			Acknowledgments: this project is made possible with the following-
@@ -114,137 +109,75 @@
 			<div class="modal-content" id="modalInitialcontent">
 				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
-					<div class="paedimode_selector">
-						<a class="button_paedimode active" id="paedimode0" onclick="switchpaedimode(0);">Adult</a><!--
-						--><a class="button_paedimode" id="paedimode1" onclick="switchpaedimode(1);">Paediatric</a>
-					</div>
-					<table class="table-Init">
-					<tr class="fr" id="row_age_adultmode">
-						<td >Age (y) <i class="far fa-question-circle tooltip"><span class="tooltiptext" style="width: 80px; line-height:20px">0-100y</span></i></td>
-						<td><input type="number" inputmode="decimal" id="inputAge" min="0.1" max="99" step="0.1" placeholder=" " onkeyup="sendToValidate(0)" required/></td>
-					</tr>
-					<tr class="fr" id="row_age_paedimode" style="display:none">
-						<td>Age <i class="far fa-question-circle tooltip"><span class="tooltiptext">Actual chronological age</span></i></td>
+
+					<div style="font-size:1.6rem;font-weight:bold">Vet.SimTIVA<span style="opacity: 0.5">.app</span></div>
+					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> an experimental progressive web app to guide TCI/TIVA in dogs.</div>
+					<table class="table-Init" style="margin-top:1.5rem;margin-bottom:2rem">
+
+					<tr class="fr"><td>Model <!--<i class="far fa-question-circle tooltip2"><span class="tooltiptext">Paedfusor: for children. Marsh/Schnider/Minto: for adults.</span></i>--></td>
 						<td>
-							<input type="number" inputmode="decimal" id="inputAgePaedi" placeholder=" " onkeyup="sendToValidate(0)"/>
-							<select id="select_age_unit">
-								<option value="d">Days</option>
-								<option value="w">Weeks</option>
-								<option value="m" selected>Months</option>
-								<option value="y">Years</option>
+							<select id="select_model" onchange="updateInit();" >
+									<option value="Beths">Beths (Propofol)</option>
+									<option value="Cattai-Propofol">Cattai (Propofol)</option>
+									<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Mode</td>
+						<td>
+							<select id="select_mode" onchange="" >
+									<option value="cpt">CP targeting</option>
+									<!--<option value="cet">CE targeting</option>-->
+									<option value="manual">Manual</option>
 							</select>
 					</tr>
-					<tr id="row_PMA_paedimode" style="display:none">
-						<td><span style="letter-spacing: -0.5px">Post-menstrual age </span><i class="far fa-question-circle tooltip"><span class="tooltiptext" style="">Covariate for Eleveld; affects clearance in <6mo</span></i>
-						</td>
-						<td>
-							<div id="PMA_td">
-								<div id="PMA_entry"><input type="number" inputmode="decimal" id="inputPMA" placeholder=" "/>weeks</div>
-								<div id="PMA_explanation" onclick="displayWarning('Post-menstrual age', 'Covariate for Eleveld model, affects clearance in <6 months old. Optional entry, omit for full term.')">What's this?</div>
-							</div>
-						</td>
-					</tr>
 					<tr>
-						<td>Weight (kg) <i class="far fa-question-circle tooltip"><span class="tooltiptext">0-200kg, validation with BMI & weight-for-age</span></i></td>
-						<td><input type="number" inputmode="decimal" id="inputBW" min="0.1" max="200" step="0.01" placeholder=" " onkeyup="sendToValidate(0)" required/></td>
+						<td>Weight (kg) <!--<i class="far fa-question-circle tooltip"><span class="tooltiptext">0-200kg, validation with BMI & weight-for-age</span></i>--></td>
+						<td><input type="number" inputmode="decimal" id="inputBW" min="0.1" max="200" step="0.01" placeholder=" " onkeyup="" required/></td>
 					</tr>
-					<tr id="row_height">
-						<td>Height (cm) <i class="far fa-question-circle tooltip"><span class="tooltiptext">0-250cm, required for Schnider/Eleveld</span></i></td>
-						<td><input type="number" inputmode="decimal" id="inputBH" min="0.1" max="250" step="0.1" placeholder=" " onkeyup="sendToValidate(0)" ></td>
+					<tr id="row_age">
+						<td >Age (y) <i class="far fa-question-circle tooltip"><span class="tooltiptext" style="width: 80px; line-height:20px">0-100y</span></i></td>
+						<td><input type="number" inputmode="decimal" id="inputAge" min="0.1" max="99" step="0.1" placeholder=" " onkeyup="" /></td>
 					</tr>
+
 					<tr id="row_gender"><td>Gender</td>
 						<td>
-							<select id="select_gender" onchange="sendToValidate(0)" >
+							<select id="select_gender" onchange="if (this.value == 'Male') {gender = 0} else {gender = 1}" >
 								<option value="Male">Male</option>
 								<option value="Female">Female</option>
 							</select>
 						</td>
 					</tr>
-					<tr><td>Model <i class="far fa-question-circle tooltip2"><span class="tooltiptext">Paedfusor: for children. Marsh/Schnider/Minto: for adults.</span></i></td>
-						<td>
-							<select id="select_model" onchange="sendToValidate(0)" >
-								
-									<option value="Marsh">Propofol (Marsh)</option>
-									<option value="Schnider">Propofol (Schnider)</option>
-									<option value="Paedfusor">Propofol (Paedfusor)</option>
-									<option value="Eleveld" selected>Propofol (Eleveld)</option>
-								
-								
-									<option value="Minto">Remifentanil (Minto)</option>
-									<option value="Eleveld-Remifentanil">Remifentanil (Eleveld)</option>
-								
-									<option value="Maitre">Alfentanil (Maitre)</option>
-								
-									<option value="Shafer">Fentanyl (Shafer)</option>
 
-									<option value="Complex">Complex (Dual mode)</option>
-								
+					<tr id="row_premed" style="">
+						<td>Premed <i class="far fa-question-circle tooltip"><span class="tooltiptext" style="width: 160px">Premed with acepromazine+methadone?</span></i>
+						</td>
+						<td>
+							<select id="select_premed" onchange="" >
+									<option value="0">No</option>
+									<option value="1">Yes (ACP-Methadone)</option>
 							</select>
+						</td>
+					</tr>
 
-							<select id="select_model_paedi" onchange="sendToValidate(0)" style="display:none">
-									<option value="Paedfusor">Propofol (Paedfusor)</option>
-									<option value="Eleveld" selected>Propofol (Eleveld)</option>
-									<option value="Eleveld-Remifentanil">Remifentanil (Eleveld)</option>
-									<option value="Complex">Complex (Dual mode)</option>
-							</select>
-						</td>
-					</tr>
-					<tr id="row_remidilution"><td style="letter-spacing:-0.5px">Concentration <span style="font-size: 85%">(mcg/ml)</span></td>
-						<td>
-							<select id="select_remidilution" onchange="change_remidilution(this.value)"> 
-								<option value="5">5mcg/ml</option>
-								<option value="10">10mcg/ml</option>
-								<option value="20" selected>20mcg/ml</option>
-								<option value="25">25mcg/ml</option>
-								<option value="40">40mcg/ml</option>
-								<option value="50">50mcg/ml</option>
-								<option value="custom">Custom</option>
-							</select>
-							<div id="custom_remidilution" onclick="popup_dilution('remidilution','remifentanil')">
-								<span id="remidilution">_</span>mcg/ml
-							</div>
-						</td>
-					</tr>
-					<tr id="row_alfendilution"><td style="letter-spacing:-0.5px">Concentration <span style="font-size: 85%">(mcg/ml)</span></td>
-						<td>
-							<select id="select_alfendilution" onchange="change_alfendilution(this.value)"> 
-								<option value="100" selected>100mcg/ml</option>
-								<option value="500">500mcg/ml</option>
-								<option value="custom">Custom</option>
-							</select>
-							<div id="custom_alfendilution" onclick="popup_dilution('alfendilution','alfentanil')">
-								<span id="alfendilution">_</span>mcg/ml
-							</div>
-						</td>
-					</tr>
-					<tr id="row_fen_weightadjusted"><td>Weight adjusted? <i class="far fa-question-circle tooltip3"><span class="tooltiptext">If YES: PK model adjusted to BW according to Shibutani, 2004; recommended for obese.</span></i></td>
-						<td>
-							<select id="select_fen_weightadjusted">
-								<option value="0" >No</option>
-								<option value="1" selected>Yes</option>
-							</select>
-						</td>
-					</tr>
 					<tr id="row_fendilution"><td style="letter-spacing:-0.5px">Concentration <span style="font-size: 85%">(mcg/ml)</span></td>
 						<td>
-							<select id="select_fendilution" onchange="change_fendilution(this.value)">
-								<option value="5">5mcg/ml</option>
-								<option value="10" selected>10mcg/ml</option>
+							<select id="select_fendilution" onchange="change_fendilution(this.value)"> 
+								<option value="10">10mcg/ml</option>
 								<option value="20">20mcg/ml</option>
 								<option value="25">25mcg/ml</option>
-								<option value="50">50mcg/ml</option>
+								<option value="50" selected>50mcg/ml</option>
 								<option value="custom">Custom</option>
 							</select>
-							<div id="custom_fendilution" onclick="popup_dilution('fendilution','fentanyl')">
+							<div id="custom_fendilution" onclick="popup_dilution('fendilution','Fentanyl')">
 								<span id="fendilution">_</span>mcg/ml
 							</div>
 						</td>
 					</tr>
-					<tr id="row_dexmededilution"><td>Drug dilution (mcg/ml)</td>
-						<td>
-							<input type="number" inputmode="decimal" id="inputDexmedeDilution" value="4">
-						</td>
-					</tr>
+
+
 					<!--
 					<tr><td>File Name</td>
 						<td>
@@ -254,35 +187,11 @@
 				-->
 					<!--<tr><td>Debug: Enter Sim Speed (1=default)</td><td><input type="number" id="simspeed" value="1"></td></tr>-->
 					</table>
-					<div id="valCard" class="translate">
-						<div id="valLeft"></div>
-						<div id="valRight">
-							<div style="position:relative">
-								<div id="valRightContainer1" class="">
-									Waiting for input.
-								</div>
-								<div id="valRightContainer2" class="valClose">
-									BMI: <span id="bmiDisplay"></span><span id="bmiForAgeDisplay"></span>
-									<div id="wfaDiv">Weight for age: <span id="wfaDisplay"></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
-					<div id="validationDisplay">
-					</div>
 					
-					<div id="checkmarkDisplay">
-                    <label class="container" style="visibility:hidden;">I confirm the above data are correct.
-                        <input type="checkbox" onChange="sendToValidate(1);checkChecked();" id="checkConfirm"><span class="checkmark"></span>
-                    </label>
-                    <label class="container" style="visibility:hidden;">I agree to the disclaimer.
-                        <input type="checkbox" id="checkDisclaim" onChange="checkChecked();"><span class="checkmark"></span>
-                    </label>
-					</div>
+
 					<div>
-						<a class="button invert disabled" id="btn_initProceed">Proceed</a>
+						<a class="button invert " onclick="toPageTwo();" id="btn_initProceed">Proceed</a>
 						<a class="button muted right" id="btn_disclaimer" onclick="displayDisclaimer();">Disclaimer</a>
 						<a class="button muted right" id="btn_about" onclick="displayAbout();">About</a>
 					</div>
@@ -985,7 +894,7 @@
 			<div class="top-bar-container">
 				<div class="topleft stop" id="iconplay" onclick="window.scrollTo(0,0);"><i class="fas fa-pause fa-lg"></i></div><!--
 				--><div class="topright">
-					<div class="top_subtitle " id="top_subtitle"><b>SimTIVA</b> - <span style="opacity: 50%; white-space:nowrap;" id="top_subtitle2">Simple TIVA simulator</span></div> 
+					<div class="top_subtitle " id="top_subtitle"><b>Vet.SimTIVA.app</b> - <span style="opacity: 50%; white-space:nowrap;" id="top_subtitle2">Veterinary Simulator for TIVA</span></div> 
 					<div class="top_title " id="top_title">
 						<div class="top_title_box cp" id="top_cp"><span id="cp">-</span></div>
 						<div class="top_title_box ce" id="top_ce"><span id="ce">-</span></div>
@@ -1006,8 +915,8 @@
 							<span id="drugname"></span> (<span id="modelname"></span>)
 							
 						</div>
-						<div><b>BW:<span id="bw"></span></b>, BH:<span id="bh"></span></div>
-						<div><span id="age"></span>, <span id="gender"></span><!--<span id="temptimedisplay" style="float:right; opacity:50%"></span>--></div>
+						<div><b>BW:<span id="bw"></span></b><!--, BH:<span id="bh"></span>--></div>
+						<div><span id="age"></span><span id="gender"></span></div><!--<span id="temptimedisplay" style="float:right; opacity:50%"></span></div>-->
 					</div>
 				</div>
 			</div>
@@ -1939,7 +1848,7 @@
 		</div>
 		</div><!--end cards container layout-->
 		<div class="bottomcard">
-			<h1>SimTIVA is a computer simulation program to simulate delivery of total intravenous anaesthesia (TIVA) using a target-controlled infusion (TCI) pump. This progressive web app (PWA) is designed for use on smartphones, tablets and computers.</h1>
+			<h1>Vet.SimTIVA <i>(Veterinary Simulator for TIVA)</i> is a web app to guide total intravenous anaesthesia (TIVA) for target-controlled infusion (TCI) in dogs; using models such as Beths model (propofol) and Cattai model (fentanyl).</h1>
 		</div>
 
 		</div><!--controlpanel-->
@@ -1957,7 +1866,9 @@
 			</div>
 		</div>
 		<div class="footer">
-			<b>SIMTiva</b>&nbsp;|&nbsp;Terence Luk 2024
+
+			<b>Vet.SIMTiva</b>&nbsp;|&nbsp;Terence Luk 2024
+
 			<ul>
 				<li><a href="#" onclick="setmodal('modalAbout');">About</a></li>
 				<li><a href="https://simtiva.blogspot.com/" target="_blank">Blog</a></li>
