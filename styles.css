@@ -5011,6 +5011,7 @@ body.dark .infusionratedropdownitem:hover {
   }
   .footer {
     text-align: left;
+    margin-left: 100px;
   }
   .footer ul {
     float: right;
@@ -5024,6 +5025,9 @@ body.dark .infusionratedropdownitem:hover {
   }
   .narrowbodywrapper .hamburger {
     right: 1rem;
+  }
+  body.dark .narrowbodywrapper .hamburger {
+    right: 2px;
   }
 
   .top_subtitle {
@@ -5361,10 +5365,16 @@ body.dark #pastschemeCOPY {
   /* padding: 10px; -> removed to avoid animation got height bug */
   overflow-y: scroll;
   transition: 0.3s all ease;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 #preview-expand-box.expand {
   height: 220px;
+}
+
+#preview-expand-box::-webkit-scrollbar {
+  display:none;
 }
 
 #preview-expand-box > div:first-child {
@@ -5431,13 +5441,13 @@ body.dark #preview-expand-box > div > div.timespan {
     pointer-events: none;
   }
   .ptolcontainer {
-    height: 120px;
+    height: 100px;
   }
   .leftbar {
     padding-top: 0px;
   }
   .druglabelcontainer {
-    height: 180px;
+    /*height: 180px;*/
   }
   .sharebutton.complex {
     opacity: 0;
@@ -6105,7 +6115,9 @@ body.dark #chart2wrapper {
     background: rgba(255,255,255,0.01);
   }
   body.dark .hamburger {
-    right:  calc((100% - 768px)/2 + 16px)
+
+    right: calc((100% - 768px)/2 + 16px);
+
   }
 }
 
@@ -6343,7 +6355,7 @@ body.dark #addeventtext{
 
 /* new warning banner styles */
 .warningbanner {
-
+  z-index: 999;
   position: fixed;
   display: none;
   /*display: flex*;*/
@@ -6373,6 +6385,21 @@ body.dark #addeventtext{
 }
 .warningbanner_down {
   font-size: 0.8rem;
+  display: flex;
+}
+#warningmessage {
+  flex-basis: 80%;
+}
+#warningbuttondiv {
+  min-height: 50px;
+  flex-grow: 1;
+  text-align: right;
+  position: relative;
+}
+#warningbutton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 /* end warning banner styles */
 
