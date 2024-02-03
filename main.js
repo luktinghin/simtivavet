@@ -9083,7 +9083,7 @@ function readmodel(x, drug_set_index) {
 		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
 	}
 	if (x == "Cattai-Fentanyl") {
-		if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
+		if (parseloading == 0) if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
 		if (gender == 0) {
 			genderfactor = 1;
 		} else {
@@ -9113,9 +9113,14 @@ function readmodel(x, drug_set_index) {
 		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
 	}
 	if (x == "Cattai-Propofol") {
-		age = document.getElementById("inputAge").value * 1;
-		if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
-		if (document.getElementById("select_premed").value == "1") {state_premed = true} else {state_premed = false};
+		if (parseloading == 0) {
+			age = document.getElementById("inputAge").value * 1;
+			if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
+			if (document.getElementById("select_premed").value == "1") {state_premed = true} else {state_premed = false};
+			drug_sets[drug_set_index].state_premed = state_premed;
+		} else {
+			state_premed = object.P_patient[9];
+		}
 
 		if (mass <= 9) {
 			state_elderly_1 = (age >= 10) ? true:false;
@@ -11951,7 +11956,7 @@ function outputpatientstring() {
 		}
 		P_patient.push(document.getElementById('gender').innerHTML);
 		P_patient.push(drug_sets[0].infused_units);
-		P_patient.push(drug_sets[0].infusate_concentration); //useless but for legacy
+		P_patient.push(drug_sets[0].infusate_concentration); //useless but for legacy; in simtiva.vet, this is premed coding ([9])
 		if (P_patient[0]=="Shafer") {
 			if (drug_sets[0].fentanyl_weightadjusted_flag == 0) {
 				P_patient.push(0); // P_patient[10] is now fentanyl_weightadjusted_flag
