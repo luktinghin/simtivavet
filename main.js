@@ -11956,7 +11956,10 @@ function outputpatientstring() {
 		}
 		P_patient.push(document.getElementById('gender').innerHTML);
 		P_patient.push(drug_sets[0].infused_units);
-		P_patient.push(drug_sets[0].infusate_concentration); //useless but for legacy; in simtiva.vet, this is premed coding ([9])
+		if (drug_sets[0].state_premed != undefined) {
+			P_patient.push(drug_sets[0].state_premed);
+		} //position 9 now becomes state_premed
+		//P_patient.push(drug_sets[0].infusate_concentration); 
 		if (P_patient[0]=="Shafer") {
 			if (drug_sets[0].fentanyl_weightadjusted_flag == 0) {
 				P_patient.push(0); // P_patient[10] is now fentanyl_weightadjusted_flag
