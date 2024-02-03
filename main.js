@@ -1901,6 +1901,9 @@ function initsubmit() {
 	}
 	if (ElModel.value == "Cattai-Propofol") {
 		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
+		document.getElementById("age").innerHTML = age + "y";
+		document.getElementById("gender").innerHTML = ", " + document.getElementById("select_gender").value;
+		document.getElementById("modelname").innerHTML = "Cattai";
 		//unhide CE
 		myChart.data.datasets[3].hidden = false;
 		document.getElementById("top_ce").style.display = "inline-block";
