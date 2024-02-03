@@ -13608,11 +13608,13 @@ function parsedisplay(t,sex,model,VI,d,mode) {
 	document.querySelector(".cardscontainer").style.paddingTop = "1rem";
 	document.getElementById("clock").innerHTML = converttime(t);
 	document.getElementById("bw").innerHTML = mass + "kg";
+	/*
 	if (height>0) {
 		document.getElementById("bh").innerHTML = height + "cm";
 	} else {
 		document.getElementById("bh").innerHTML = "?";
 	}
+	*/
 	//populate age display
 	if (paedi_mode == 0) {
 		if (age>=0) {
