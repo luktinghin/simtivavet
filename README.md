@@ -1,10 +1,10 @@
-# Vet.SimTIVA
+# SimTIVA.vet
  Veterinary Simulator for TCI/TIVA
  
- [https://simtiva.app](http://simtiva.app)
+ [https://simtiva.vet](http://simtiva.vet)
 
 ### About
-Vet.SimTIVA is a computer simulation program to simulate the delivery of TCI/TIVA for veterinary anaesthesia. It shares the same code as SimTIVA, a TCI/TIVA simulation program for humans. It is a progressive web app and can be run in desktop and mobile browsers across all platforms. Broad cross platform support based on modern web technology means it can be accessed on a wide range of devices. In addition, a simple installation process enables SimTIVA to be run like a native app on your device, and even without internet access. 
+SimTIVA.vet is a computer simulation program to simulate the delivery of TCI/TIVA for veterinary anaesthesia. It shares the same code as SimTIVA, a TCI/TIVA simulation program for humans. It is a progressive web app and can be run in desktop and mobile browsers across all platforms. Broad cross platform support based on modern web technology means it can be accessed on a wide range of devices. In addition, a simple installation process enables SimTIVA to be run like a native app on your device, and even without internet access. 
 
 This is an open source project; created by Terence Luk 2024; licensed under GNU General Public License v3.0.
 
