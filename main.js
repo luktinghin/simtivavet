@@ -13483,6 +13483,7 @@ function parseobject(input_uid,external,extObject) {
 
 	//update view
 	parsedisplay(working_clock,object.P_patient[7],object.P_patient[0],VI,d,mode);
+	parsedisplayvet();
 
 
 		//off chart legend
@@ -13644,6 +13645,44 @@ function parsedisplay(t,sex,model,VI,d,mode) {
 		myChart.options.scales.y.title.text = "Concentration (ng/ml)";
 	}
   if (modal != undefined) hideallmodal();
+}
+
+function parsedisplayvet() {
+	if (drug_sets[0].model_name == "Beths") {
+		age = 0;
+		gender = 0;
+		height = 0;
+		document.getElementById("age").style.display = "none";
+		document.getElementById("gender").style.display = "none";
+		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
+		//unhide CE
+		myChart.data.datasets[3].hidden = false;
+		document.getElementById("top_ce").style.display = "inline-block";
+		//change chart filtering
+		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
+	}
+	if (drug_sets[0].model_name == "Cattai-Propofol") {
+		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
+		//unhide CE
+		myChart.data.datasets[3].hidden = false;
+		document.getElementById("top_ce").style.display = "inline-block";
+		//change chart filtering
+		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
+
+	}
+	if (drug_sets[0].model_name == "Cattai-Fentanyl") {
+		age = 0; //not used in cattai fentanyl
+		document.getElementById("age").style.display = "none";
+		if (document.getElementById("select_fendilution").value == "custom") {
+			drug_sets[0].infusate_concentration = document.getElementById("fendilution").innerHTML *1;
+		} else {
+			drug_sets[0].infusate_concentration = document.getElementById("select_fendilution").value * 1;
+		}
+		document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
+		document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[0].infusate_concentration + "mcg/ml)</span>";
+		document.getElementById("modelname").innerHTML = "Cattai";
+
+	}
 }
 
 
