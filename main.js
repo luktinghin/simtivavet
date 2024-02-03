@@ -10164,7 +10164,39 @@ function displayDisclaimer() {
 }
 
 function displayAbout() {
-	text = "to be updated soon";
+	text = `
+					<h1><b>Vet.SimTIVA.app</b></h1>
+					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in dogs. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
+					<br>
+					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 3/2/2024 (build 1).
+					<br>
+					<br><i>The purpose of this app is to simulate TCI/TIVA for educational purposes; and to help deliver TCI/TIVA in a setting with no TCI pumps available.</i>
+					<br>
+					<br>Coding is done in Javascript. The code to the mathematical calculations are based on "STANPUMP", which is freely available from the link below. Details of the pharamcological are described in the 'Documentation' section. For instructions on using this app, visit the 'Help' page. 
+					<br>
+					<br>Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!</a>.
+              		<div class="collapsible" onclick="
+              			if (!this.classList.contains('active')) {this.classList.add('active');this.nextElementSibling.style.display='block';} else {this.classList.remove('active');this.nextElementSibling.style.display='none';}"">Acknowledgments & Licenses</div>
+              		<div class="collapsiblecontent">
+              			This project is made possible with the following-
+              			<br>
+              			<br><b>Contributions & Suggestions by Enzo Minghella</b>
+              			<br>
+              			<br><b>STANPUMP by Steven L. Shafer</b>
+              			<br>Freely available at <a href="http://opentci.org/code/stanpump"  target="_blank">OpenTCI-STANPUMP</a>
+              			<br>
+              			<br><b>Chart.js</b>
+              			<br><a href="http://chartjs.org"  target="_blank">Chart.js</a> is open source and available under the MIT license.
+              			<br>
+              			<br><b>Font Awesome Free</b>
+              			<br>SIL OFL 1.1 license applies to all icons packaged as font files. <a href="https://github.com/FortAwesome/Font-Awesome"  target="_blank">Source/License</a>
+              			<br>
+              			<br><b>LZ-String</b>
+              			<br>Copyright Pieroxy (2013) under MIT license, from <a href='https://pieroxy.net/blog/pages/lz-string/index.html' target='_blank'>pieroxy.net</a>, used for Javascript string compression.
+              			<br>
+              			<br><span style="color:#ccc">Source Sans font: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries, licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL).</span>
+              		</div>
+				`;
 	displayWarning("About", text);
 }
 

@@ -69,14 +69,21 @@
 			<div class="modal-content" id="modalAboutcontent">
 				<div class="modal-header">ABOUT<span class="close" onClick="hidemodal('modalAbout')">&times;</span></div>
 				<div class="modal-body" style="overflow-y:auto; height: 70vh; font-size:90%">
-					<h1>Vet.SimTIVA.app</h1>
-					<br><b>Written by Terence Luk, 2024</b>. This work is licensed under GNU General Public License v3.0. Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!
+					<h1><b>Vet.SimTIVA.app</b></h1>
+					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in dogs. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
 					<br>
-					<br>This is an open source project and the source code is published on <a href='https://github.com/luktinghin/simtiva/' target='_blank'>GitHub</a>.
-					<br>This page to be updated soon...
-              		<div class="collapsible">Licenses & Legal</div>
+					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 3/2/2024 (build 1).
+					<br>
+					<br><i>The purpose of this app is to simulate TCI/TIVA for educational purposes; and to help deliver TCI/TIVA in a setting with no TCI pumps available.</i>
+					<br>
+					<br>Coding is done in Javascript. The code to the mathematical calculations are based on "STANPUMP", which is freely available from the link below. Details of the pharamcological are described in the 'Documentation' section. For instructions on using this app, visit the 'Help' page. 
+					<br>
+					<br>Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!</a>.
+              		<div class="collapsible">Acknowledgments & Licenses</div>
               		<div class="collapsiblecontent">
-              			Acknowledgments: this project is made possible with the following-
+              			This project is made possible with the following-
+              			<br>
+              			<br><b>Contributions & Suggestions by Enzo Minghella</b>
               			<br>
               			<br><b>STANPUMP by Steven L. Shafer</b>
               			<br>Freely available at <a href="http://opentci.org/code/stanpump"  target="_blank">OpenTCI-STANPUMP</a>
@@ -86,9 +93,6 @@
               			<br>
               			<br><b>Font Awesome Free</b>
               			<br>SIL OFL 1.1 license applies to all icons packaged as font files. <a href="https://github.com/FortAwesome/Font-Awesome"  target="_blank">Source/License</a>
-              			<br>
-              			<br><b>WHO Child Growth Standards</b>
-              			<br>Copyright World Health Organization (WHO), 2021; all rights reserved. Growth chart data (weight & length for age and BMI) from <a href='https://www.who.int/tools/child-growth-standards/standards' target='_blank'>WHO website</a> used for data validation. Computational method using LMS method described <a href='https://www.who.int/growthref/computation.pdf' target='_blank'>here</a>.
               			<br>
               			<br><b>LZ-String</b>
               			<br>Copyright Pieroxy (2013) under MIT license, from <a href='https://pieroxy.net/blog/pages/lz-string/index.html' target='_blank'>pieroxy.net</a>, used for Javascript string compression.
@@ -457,26 +461,20 @@
 				<div class="modal-header">HELP<span class="close" onClick="hidemodal('modalHelp')">&times;</span></div>
 				<div class="modal-body" style="overflow-y:auto; height:70vh;">
 					<b>Instructions for use</b>
-					<br><b>1.</b> Enter patient data on the first screen you see.
-					<br><b>2.</b> Choose a model
-					<br><b>3.</b> There are four modes: CP targeting, CE targeting, manual infusion, and intermittent bolus.
+					<br><b>1.</b> Choose a model/drug.
+					<br><b>2.</b> Enter patient details e.g. weight.
+					<br><b>3.</b> There are two modes: CP targeting and manual.
 					<br>
-					<br><b>CP/CE targeting mode</b>
-					<br><b>1.</b> Enter desired CP/CE target.
-					<br><img src="preview.gif" style="width:100%; max-width:600px" loading="lazy">
-					<br><b>2.</b> While you are entering your target, a <span style="color:blue">blue</span> preview box will appear. This will guide your initial bolus and infusion rate.
+					<br><b>CP targeting mode</b>
+					<br><b>1.</b> Enter desired CP target.
+					<br><img src="preview.jpg" style="width:100%; max-width:600px" loading="lazy">
+					<br><b>2.</b> While you are entering your target, a <span style="color:blue">blue</span> preview box will appear. This will guide your initial bolus and infusion rate. Click "expand" to have a full preview of the scheme.
 					<br><b>3.</b> Press Start, when your syringe pump setup is ready to go.
-					<br><b>4.</b> The predicted CP and CE will appear on top part of the screen. The 'Graph' section will preview CP/CE of the infusion regimen and the 'Scheme' section will guide you through the next rate changes to achieve and maintain your desired target concentration.
+					<br><b>4.</b> The predicted CP (and CE) will appear on top part of the screen. The 'Graph' section will preview CP/CE of the infusion regimen and the 'Scheme' section will guide you through the next rate changes to achieve and maintain your desired target concentration.
 					<br><img src="preview2.gif" style="width:100%; max-width:600px" loading="lazy">
 					<br><b>5.</b> When the next rate change is imminent, a <span style="color:red">red</span> reminder box will appear to notify you of the changes. Make the necessary change on your syringe pump.
 					<br>
-					<br><b>Intermittent Bolus Mode</b>
-					<br>In some settings, such as a short case in a remote location, or in low resource environment, it may not be possible to use any syringe pump at all. With the intermittent bolus mode, a series of repeated small manual boluses are generated, to simulate a target-controlled infusion as close as possible. The accuracy of the repeated intermittent manual bolus scheme is affected by the fluctuation of CE.
-					<br>
-					<br><b>Complex mode</b>
-					<br>In this mode, you may run two-drug simulations simultaneously. For each drug, the functions for CP or CE targeting, manual infusion, or intermittent bolus mode are preserved. In addition, you may explore the pharmacodynamic (PD) interaction between propofol and opioid, as propofol and opioid demonstrate intense synergism. Probability of tolerance to laryngoscopy (PTOL) is used as a measure of potency of propofol-opioid combination. Isobologram charts illustrate the propofol-opioid combinations to achieve the same pharmacodynamic effect.
-					<br>
-					<br><b>NB.</b> For the <span style="color:blue">blue</span> preview box, dosage recommendations may be slightly inaccurate because TCI is time-dependent: the moment you enter the target concentration, the preview starts to calculate; but this moment lags behind the moment of real target delivery when you click the 'Update Cpt/Cet' button.
+					<br><b>NB.</b> For the <span style="color:blue">blue</span> preview box, dosage recommendations may be slightly inaccurate because TCI is time-dependent: the moment you enter the target concentration, the preview starts to calculate; but this moment lags behind the moment of real target delivery when you click the 'Update Cpt' button.
 					<div style="padding-top:1rem; text-align:center">
 					<a class="button wide" onclick="hideallmodal();">Back</a>
 					</div>
@@ -488,74 +486,48 @@
 				<div class="modal-header">DOCUMENTATION<span class="close" onClick="hidemodal('modalDocumentation')">&times;</span></div>
 				<div class="modal-body" style="overflow-y:auto; height:70vh;">
 					<b>Principles of TCI</b>
-					<br>TCI, or target-controlled infusions, allow an anaesthetist to enter a desired 'target' concentration to be achieved in the patient's plasma or brain into a computer-programmed syringe pump that utilizes pharmacokinetic models which receive covariates such as age and body weight and then the pump will deliver the desired 'target' concentration accurately, via typically a bolus followed by a decreasing infusion rate. In this SIMTIVA app, it only recommends a bolus/infusion regimen that simulates TCI, but it does not function as a syringe pump, so you have to manually adjust the drug dosages.
+					<br>Total intravenous anaesthesia (TIVA) is widely used in human anaesthetic practice, but is much less used in veterinary medicine (Musk, Veterinary Record 2005;157:766-770). Different drug administration protocols can be used to achieve TIVA, and target-controlled infusion (TCI) is designed to achieve and maintain a predicted plasma concentration target (CpT), based on population pharmacokinetics, most often with the use of a computer-programmed syringe pump. The pharmacokinetic profile is programmed into the syringe pump and the rate of infusion is determined by the rate of redistribution and elimination of drug from the body. Usually, the pump will deliver the desired 'target' concentration accurately, via typically a bolus followed by a decreasing infusion rate. In this SIMTIVA app, it only recommends a bolus/infusion regimen that simulates TCI, but it does not function as a syringe pump, so you have to manually adjust the drug dosages.
 					<br>
-					<br>The principles, practices and explanations for the pharmacokinetic models are available from this resource: Guidelines for the safe practice of total intravenous anaesthesia (TIVA), by the Association of Anaesthetists and the Society for Intravenous Anaesthesia. <a href="https://doi.org/10.1111/anae.14428" target="_blank">https://doi.org/10.1111/anae.14428</a> 
-					<br>
-					<br>A pharmacokinetic model is a mathematical description of the distribution, metabolism and elimination of a drug in the body. The pharmacokinetic behaviour of most anaesthetic drugs used for TIVA can be predicted with a three‐compartment model. The drug is administered into the central compartment (V1), which represents the initial volume of distribution. The second (V2) and third (V3) compartments are mathematical constructs explaining rapid and slow redistribution of drug from V1 into highly perfused and less well perfused tissues, respectively. Rate constants describe the proportion of drug moving between compartments. A summary of the models used for propofol is available from this resource: Principles of total intravenous anaesthesia: basic pharmacokinetics and model descriptions by Al-Rifai Z et al. <a href="https://doi.org/10.1093/bjaceaccp/mkv021"  target="_blank">https://doi.org/10.1093/bjaceaccp/mkv021</a> In this app, the specific model parameters (vc, v2-3, k10 and other rate constants, ke0) are given in the 'Model parameters' section after initial data entry.
+					<br>A pharmacokinetic model is a mathematical description of the distribution, metabolism and elimination of a drug in the body. The pharmacokinetic behaviour of most anaesthetic drugs used for TIVA can be predicted with a three‐compartment model. The drug is administered into the central compartment (V1), which represents the initial volume of distribution. The second (V2) and third (V3) compartments are mathematical constructs explaining rapid and slow redistribution of drug from V1 into highly perfused and less well perfused tissues, respectively. Rate constants describe the proportion of drug moving between compartments. In this app, the specific model parameters (vc, v2-3, k10 and other rate constants, ke0) are given in the 'Model parameters' section after initial data entry.
 					<br>
 					<br>List of references for models:
-					<br>Marsh - (BJA 1991;67:41-8), 'fast' ke0 (Anesthesiology 2000;92:399-406)
-					<br>Schnider - (Anesthesiology 1998;88:1170-82)
-					<br>Paedfusor - (BJA 2003;91(4)507-513), Tpeak method (age-dependent: 0.91min-1 at 1y to 0.15min-1 at 16y) (BJA 2008;100(4):509-516)
-					<br>Eleveld (Propofol) - (BJA 2018:120:942-959)
-					<br>Minto - (Anesthesiology 1997;86:10-23)
-					<br>Eleveld (Remifentanil) - (Anesthesiology 2017;126:1005-18)
+					<br>Beths model in dogs (Vet Rec. 2001;148:198-203)
+					<br>Cattai model for propofol in dogs (Vet Anaesth Analg. 2019;48:568-578)
+					<br>Bras's method for ke0 determination for Beths model in dogs (J Vet Pharmacol. Therap. 2008;32:182-188)
+					<br>Cattai model for fentanyl in dogs (Vet Anaesth Analg. 2023;50:31-40)
+					<br>
 					<div class="collapsible">Model calculations in details</div>
               			<div class="collapsiblecontent">
-              				<b>Marsh</b>
-              				<br>vc = 0.228 * mass;
-							<br>k10 = 0.119;
-							<br>k12 = 0.112;
-							<br>k13 = 0.0419;
-							<br>k21 = 0.055;
-							<br>k31 = 0.0033;
-							<br>ke0 = 1.21;
+   							<b>Beths</b>
+   							<br>vc = 0.78 * mass
+							<br>k10 = 0.07
+							<br>k12 = 0.0365
+							<br>k21 = 0.0312
+							<br>k13 = 0.0049
+							<br>k31 = 0.0011
 							<br>
-							<br><b>Schnider</b>
-							<br>vc = 4.27;
-							<br>v2 = 18.9-0.391*(age-53);
-							<br>v3 = 238;
-							<br>cl1 = 1.89+0.0456*(mass-77)-0.0681*(lbm-59)+0.0264*(height-177);
-							<br>cl2 = 1.29-0.024*(age-53); 
-							<br>cl3 = 0.836;
-							<br>k10 = cl1 / vc;
-							<br>k12 = cl2 / vc;
-							<br>k13 = cl3 / vc;
-							<br>k21 = cl2 / v2;
-							<br>k31 = cl3 / v3;
-							<br>ke0 = 0.456;
+							<br><b>Cattai-propofol</b>
+							<br>vc = 1.48 * (1 + 0.0993 * (mass - 12.25))
+							<br>k10 = 0.382 * (1 + -0.0111 * (mass - 12.25)) * k_premed * k_ag2
+							<br>k12 = 0.544
+							<br>k21 = 0.228
+							<br>k13 = 0.129 * k_sex * k_ag1
+							<br>k31 = 0.00993
+							<br><i>where the constants are:</i>
+							<br>k_ag1 (elderly status 1): if (mass<=9 and age>=10) or [(mass>9 and <=25) and age>=9] or [(mass>25 or <=40) and age>=8] or (mass>40 and age>=7) then k_ag1 = 1.347 else k_ag1 = 1
+							<br>k_ag2 (elderly status 2): if (mass<=9 and age>=11) or [(mass>9 and <=25) and age>=10] or [(mass>25 or <=40) and age>=9] or (mass>40 and age>=8) then k_ag2 = 1.521 else k_ag2 = 1
+							<br>k_premed: if premedication with acepromazine & methadone then k_premed = 1.209 else k_premd = 1
+							<br>k_sex: 1 if male, 1-0.345 if female
 							<br>
-							<br><b>Paedfusor</b>
-							<br>k12 = 0.114;
-							<br>k13 = 0.0419;
-							<br>k21 = 0.055;
-							<br>k31 = 0.0033;
-							<br>ke0 = 1.03*Math.exp(-0.12*age);
-							<br>if (age<13) { vc = 0.458 * mass; k10 = 0.153 * Math.pow(mass, -0.3);}
-							<br>&nbsp;&nbsp;else if (age>=13 && age<14) {vc = 0.4 * mass; k10 = 0.0678;}
-							<br>&nbsp;&nbsp;else if (age>=14 && age<15) {vc = 0.342 * mass; k10 = 0.0792;}	
-							<br>&nbsp;&nbsp;else if (age>=15 && age<16) {vc = 0.284 * mass;	k10 = 0.0954;}
-							<br>&nbsp;&nbsp;else if (age>=16) {vc = 0.229 * mass; k10 = 0.119;}
+							<br><b>Cattai-fentanyl</b>
+							<br>vc = 3.76 * k_sex * Math.pow((mass / 15.1),0.89)
+							<br>k10 = 0.129
+							<br>k12 = 0.141
+							<br>k21 = 0.191
+							<br>k13 = 0.0771
+							<br>k31 = 0.01
+							<br>where k_sex = 1 for male, k_sex = 1.236 for female
 							<br>
-							<br><b>Eleveld (Propofol)</b>
-							<div class="imageholder">
-								<img src="eleveld1.gif" class="imagecontent" loading="lazy"><img src="eleveld2.gif" class="imagecontent" loading="lazy">
-							</div>
-							<br>
-							<br><b>Minto</b>
-							<br>vc = 5.1-0.0201*(age-40)+0.072*(lbm-55)
-							<br>v2=9.82-0.0811*(age-40)+0.108*(lbm-55)
-							<br>v3=5.42
-							<br>cl1=2.6-0.0162*(age-40)+0.0191*(lbm-55)
-							<br>cl2=2.05-0.0301*(age-40)
-							<br>cl3=0.076-0.00113*(age-40)
-							<br>ke0=0.595-0.007*(age-40)
-							<br>
-							<br><b>Eleveld (Remifentanil)</b>
-							<div class="imageholder">
-								<img src="eleveld-r.png" class="imagecontent" loading="lazy">
-							</div>
               			</div>
 					<div style="padding-top:1rem; text-align:center">
 					<a class="button wide" onclick="hideallmodal();">Back</a>
