@@ -13680,6 +13680,7 @@ function parsedisplayvet() {
 		//unhide CE
 		myChart.data.datasets[3].hidden = false;
 		document.getElementById("top_ce").style.display = "inline-block";
+		document.getElementById("modelname").innerHTML = "Cattai";
 		//change chart filtering
 		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
 
