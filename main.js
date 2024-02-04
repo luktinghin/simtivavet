@@ -1837,14 +1837,14 @@ function updateInit() {
 	//ElMode = document.getElementById("select_mode");
 	ElPremed = document.getElementById("row_premed");
 	if (document.getElementById("select_model").value == "Beths") {
-		//ElAge.style.display = "none";
+		ElAge.style.display = "none";
 		ElGender.style.display = "none";
 		ElFen.style.display = "none";
 		ElPremed.style.display = "none";
 		
 	}
 	if (document.getElementById("select_model").value == "Cattai-Fentanyl") {
-		//ElAge.style.display = "table-row";
+		ElAge.style.display = "none";
 		ElGender.style.display = "table-row";
 		ElFen.style.display = "table-row";
 		ElPremed.style.display = "none";
@@ -12813,7 +12813,8 @@ function parseobject(input_uid,external,extObject) {
 
 
 	//drug_sets[0].drug_name = object.P_patient[1];
-	if (object.P_patient[9]!=undefined) drug_sets[0].infusate_concentration = object.P_patient[9];
+	if (object.P_patient[2]!=undefined) drug_sets[0].infusate_concentration = object.P_patient[2]; 
+	//this is different from human simtiva. changed to [2] in simtivavet because [9] is used for premed
 
 
 	if ((object.P_patient[0] === "Minto") || (object.P_patient[0] === "Eleveld-Remifentanil")) {
