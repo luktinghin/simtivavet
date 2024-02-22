@@ -9160,7 +9160,7 @@ function readmodel(x, drug_set_index) {
 		} else {
 			k_ag1 = 1;
 		}
-		drug_sets[drug_set_index].vc = 1.48 * (1 + 0.0993 * (mass - 12.25));
+		drug_sets[drug_set_index].vc = 1.48 * (1 + 0.0933 * (mass - 12.25));
 		drug_sets[drug_set_index].k10 = 0.382 * (1 + -0.0111 * (mass - 12.25)) * k_premed * k_ag2;
 		drug_sets[drug_set_index].k12 = 0.544;
 		drug_sets[drug_set_index].k21 = 0.228;
