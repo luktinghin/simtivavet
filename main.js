@@ -9177,9 +9177,9 @@ function readmodel(x, drug_set_index) {
 		"k31 = " + drug_sets[drug_set_index].k31 + "<br>" + 
 		"ke0 = 0.723, from Bras (J Vet Pharmacol. Therap. 2008;32:182-188)";
 		if (state_premed == true) {
-			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume presence of acepromazine-methadone premed)");
+			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume usage of acepromazine-methadone premed)");
 		} else {
-			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume absence of acepromazine-methadone premed)");
+			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume usage of dexmedetomidine-butorphanol premed)");
 		}
 
 		drug_sets[drug_set_index].drug_name = "Propofol";
@@ -16660,6 +16660,10 @@ function setBolusUnit(parameter) {
 	}
 	//close the dropdown
 	dropdownhide();
+}
+
+function enableCattai() {
+	document.getElementById("select_model").options[1].disabled = false;
 }
 
 /* failed code below 

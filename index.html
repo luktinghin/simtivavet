@@ -112,7 +112,7 @@
 
 		<div id="modalInitial" class="modal">
 			<div class="modal-content" id="modalInitialcontent">
-				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
+				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="enableCattai();//displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
 
 					<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
@@ -123,7 +123,7 @@
 						<td>
 							<select id="select_model" onchange="updateInit();" >
 									<option value="Beths">Beths (Propofol)</option>
-									<option value="Cattai-Propofol">Cattai (Propofol)</option>
+									<option value="Cattai-Propofol" disabled>Cattai (Propofol)</option>
 									<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
 							</select>
 						</td>
@@ -157,12 +157,12 @@
 					</tr>
 
 					<tr id="row_premed" style="">
-						<td>Premed <i class="far fa-question-circle tooltip"><span class="tooltiptext" style="width: 160px">Premed with acepromazine+methadone?</span></i>
+						<td>Premed <i class="far fa-question-circle tooltip3"><span class="tooltiptext" style="width:190px">Premed with acepromazine+methadone VS dexmedetomidine+butorphanol?</span></i>
 						</td>
 						<td>
 							<select id="select_premed" onchange="" >
-									<option value="0">No</option>
-									<option value="1">Yes (ACP-Methadone)</option>
+									<option value="0">Dex-butorphanol</option>
+									<option value="1">ACP-methadone</option>
 							</select>
 						</td>
 					</tr>
