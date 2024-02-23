@@ -237,7 +237,7 @@ var numpadOrig;
 var collapsibles = document.getElementsByClassName("collapsible");
 
 for (collapsiblecounter = 0; collapsiblecounter < collapsibles.length; collapsiblecounter++) {
-  collapsibles[i].addEventListener("click", function() {
+  collapsibles[collapsiblecounter].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
     if (content.style.display === "block") {
