@@ -253,7 +253,7 @@ for (collapsiblecounter = 0; collapsiblecounter < collapsibles.length; collapsib
 
 var collapsiblecards = document.getElementsByClassName("collapsiblecard");
 
-for (collapsiblecounter2=0; i<collapsiblecards.length; collapsiblecounter2++) {
+for (collapsiblecounter2=0; collapsiblecounter2<collapsiblecards.length; collapsiblecounter2++) {
 	collapsiblecards[collapsiblecounter2].nextElementSibling.style.display = "none";
 	collapsiblecards[collapsiblecounter2].nextElementSibling.classList.add("collapsed");
 	collapsiblecards[collapsiblecounter2].addEventListener("click", function() {
