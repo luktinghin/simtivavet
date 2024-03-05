@@ -1892,22 +1892,27 @@ function updateInit() {
 		ElGender.style.display = "none";
 		ElFen.style.display = "none";
 		ElPremed.style.display = "none";
-		
+		PMID = 11265996;
+		DOI = `<a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a>`;		
 	}
 	if (document.getElementById("select_model").value == "Cattai-Fentanyl") {
 		ElAge.style.display = "none";
 		ElGender.style.display = "table-row";
 		ElFen.style.display = "table-row";
 		ElPremed.style.display = "none";
-		
+		PMID = 35550343;
+		DOI = `<a href="https://doi.org/10.1016/j.vaa.2021.08.049" target="_blank">10.1016/j.vaa.2021.08.049</a>`;
 	}
 	if (document.getElementById("select_model").value == "Cattai-Propofol") {
 		ElAge.style.display = "table-row";
 		ElGender.style.display = "table-row";
 		ElFen.style.display = "none";
 		ElPremed.style.display = "table-row";
-		
+		PMID = 31326349;
+		DOI = `<a href="https://doi.org/10.1016/j.vaa.2019.04.009" target="_blank">10.1016/j.vaa.2019.04.009</a>`;
 	}
+	document.getElementById("PMID").innerHTML = PMID;
+	document.getElementById("DOI").innerHTML = DOI;
 }
 function initsubmit() {
 	//the validation function on clicking "proceed" on starting page 1

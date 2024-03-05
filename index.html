@@ -112,18 +112,18 @@
 
 		<div id="modalInitial" class="modal">
 			<div class="modal-content" id="modalInitialcontent">
-				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="enableCattai();//displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
+				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
 
 					<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
 					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> an experimental progressive web app to guide TCI/TIVA in dogs.</div>
-					<table class="table-Init" style="margin-top:1.5rem;margin-bottom:2rem">
+					<table class="table-Init" style="margin-bottom:1.5rem">
 
 					<tr class="fr"><td style="width:35%">Model <!--<i class="far fa-question-circle tooltip2"><span class="tooltiptext">Paedfusor: for children. Marsh/Schnider/Minto: for adults.</span></i>--></td>
 						<td>
 							<select id="select_model" onchange="updateInit();" >
 									<option value="Beths">Beths (Propofol)</option>
-									<option value="Cattai-Propofol" disabled>Cattai (Propofol)</option>
+									<option value="Cattai-Propofol">Cattai (Propofol)</option>
 									<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
 							</select>
 						</td>
@@ -160,9 +160,9 @@
 						<td>Premed <i class="far fa-question-circle tooltip3"><span class="tooltiptext" style="width:190px">Premed with acepromazine+methadone VS dexmedetomidine+butorphanol?</span></i>
 						</td>
 						<td>
-							<select id="select_premed" onchange="" style="font-size:0.75rem; letter-spacing:-0.6px">
-									<option value="0">Dexmedetomidine-butorphanol</option>
-									<option value="1">Acepromazine-methadone</option>
+							<select id="select_premed" onchange="" style="letter-spacing:-0.3px">
+									<option value="0">Dexmedetomidine-based</option>
+									<option value="1">Acepromazine-based</option>
 							</select>
 						</td>
 					</tr>
@@ -193,6 +193,13 @@
 					<!--<tr><td>Debug: Enter Sim Speed (1=default)</td><td><input type="number" id="simspeed" value="1"></td></tr>-->
 					</table>
 
+					<div id="infobox">
+						<div id="infoboxcontents">
+							<div>Model description:</div>
+							<div>PMID: <span id="PMID">11265996</span></div>
+							<div>DOI: <span id="DOI"><a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a></span></div>
+						</div>
+					</div>
 					
 
 					<div>
