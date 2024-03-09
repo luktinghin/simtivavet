@@ -71,7 +71,7 @@
 				<div class="modal-header">ABOUT<span class="close" onClick="hidemodal('modalAbout')">&times;</span></div>
 				<div class="modal-body" style="overflow-y:auto; height: 70vh; font-size:90%">
 					<h1><b>SimTIVA.vet</b></h1>
-					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in dogs. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
+					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in small animals. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
 					<br>
 					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 3/2/2024 (build 1).
 					<br>
@@ -102,7 +102,7 @@
               		</div>
 					<div style="padding-top:1rem;">
 					<a class="button wide" onclick="hideallmodal();">Back</a>
-					<a class="button muted right" id="btn_disclaimer" onclick="displayDisclaimer();">Disclaimer</a><button onclick="importDialog()" style="opacity:0">Hi</button>
+					<a class="button muted right" id="btn_disclaimer2" onclick="displayDisclaimer();">Disclaimer</a><button onclick="importDialog()" style="opacity:0">Hi</button>
 					</div>
 				</div>
 			</div>
@@ -112,24 +112,50 @@
 
 		<div id="modalInitial" class="modal">
 			<div class="modal-content" id="modalInitialcontent">
-				<div class="modal-header">Enter patient data<!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
+				<div class="modal-header"><span id="modalInitTitle">Model Information</span><!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
-
 					<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
-					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> an experimental progressive web app to guide TCI/TIVA in dogs.</div>
+					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> an experimental progressive web app to guide TCI/TIVA in small animals.</div>
+					<div id="modalInitScreen1">
+
+
+						<div id="modalInitScreen1Container">
+						<div style="font-size:0.65rem">Choose animal:</div>
+						<select id="select_animal" onchange="updateAnimal();">
+							<option value="Dog" selected>Dog</option>
+							<option value="Cat" disabled>Cat</option>
+						</select>
+						<div style="font-size:0.65rem">Choose model:</div>
+						<select id="select_model" onchange="updateInit();" >
+								<option value="Beths" selected>Beths (Propofol)</option>
+								<option value="Cattai-Propofol">Cattai (Propofol)</option>
+								<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
+								<option value="Sano" disabled>Sano (Fentanyl)</option>
+						</select>
+						<div id="infobox">
+							<div id="infoboxcontents">
+								<div>Model description: <span id="Description">‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighting between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.</span></div>
+								<div>PMID: <span id="PMID">11265996</span></div>
+								<div>DOI: <span id="DOI"><a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a></span></div>
+							</div>
+						</div>
+						</div><!--end modalInitScreen1Container-->
+					</div><!-- end modalInitScreen1 -->
+					<div id="modalInitScreen2">
+						<div id="modalInitScreen2InfoContainer">
+							<div id="modalInitScreen2InfoIcon">
+								<div id="animalIcon"><i class="fas fa-dog"></i></div>
+							</div>
+							<div id="modalInitScreen2InfoLeft">
+								<div id="modalInitScreen2InfoLine1">Dogs</div>
+								<div id="modalInitScreen2InfoLine2">Beths (Propofol)</div>
+							</div>
+							<div id="modalInitScreen2InfoRight">
+								<div onclick="goBack();">CHANGE</div>
+							</div>
+						</div>
 					<table class="table-Init" style="margin-bottom:1.5rem">
-
-					<tr class="fr"><td style="width:35%">Model <!--<i class="far fa-question-circle tooltip2"><span class="tooltiptext">Paedfusor: for children. Marsh/Schnider/Minto: for adults.</span></i>--></td>
-						<td>
-							<select id="select_model" onchange="updateInit();" >
-									<option value="Beths">Beths (Propofol)</option>
-									<option value="Cattai-Propofol">Cattai (Propofol)</option>
-									<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
-							</select>
-						</td>
-					</tr>
-
-					<tr>
+					<tr class="fr">
 						<td>Mode</td>
 						<td>
 							<select id="select_mode" onchange="" >
@@ -137,6 +163,7 @@
 									<!--<option value="cet">CE targeting</option>-->
 									<option value="manual">Manual</option>
 							</select>
+						</td>
 					</tr>
 					<tr>
 						<td>Weight (kg) <!--<i class="far fa-question-circle tooltip"><span class="tooltiptext">0-200kg, validation with BMI & weight-for-age</span></i>--></td>
@@ -181,31 +208,15 @@
 							</div>
 						</td>
 					</tr>
-
-
-					<!--
-					<tr><td>File Name</td>
-						<td>
-							<input id="inputFileName1" value="" class="formTextInput" placeholder="Optional, Max 32 char.">
-						</td>
-					</tr>
-				-->
-					<!--<tr><td>Debug: Enter Sim Speed (1=default)</td><td><input type="number" id="simspeed" value="1"></td></tr>-->
 					</table>
-
-					<div id="infobox">
-						<div id="infoboxcontents">
-							<div>Model description:</div>
-							<div>PMID: <span id="PMID">11265996</span></div>
-							<div>DOI: <span id="DOI"><a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a></span></div>
-						</div>
-					</div>
+					</div> <!--end of modal Init Screen 2 -->
 					
 
 					<div>
-						<a class="button invert " onclick="toPageTwo();" id="btn_initProceed">Proceed</a>
+						<a class="button invert " onclick="toPageTwo();" id="btn_initProceed">Next</a>
 						<a class="button muted right" id="btn_disclaimer" onclick="displayDisclaimer();">Disclaimer</a>
 						<a class="button muted right" id="btn_about" onclick="displayAbout();">About</a>
+						<a class="button muted right" id="btn_back" onclick="goBack();">Back</a>
 					</div>
 
 			</div>
@@ -1828,7 +1839,7 @@
 		</div>
 		</div><!--end cards container layout-->
 		<div class="bottomcard">
-			<h1>SimTIVA.vet <i>(Veterinary Simulator for TIVA)</i> is a web app to guide total intravenous anaesthesia (TIVA) for target-controlled infusion (TCI) in dogs; using models such as Beths model (propofol) and Cattai model (fentanyl).</h1>
+			<h1>SimTIVA.vet <i>(Veterinary Simulator for TIVA)</i> is a web app to guide total intravenous anaesthesia (TIVA) for target-controlled infusion (TCI) in small animals; using models such as Beths model (propofol) and Cattai model (fentanyl).</h1>
 		</div>
 
 		</div><!--controlpanel-->
