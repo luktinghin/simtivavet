@@ -1915,7 +1915,13 @@ function updateInit() {
 		Description = "‘Cattai model’ for Propofol TCI in dogs was validated on 14 mixed-breed dogs, aged 6.4 ± 2.7 years, weighting 23 ± 9.4kg, receiving a premedication of either acepromazine and methadone or dexmedetomidine and methadone and undergoing magnetic resonance imaging. Arterial blood samples were used for evaluation and optimisation of this model.";
 	}
 	if (document.getElementById("select_model").value == "Sano") {
+		ElAge.style.display = "none";
+		ElGender.style.display = "none";
+		ElPremed.style.display = "none";
 		ElFen.style.display = "table-row";	
+		PMID = 16764592;
+		DOI = `<a href="https://doi.org/10.1111/j.1467-2995.2005.00266.x" target="_blank">10.1111/j.1467-2995.2005.00266.x</a>`;
+		Description = "";
 	}
 	document.getElementById("Description").innerHTML = Description;
 	document.getElementById("PMID").innerHTML = PMID;
@@ -9039,7 +9045,11 @@ function readmodel(x, drug_set_index) {
 		drug_sets[drug_set_index].inf_rate_permass_factor = 1/60;
 		drug_sets[drug_set_index].inf_rate_permass_unit = "mcg/kg/m";
 		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
-		drug_sets[drug_set_index].modeltext = ""
+		drug_sets[drug_set_index].modeltext = "Sano model for dogs; two-compartment (Vet Anaesth Analg. 2006;33:266-273" + "<br>" + 
+		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
+		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
+		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
+		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" ;
 	}
 	/*
 	if (x == "Shafer (Weight adjusted)") {
@@ -16518,8 +16528,8 @@ function setBolusUnit(parameter) {
 	dropdownhide();
 }
 
-function enableCattai() {
-	document.getElementById("select_model").options[1].disabled = false;
+function enableSano() {
+	document.getElementById("select_model").options[3].disabled = false;
 }
 
 /* failed code below 
