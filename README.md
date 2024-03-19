@@ -20,6 +20,10 @@ Several modes are available on SimTIVA app. CP targeting is useful if you want t
 - To simulate TCI and TIVA pharmacokinetics for educational purpose in veterinary practice
 
 ### Changelog
+ Version 1.1 (Build 5)
+ - Bug fixes
+ - Interface improvement: changed first screen to model selection with model descriptions
+   
  Version 1.0
  - Initial release
 
