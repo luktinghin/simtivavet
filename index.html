@@ -123,7 +123,7 @@
 						<div style="font-size:0.65rem">Choose animal:</div>
 						<select id="select_animal" onchange="updateAnimal();">
 							<option value="Dog" selected>Dog</option>
-							<option value="Cat" disabled>Cat</option>
+							<option value="Cat">Cat</option>
 						</select>
 						<div style="font-size:0.65rem">Choose model:</div>
 						<select id="select_model" onchange="updateInit();" >
@@ -131,6 +131,11 @@
 								<option value="Cattai-Propofol">Cattai (Propofol)</option>
 								<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
 								<option value="Sano" disabled>Sano (Fentanyl)</option>
+						</select>
+						<select id="select_model2" style="display: none" onchange="updateInit();" >
+								
+								<option value="Cattai-Propofol-Cats">Cattai (Propofol)</option>
+
 						</select>
 						<div id="infobox">
 							<div id="infoboxcontents">

@@ -1875,10 +1875,19 @@ window.addEventListener('hashchange', function(event) {
 
 
 
-function init() {
-	
+function init() {	
 	setmodal("modalInitial");	
-	
+}
+
+function updateAnimal() {
+	if (document.getElementById("select_animal").value == "Dog") {
+		document.getElementById("select_model").style.display = "block";
+		document.getElementById("select_model2").style.display = "none";
+	} else {
+		document.getElementById("select_model").style.display = "none";
+		document.getElementById("select_model2").style.display = "block";
+	}
+	updateInit();
 }
 
 function updateInit() {
@@ -1923,6 +1932,15 @@ function updateInit() {
 		DOI = `<a href="https://doi.org/10.1111/j.1467-2995.2005.00266.x" target="_blank">10.1111/j.1467-2995.2005.00266.x</a>`;
 		Description = "";
 	}
+	if ((document.getElementById("select_animal").value=="Cat") && (document.getElementById("select_model2").value == "Cattai-Propofol-Cats")) {
+		ElAge.style.display = "none";
+		ElGender.style.display = "none";
+		ElFen.style.display = "none";
+		ElPremed.style.display = "none";
+		PMID = 27044652;
+		DOI = `<a href="https://doi.org/10.1136/vr.103560" target="_blank">10.1136/vr.103560</a>`;	
+		Description = "Cattai model’ for Propofol TCI in cats.";	
+	}
 	document.getElementById("Description").innerHTML = Description;
 	document.getElementById("PMID").innerHTML = PMID;
 	document.getElementById("DOI").innerHTML = DOI;
@@ -1935,7 +1953,11 @@ function initsubmit() {
 	simspeed=1;
 	//initiate parameters;
 	mass = document.getElementById("inputBW").value *1; 
-	ElModel = document.getElementById("select_model");
+	if (document.getElementById("select_animal").value == "Dog") {
+		ElModel = document.getElementById("select_model");
+	} else {
+		ElModel = document.getElementById("select_model2");
+	}
 		//off complex interface displays
 		document.getElementById("ptolcard").style.display = "none";
 		document.getElementById("ptolcardoptions").style.display = "none";
@@ -1989,6 +2011,20 @@ function initsubmit() {
 			//change chart filtering
 			myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
 
+		}
+		if (ElModel.value == "Cattai-Propofol-Cats") {
+			age = 0;
+			gender = 0;
+			height = 0;
+			document.getElementById("age").style.display = "none";
+			document.getElementById("gender").style.display = "none";
+			drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
+			document.getElementById("modelname").innerHTML = "Cattai";
+			//unhide CE
+			myChart.data.datasets[3].hidden = false;
+			
+			//change chart filtering
+			myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
 		}
 		if (ElModel.value == "Cattai-Fentanyl") {
 			age = 0; //not used in cattai fentanyl
@@ -9051,6 +9087,30 @@ function readmodel(x, drug_set_index) {
 		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
 		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" ;
 	}
+	if (x=="Cattai-Propofol-Cats") {
+		drug_sets[drug_set_index].vc = 0.35 * mass;
+		drug_sets[drug_set_index].k10 = 0.06;
+		drug_sets[drug_set_index].k12 = 0.1;
+		drug_sets[drug_set_index].k21 = 0.4;
+		drug_sets[drug_set_index].k13 = 0.04;
+		drug_sets[drug_set_index].k31 = 0.01;
+		drug_sets[drug_set_index].k41 = 0;
+		drug_sets[drug_set_index].modeltext = "Cattai model for cats (Vet Rec. 2016;178:503)" + "<br>" +
+		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
+		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
+		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
+		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
+		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
+		"k31 = " + drug_sets[drug_set_index].k31 + "<br>";
+
+		drug_sets[drug_set_index].drug_name = "Propofol";
+		drug_sets[drug_set_index].conc_units = "mcg";
+		drug_sets[drug_set_index].infused_units = "mg";
+		drug_sets[drug_set_index].inf_rate_permass = 0;
+		drug_sets[drug_set_index].inf_rate_permass_factor = 1;
+		drug_sets[drug_set_index].inf_rate_permass_unit = "mg/kg/h";
+		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
+	}
 	/*
 	if (x == "Shafer (Weight adjusted)") {
 		// need to correct CP and CE based on Shibutani 2004 
@@ -10001,8 +10061,15 @@ function toPageTwo() {
 	document.getElementById("btn_about").style.display = "none";
 	document.getElementById("btn_back").style.display = "block";
 	document.getElementById("modalInitTitle").innerHTML = "Patient Data";
-	document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model").options[document.getElementById("select_model").selectedIndex].text;
+	
 	document.getElementById("modalInitScreen2InfoLine1").innerHTML = document.getElementById("select_animal").options[document.getElementById("select_animal").selectedIndex].text;
+	if (document.getElementById("select_animal").value == "Dog") {
+		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model").options[document.getElementById("select_model").selectedIndex].text;
+		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-dog'></i>";
+	} else {
+		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model2").options[document.getElementById("select_model2").selectedIndex].text;
+		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-cat'></i>";
+	}
 }
 
 function goBack() {
@@ -13539,6 +13606,18 @@ function parsedisplayvet() {
 		//unhide CE
 		myChart.data.datasets[3].hidden = false;
 		document.getElementById("top_ce").style.display = "inline-block";
+		document.getElementById("modelname").innerHTML = "Cattai";
+		//change chart filtering
+		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
+
+	}
+	if (drug_sets[0].model_name == "Cattai-Propofol-Cats") {
+		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
+		gender = 0;
+		height = 0;
+		document.getElementById("age").style.display = "none";
+		document.getElementById("gender").style.display = "none";
+		myChart.data.datasets[3].hidden = false;
 		document.getElementById("modelname").innerHTML = "Cattai";
 		//change chart filtering
 		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
