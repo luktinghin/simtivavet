@@ -2023,8 +2023,8 @@ function initsubmit() {
 			document.getElementById("gender").style.display = "none";
 			drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
 			document.getElementById("modelname").innerHTML = "Cattai";
-			//unhide CE
-			myChart.data.datasets[3].hidden = false;
+			
+			myChart.data.datasets[3].hidden = true;
 		}
 		if (ElModel.value == "Cattai-Fentanyl") {
 			age = 0; //not used in cattai fentanyl
@@ -3505,7 +3505,7 @@ function displaypreview2(x,ind) {
 			previewtimeout = setTimeout(function(){
 				object.style.display="none";
 				document.getElementById("preview-expand-button").style.display = "none";
-			},11500);
+			},15500);
 		}  
 	} else {
 		if (previewtimeout != null) {clearTimeout(previewtimeout);}
@@ -3516,7 +3516,7 @@ function displaypreview2(x,ind) {
 		},400);
 		previewtimeout = setTimeout(function(){
 			object.style.display="none";
-		},11500);
+		},15500);
 	}
 	x=x*1;
 
@@ -3619,7 +3619,7 @@ function displaypreview_hide() {
 	previewtimeout = setTimeout(function() {
 		document.getElementById("preview").style.display = "none";
 		document.getElementById("preview-expand-button").style.display = "none";
-	},11500);
+	},15500);
 }
 
 function displaypreview_hide_onsubmit() {
@@ -3637,7 +3637,7 @@ function displaypreview_hide_onsubmit() {
 			clearTimeout(previewtimeout);
 			previewtimeout = setTimeout(function() {
 				document.getElementById("preview").style.display = "none";
-			},11500);
+			},15500);
 		} else {
 
 		}
@@ -14075,6 +14075,7 @@ function parsedisplayvet() {
 		document.getElementById("age").style.display = "none";
 		document.getElementById("gender").style.display = "none";
 		document.getElementById("modelname").innerHTML = "Cattai";
+		myChart.data.datasets[3].hidden = true;
 		//change chart filtering
 		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
 

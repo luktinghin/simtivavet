@@ -2270,7 +2270,7 @@ body.dark .loadduration {
   cursor:pointer;
 }
 .animate {
-  animation: progress 12s ease infinite;
+  animation: progress 16s ease infinite;
 }
 @keyframes progress {
   0%{background-position:200% 50%}
@@ -2280,7 +2280,7 @@ body.dark .loadduration {
   100%{background-position:100% 50%; opacity:0;}
 }
 .animate2 {
-  animation: progress2 12s ease infinite; 
+  animation: progress2 16s ease infinite; 
 }
 @keyframes progress2 {
   0%{opacity:1;}
@@ -6392,7 +6392,7 @@ body.dark #preview {
   background-size: 200% 100%;
 }
 .animate {
-  animation: progress 12s ease infinite;
+  animation: progress 16s ease infinite;
 }
 @keyframes progress {
   0%{background-position:200% 50%}
