@@ -174,6 +174,7 @@ var manageFileListState = 0;
 var modal = undefined;
 
 var prior_half_minute_clock = 0;
+
 var time_of_stop = -1;
 
 window.ptolcouplesarray = []; //ptol couples over time
@@ -233,8 +234,7 @@ var isFullscreen = false;
 var popupUpdateInterval;
 var numpadValue = 0;
 var numpadOrig;
-
-
+var opioid = 1; //arbitrary default opioid = 1 for eleveld. to be re-set to 0 or 1 at first input screen
 
 var collapsibles = document.getElementsByClassName("collapsible");
 var i;
@@ -279,8 +279,8 @@ function toggleCard(x) {
 
 var tops = document.getElementsByClassName("top_title_box");
 
-for (topscounter=0; topscounter<tops.length; topscounter++) {
-	tops[topscounter].addEventListener("click", function() {
+for (i=0; i<tops.length; i++) {
+	tops[i].addEventListener("click", function() {
 		window.scrollTo(0,0);
 	})
 }
@@ -1473,7 +1473,7 @@ const chartInfRateLayer = {
 	    			borderWidth: ctx => behindPosition2(ctx, 8)
 	    		},
 	    		fill: true,
-	    		hidden: true, //this is for vetsimtiva
+	    		hidden: false,
 	    		parsing: false
 	    	},{
 	    		label: 'Cp-Remi',
@@ -1631,20 +1631,13 @@ const chartInfRateLayer = {
 			    		onClick: null,
 				    	labels: {
 				    	boxWidth: 20,
-				    	filter: function(item, chart) { //this is for vetsimtiva
-				    		if (item.datasetIndex == 2) {
-				    			return true;
-				    		} else {
-				    			return false;
-				    		}
-				    		/*
+				    	filter: function(item, chart) {
 				    		var index = item.datasetIndex;
 				    		if ((index <= 1) || (index >= drug_sets.length*2+2)) {
 				    			return false;
 				    		} else {
 				    			return true;
 				    		}
-				    		*/
 				    	}
 			    	}
 			    },
@@ -1655,20 +1648,13 @@ const chartInfRateLayer = {
 			    		weight: 'normal',
 			    		size: 10
 			    	},
-	            	filter: function(tooltipItem, data) { //this is for vetsimtiva
-				    		if (tooltipItem.datasetIndex == 2) {
-				    			return true;
-				    		} else {
-				    			return false;
-				    		}
-	            		/*
+	            	filter: function(tooltipItem, data) {
 	            		var index = tooltipItem.datasetIndex;
 	            		if ((index >= 2) && (index <=5)) {
 	            			return true;
 	            		} else {
 	            			return false;
 	            		}
-	            		*/
 	            	},
 	            	position: 'nearest',
 	            	caretSize: 0,
@@ -1878,89 +1864,130 @@ window.addEventListener('hashchange', function(event) {
 
 
 
-function init() {	
+function init() {
+	
 	setmodal("modalInitial");	
-}
-
-function updateAnimal() {
-	if (document.getElementById("select_animal").value == "Dog") {
-		document.getElementById("select_model").style.display = "block";
-		document.getElementById("select_model2").style.display = "none";
-	} else {
-		document.getElementById("select_model").style.display = "none";
-		document.getElementById("select_model2").style.display = "block";
-	}
-	updateInit();
-}
-
-function updateInit() {
-	ElAge = document.getElementById("row_age");
-	ElGender = document.getElementById("row_gender");
-	ElFen = document.getElementById("row_fendilution");
-	//ElMode = document.getElementById("select_mode");
-	ElPremed = document.getElementById("row_premed");
-	if (document.getElementById("select_model").value == "Beths") {
-		ElAge.style.display = "none";
-		ElGender.style.display = "none";
-		ElFen.style.display = "none";
-		ElPremed.style.display = "none";
-		PMID = 11265996;
-		DOI = `<a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a>`;	
-		Description = "‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighting between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.";	
-	}
-	if (document.getElementById("select_model").value == "Cattai-Fentanyl") {
-		ElAge.style.display = "none";
-		ElGender.style.display = "table-row";
-		ElFen.style.display = "table-row";
-		ElPremed.style.display = "none";
-		PMID = 35550343;
-		DOI = `<a href="https://doi.org/10.1016/j.vaa.2021.08.049" target="_blank">10.1016/j.vaa.2021.08.049</a>`;
-		Description = "‘Cattai model’ for Fentanyl TCI in dogs was validated on 20 mixed-breed dogs, aged between 0.5 -13 years, weighting between 6.5 - 34 kg, receiving a premedication of either acepromazine and methadone or methadone alone and undergoing magnetic resonance imaging for spinal pain. Arterial blood samples were used for evaluation and optimisation of this model.";
-	}
-	if (document.getElementById("select_model").value == "Cattai-Propofol") {
-		ElAge.style.display = "table-row";
-		ElGender.style.display = "table-row";
-		ElFen.style.display = "none";
-		ElPremed.style.display = "table-row";
-		PMID = 31326349;
-		DOI = `<a href="https://doi.org/10.1016/j.vaa.2019.04.009" target="_blank">10.1016/j.vaa.2019.04.009</a>`;
-		Description = "‘Cattai model’ for Propofol TCI in dogs was validated on 14 mixed-breed dogs, aged 6.4 ± 2.7 years, weighting 23 ± 9.4kg, receiving a premedication of either acepromazine and methadone or dexmedetomidine and methadone and undergoing magnetic resonance imaging. Arterial blood samples were used for evaluation and optimisation of this model.";
-	}
-	if (document.getElementById("select_model").value == "Sano") {
-		ElAge.style.display = "none";
-		ElGender.style.display = "none";
-		ElPremed.style.display = "none";
-		ElFen.style.display = "table-row";	
-		PMID = 16764592;
-		DOI = `<a href="https://doi.org/10.1111/j.1467-2995.2005.00266.x" target="_blank">10.1111/j.1467-2995.2005.00266.x</a>`;
-		Description = "";
-	}
-	if ((document.getElementById("select_animal").value=="Cat") && (document.getElementById("select_model2").value == "Cattai-Propofol-Cats")) {
-		ElAge.style.display = "none";
-		ElGender.style.display = "none";
-		ElFen.style.display = "none";
-		ElPremed.style.display = "none";
-		PMID = 27044652;
-		DOI = `<a href="https://doi.org/10.1136/vr.103560" target="_blank">10.1136/vr.103560</a>`;	
-		Description = "Cattai model’ for Propofol TCI in cats.";	
-	}
-	document.getElementById("Description").innerHTML = Description;
-	document.getElementById("PMID").innerHTML = PMID;
-	document.getElementById("DOI").innerHTML = DOI;
+	
 }
 function initsubmit() {
 	//the validation function on clicking "proceed" on starting page 1
 	//new, arbitrarily set zero
-	validateText = "";
+	let validateText = "";
 	drug_sets_index=0;
 	simspeed=1;
 	//initiate parameters;
 	mass = document.getElementById("inputBW").value *1; 
-	if (document.getElementById("select_animal").value == "Dog") {
+	height = document.getElementById("inputBH").value*1;
+	if (paedi_mode==0) {
+		age = document.getElementById("inputAge").value*1;
 		ElModel = document.getElementById("select_model");
+		document.getElementById("ptoltooltip").style.display = "none";
 	} else {
-		ElModel = document.getElementById("select_model2");
+		document.getElementById("ptoltooltip").style.display = "inline-block";
+		ageunit = document.getElementById("select_age_unit").value;
+		if (ageunit == "d") {
+			age = document.getElementById("inputAgePaedi").value*1 / 365;
+		} else if (ageunit == "w") {
+			age = document.getElementById("inputAgePaedi").value*1 / 52;
+		} else if (ageunit == "m") {
+			age = document.getElementById("inputAgePaedi").value*1 / 12;
+		} else if (ageunit == "y") {
+			age = document.getElementById("inputAgePaedi").value*1;
+		}
+		ElModel = document.getElementById("select_model_paedi");
 	}
+	
+	if (document.getElementById("select_gender").value === "Male") {
+		gender = 0;
+	} else {
+		gender = 1;
+	}
+	if (height>0) {
+		document.getElementById("bh").innerHTML = height + "cm";
+		if (gender == 0) 
+			{lbm = 1.1 * mass - 128 * (mass/height) * (mass/height);}
+		else
+			{lbm = 1.07 * mass - 148 * (mass/height) * (mass/height);}
+	} else {
+		document.getElementById("bh").innerHTML = "?";
+	}
+	if (paedi_mode == 0) {
+		if (age>=0) {
+			document.getElementById("age").innerHTML = age + "y";
+		} else {
+			document.getElementById("age").innerHTML = "?";
+		}
+	} else {
+		document.getElementById("age").innerHTML = document.getElementById("inputAgePaedi").value + ageunit;
+		if (document.getElementById("inputPMA").value*1>0) {
+			document.getElementById("age").innerHTML = document.getElementById("age").innerHTML +
+				" (PMA: " + document.getElementById("inputPMA").value + "w)";
+		}
+	}
+	//display elements
+	document.getElementById("bw").innerHTML = mass + "kg";
+	document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
+
+
+	//off chart legend
+	myChart.legend.options.display = false;
+	
+	if (ElModel.value === "Complex") {
+
+		complex_mode = 1;
+		opioid = 1;
+		//interface change
+
+		document.getElementById("complexmodeselection0").style.display = "block";
+		document.getElementById("complexmodeselection1").style.display = "block";
+		document.getElementById("complexbuttons").style.display = "block";
+
+		document.getElementById("page2title").innerHTML = "Complex Mode Setup";
+		document.getElementById("modalScreen2").style.paddingTop = "5vw";
+		document.getElementById("modalScreen2content").style.width = "90vw";
+		document.getElementById("simplemodeselection").style.display = "none";
+
+		if (age<0 || age>=100) {
+			validateText = validateText.concat("Invalid age (accepted range >0 to <100y)" + "<br>");
+			document.getElementById("inputAge").value = "";
+		}
+		if (mass<=0 || mass>=200) {
+			validateText = validateText.concat("Invalid body weight (accepted range >0 to <200kg)" + "<br>");
+			document.getElementById("inputBW").value = "";
+		}
+
+		//change model selection options according to paedimode
+		if (paedi_mode == 0) {
+			
+			document.getElementById("model_propofol").options[0].disabled = false; 
+			document.getElementById("model_propofol").options[1].disabled = false;
+			
+			document.getElementById("model_opioid").options[0].disabled = false;
+			document.getElementById("model_opioid").options[2].disabled = false;
+			
+			document.getElementById("model_opioid").value = "Minto";
+		} else {
+			//off marsh, schnider
+			document.getElementById("model_propofol").options[0].disabled = true; 
+			document.getElementById("model_propofol").options[1].disabled = true;
+			//off minto, shafer, alfen
+			document.getElementById("model_opioid").options[0].disabled = true;
+			document.getElementById("model_opioid").options[2].disabled = true;
+			document.getElementById("model_opioid").options[3].disabled = true;
+			//set eleveld remi default
+			document.getElementById("model_opioid").value = "Eleveld-Remifentanil";
+		}
+
+			myChart.options.scales.y.title.text = "Concentration (mcg/ml)";
+
+		//on complex interface displays
+		document.getElementById("ptolcard").style.display = "flex";
+		document.getElementById("ptolcardoptions").style.display = "block";
+		document.getElementById("interactionscontainer").style.display = "block";
+	} else {
+
+		complex_mode = 0;
+
 		//off complex interface displays
 		document.getElementById("ptolcard").style.display = "none";
 		document.getElementById("ptolcardoptions").style.display = "none";
@@ -1972,112 +1999,210 @@ function initsubmit() {
 		document.getElementById("complexmodeselection1").style.display = "none";
 		document.getElementById("complexbuttons").style.display = "none";
 
-	//data validation
-	if (mass>0) {
-		if (ElModel.value == "Cattai-Propofol") {
-			if (document.getElementById("inputAge").value *1 >0) {
-				readmodel(ElModel.value,0);	
-			} else {
-				validateText = "Invalid age."
-			}
-		} else {
-			readmodel(ElModel.value,0);	
+		if (ElModel.value == "Eleveld") {
+			if (document.getElementById("select_eleveldopioid").value == "1") {opioid = 1} else {opioid = 0};
 		}
-	} else {
-		validateText = "Invalid body weight."
-	}
-	
-	if (validateText == "") {
-		//display elements
-		document.getElementById("bw").innerHTML = mass + "kg";
-		if (ElModel.value == "Beths") {
-			age = 0;
-			gender = 0;
-			height = 0;
-			document.getElementById("age").style.display = "none";
-			document.getElementById("gender").style.display = "none";
-			drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-			//unhide CE
-			myChart.data.datasets[3].hidden = false;
-			document.getElementById("top_ce").style.display = "inline-block";
-			//change chart filtering
-			myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
-		}
-		if (ElModel.value == "Cattai-Propofol") {
-			drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-			document.getElementById("age").innerHTML = age + "y";
-			document.getElementById("gender").innerHTML = ", " + document.getElementById("select_gender").value;
-			document.getElementById("modelname").innerHTML = "Cattai";
-			//unhide CE
-			myChart.data.datasets[3].hidden = false;
-			document.getElementById("top_ce").style.display = "inline-block";
-			//change chart filtering
-			myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
+		readmodel(ElModel.value,0);
+		//infusate_concentration goes here
+		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
 
+		if ((paedi_mode == 0 && document.getElementById("select_model").value == "Eleveld") || (paedi_mode == 1 && document.getElementById("select_model_paedi").value == "Eleveld")) {
+			PD_mode = 1;
+			document.getElementById("chartoverlayoptionscontent").classList.add("PDoptions");
+			document.getElementById("select_effect_measure").value = "bis";
+			document.getElementById("select_effect_measure").disabled = true;
+			 
+			BIS40 = BIS_Ce_for_BIS(40);
+			BIS60 = BIS_Ce_for_BIS(60);
+			myChart.data.datasets[11].data = [{x:0, y:BIS60},{x:21600, y:BIS60}];
+			myChart.data.datasets[10].data = [{x:0, y:BIS40},{x:21600, y:BIS40}];
+			myChart.data.datasets[10].backgroundColor = yellowPri30;
+			myChart.data.datasets[10].borderColor = yellowPri50;
+			myChart.data.datasets[11].borderColor = yellowPri50;
+			myChart.data.datasets[10].hidden = false;
+			myChart.data.datasets[11].hidden = false;
+			document.getElementById("ptolcard").style.display = "flex";
+			document.getElementById("ptoltitle").innerHTML = "eBIS";
+			document.getElementById("ptoldesc").innerHTML = "Estimated BIS from Eleveld PD model";
+			myChart.update();
 		}
-		if (ElModel.value == "Cattai-Propofol-Cats") {
-			age = 0;
-			gender = 0;
-			height = 0;
-			document.getElementById("age").style.display = "none";
-			document.getElementById("gender").style.display = "none";
-			drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-			document.getElementById("modelname").innerHTML = "Cattai";
-			//unhide CE
-			myChart.data.datasets[3].hidden = false;
-		}
-		if (ElModel.value == "Cattai-Fentanyl") {
-			age = 0; //not used in cattai fentanyl
-			document.getElementById("age").style.display = "none";
+
+		document.getElementById("modalScreen2").style.paddingTop = "";
+		document.getElementById("modalScreen2content").style.width = "";
+		document.getElementById("simplemodeselection").style.display = "";
+		if (paedi_mode == 0) {
+			if ((document.getElementById("select_model").value === "Minto") || (document.getElementById("select_model").value === "Eleveld-Remifentanil")) {
+				if (document.getElementById("select_remidilution").value == "custom") {
+					drug_sets[0].infusate_concentration = document.getElementById("remidilution").innerHTML *1;
+				} else {
+					drug_sets[0].infusate_concentration = document.getElementById("select_remidilution").value * 1;
+				}
+	  	}
+	  } else {
+			if (document.getElementById("select_model_paedi").value === "Eleveld-Remifentanil") {
+				if (document.getElementById("select_remidilution").value == "custom") {
+					drug_sets[0].infusate_concentration = document.getElementById("remidilution").innerHTML *1;
+				} else {
+					drug_sets[0].infusate_concentration = document.getElementById("select_remidilution").value * 1;
+				}
+	  	}
+	  }
+
+
+		if ((paedi_mode == 0) && (document.getElementById("select_model").value === "Shafer")) {
 			if (document.getElementById("select_fendilution").value == "custom") {
 				drug_sets[0].infusate_concentration = document.getElementById("fendilution").innerHTML *1;
 			} else {
 				drug_sets[0].infusate_concentration = document.getElementById("select_fendilution").value * 1;
 			}
-			document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
-			document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[0].infusate_concentration + "mcg/ml)</span>";
-			document.getElementById("modelname").innerHTML = "Cattai";
-		}
-		if (ElModel.value == "Sano") {
-			age = 0; //not used in fentanyl
-			document.getElementById("age").style.display = "none";
-			if (document.getElementById("select_fendilution").value == "custom") {
-				drug_sets[0].infusate_concentration = document.getElementById("fendilution").innerHTML *1;
+			if (select_fen_weightadjusted.value == "0") {
+				drug_sets[0].modeltext = `
+				Shafer (no coparameters) (Anesthesiology 1990;73(6):1091-1102) <br>
+				vc = ${drug_sets[0].vc} <br>
+				v2 = 28.1 <br>
+				v3 = 228 <br>
+				k10 = ${drug_sets[0].k10} <br>
+				k12 = ${drug_sets[0].k12} <br>
+				k13 = ${drug_sets[0].k13} <br>
+				k21 = ${drug_sets[0].k21} <br>
+				k31 = ${drug_sets[0].k31} <br>
+				ke0 = ${drug_sets[0].k41} <br>
+				ke0 derived from t1/2ke0 of 6.6min (Scott & Stanski, Anesthesiology 1991;74:34042)
+				`;
+	  		drug_sets[0].fentanyl_weightadjusted_flag = 0;
+	  	} else {
+				drug_sets[0].modeltext = `
+				Shafer (Anesthesiology 1990;73(6):1091-1102) <br>
+				PK model adjusted for body weight using formulas by Shibutani (Anesthesiology 2004;101:603-13) <br>
+				vc = ${drug_sets[0].vc} <br>
+				v2 = 28.1 <br>
+				v3 = 228 <br>
+				k10 = ${drug_sets[0].k10} <br>
+				k12 = ${drug_sets[0].k12} <br>
+				k13 = ${drug_sets[0].k13} <br>
+				k21 = ${drug_sets[0].k21} <br>
+				k31 = ${drug_sets[0].k31} <br>
+				ke0 = ${drug_sets[0].k41} <br>
+				ke0 derived from t1/2ke0 of 6.6min (Scott & Stanski, Anesthesiology 1991;74:34042)
+				`;
+	  		drug_sets[0].fentanyl_weightadjusted_factor = (1+(196.4*Math.exp(-0.025*mass)-53.66)/100);
+	  		drug_sets[0].fentanyl_weightadjusted_flag = 1;
+	  	}
+	  	document.getElementById("modeldescription").innerHTML = drug_sets[0].modeltext;
+	  }
+
+		if ((paedi_mode ==0) && (document.getElementById("select_model").value == "Maitre")) {
+			if (document.getElementById("select_alfendilution").value == "custom") {
+				drug_sets[0].infusate_concentration = document.getElementById("alfendilution").innerHTML *1;
 			} else {
-				drug_sets[0].infusate_concentration = document.getElementById("select_fendilution").value * 1;
+				drug_sets[0].infusate_concentration = document.getElementById("select_alfendilution").value * 1;
 			}
-			//document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
-			document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[0].infusate_concentration + "mcg/ml)</span>";
-			document.getElementById("modelname").innerHTML = "Sano";
+			document.querySelector("#bolus3>.bolus_inside").innerHTML = "300" + "<span class='infused_units'></span>";
+			document.querySelector("#bolus3").setAttribute("onclick","bolusadmin(300,0)");
+			document.querySelector("#bolus2>.bolus_inside").innerHTML = "200" + "<span class='infused_units'></span>";
+			document.querySelector("#bolus2").setAttribute("onclick","bolusadmin(200,0)");
+			document.querySelector("#bolus1>.bolus_inside").innerHTML = "100" + "<span class='infused_units'></span>";
+			document.querySelector("#bolus1").setAttribute("onclick","bolusadmin(100,0)");
 		}
 
+	  if (paedi_mode == 0) {
+			if ((document.getElementById("select_model").value === "Minto") || (document.getElementById("select_model").value === "Eleveld-Remifentanil")) {
+	  		document.getElementById("drugname").innerHTML = "Remifentanil <span style='opacity:0.5'>(" + drug_sets[drug_sets_index].infusate_concentration + "mcg/ml)</span>";
+	  		document.getElementById("card_retrospective").style.display = "none";
+	  		document.getElementById("card_wakeup").style.display = "none";
+	  	}
+	  } else {
+			if (document.getElementById("select_model_paedi").value === "Eleveld-Remifentanil") {
+	  		document.getElementById("drugname").innerHTML = "Remifentanil <span style='opacity:0.5'>(" + drug_sets[drug_sets_index].infusate_concentration + "mcg/ml)</span>";
+	  		document.getElementById("card_retrospective").style.display = "none";
+	  		document.getElementById("card_wakeup").style.display = "none";
+	  	}
+	  }
 
-		//off chart legend
-		myChart.legend.options.display = false;
-		complex_mode = 0;
-			  	document.getElementById("card_retrospective").style.display = "none";
-		  	document.getElementById("card_wakeup").style.display = "none";
-		  			document.getElementById("rescuebuttons").style.display="none";
+		if ((paedi_mode == 0) && (document.getElementById("select_model").value === "Shafer"))  {
+	  	document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[drug_sets_index].infusate_concentration + "mcg/ml)</span>";
+
+	  	document.getElementById("card_retrospective").style.display = "none";
+	  	document.getElementById("card_wakeup").style.display = "none";
+	  }
+
+		if ((paedi_mode == 0) && (document.getElementById("select_model").value === "Maitre"))  {
+	  	document.getElementById("drugname").innerHTML = "Alfentanil <span style='opacity:0.5'>(" + drug_sets[drug_sets_index].infusate_concentration + "mcg/ml)</span>";
+
+	  	document.getElementById("card_retrospective").style.display = "none";
+	  	document.getElementById("card_wakeup").style.display = "none";
+	  }
 
 		var conc_units_fields = document.getElementsByClassName("conc_units");
 		for (i=0; i<conc_units_fields.length; i++) {
-			conc_units_fields[i].innerHTML = drug_sets[active_drug_set_index].conc_units;
+			conc_units_fields[i].innerHTML = drug_sets[drug_sets_index].conc_units;
 		}
 		var infused_units_fields = document.getElementsByClassName("infused_units");
 		for (i=0; i<infused_units_fields.length; i++) {
-			infused_units_fields[i].innerHTML = drug_sets[active_drug_set_index].infused_units;
+			infused_units_fields[i].innerHTML = drug_sets[drug_sets_index].infused_units;
 		}
-		loadoptions();
-		applyoptions();
-		return 0; //0=proceed
-		//end validation ok
-	} else {
+
+		if (drug_sets[0].drug_name == "Propofol") {
+			myChart.options.scales.y.title.text = "Concentration (mcg/ml)";
+		} else {
+			myChart.options.scales.y.title.text = "Concentration (ng/ml)";
+		}
+		
+		if (age<0 || age>=100) {
+			validateText = validateText.concat("Invalid age (accepted range >0 to <100y)" + "<br>");
+			document.getElementById("inputAge").value = "";
+		}
+		if (mass<=0 || mass>=200) {
+			validateText = validateText.concat("Invalid body weight (accepted range >0 to <200kg)" + "<br>");
+			document.getElementById("inputBW").value = "";
+		}
+		if ((height<=0 || height>=250) && (ElModel.value=="Schnider" || ElModel.value=="Eleveld")) {
+			validateText = validateText.concat("Invalid body height (accepted range >0 to <250cm)" + "<br>");
+			document.getElementById("inputBH").value = "";
+		}
+		if (age<12 && (ElModel.value=="Marsh" || ElModel.value=="Schnider" || ElModel.value=="Minto" || ElModel.value=="Shafer" || ElModel.value=="Maitre")) {
+			validateText = validateText.concat("Invalid model: not suitable for children." + "<br>");
+		}
+		if (mass>=80 && ElModel.value=="Shafer") {
+			if (select_fen_weightadjusted.value == "0") {
+				validateText = validateText.concat("Warning: Original Shafer model not adjusted to body weight and not recommended for obese. Please select Weight Adjusted model." + "<br>");
+			}
+		}
+		if (age>15 && ElModel.value=="Paedfusor") {
+			validateText = validateText.concat("Invalid model: Paedfusor not suitable for adults." + "<br>");
+		}
+
+		if (document.getElementById("select_remidilution").value == "custom") {
+
+			temp = document.getElementById("remidilution").innerHTML * 1 ;
+			if (temp > 100 || temp < 0.1) {
+				validateText = validateText.concat("Invalid remifentanil dilution: must be within 0.1-100mcg/ml" + "<br>");
+			}
+			document.getElementById("select_remidilution").value = "20";
+			document.getElementById("custom_remidilution").style.display = "none";
+		}
+		if (document.getElementById("select_fendilution").value == "custom") {
+			temp = document.getElementById("fendilution").innerHTML * 1 ;
+			if (temp > 100 || temp < 0.1) {
+				validateText = validateText.concat("Invalid fentanyl dilution: must be within 0.1-100mcg/ml" + "<br>");
+			}
+			document.getElementById("select_fendilution").value = "10";
+			document.getElementById("custom_fendilution").style.display = "none";
+		}
+
+		
+		var x = drug_sets[drug_sets_index].drug_name + " (" + ElModel.value + ")";
+		document.getElementById("page2title").innerHTML = x;
+		if ((ElModel.value == "Shafer") && (drug_sets[0].fentanyl_weightadjusted_flag == 1)) document.getElementById("page2title").innerHTML = "Fentanyl (Shafer: Weight adjusted)";
+	}
+	
+
+	if (validateText != "") {
 		displayWarning("Invalid input",validateText);
 		return 1; //1=error
-		//end validation error
+	} else {
+		return 0; //0=proceed
 	}
-
-
 }
 function initcpt() {
 	document.getElementById("card_infusion0").style.display = "none";
@@ -2935,7 +3060,6 @@ function preview_cpt(x,ind) {
 	drug_sets[ind].previewhistorytext = "";
 	if (drug_sets[ind].previewhistoryarray == undefined) drug_sets[ind].previewhistoryarray = new Array();
 	//new code
-	//drug_sets[ind].historytext = "";
 	drug_sets[ind].previewhistoryarray.length = 0;
 	if (drug_sets[ind].fentanyl_weightadjusted_flag == 1) {
 		drug_sets[ind].fentanyl_weightadjusted_target_uncorrected = drug_sets[ind].desired;
@@ -2982,8 +3106,8 @@ function preview_cpt(x,ind) {
 		drug_sets[ind].cpt_bolus = 0;
 	}
 
-	//new first pass
-	
+//new first pass
+
 	//new code
 	//if (effect_flag == 0) {
 		scheme_bolusadmin(drug_sets[ind].cpt_bolus, ind);
@@ -3002,7 +3126,7 @@ function preview_cpt(x,ind) {
 		//drug_sets[ind].historyarrays.push([1,1,working_clock,drug_sets[ind].cpt_bolus]);
 	//}
 	//
-	
+
 	cpt_pause = 0;
 	if (est_cp >= drug_sets[ind].desired) {
 		while (est_cp>=drug_sets[ind].desired) {
@@ -3101,84 +3225,29 @@ function preview_cpt(x,ind) {
 			//console.log("est cp" + est_cp);
 	}
 
-	//determine new thresholds
-	if (drug_sets[ind].drug_name == "Fentanyl") {
+	if (drug_sets[ind].drug_name == "Alfentanil") {
 		if (cpt_threshold_auto == 1) {
-			if (drug_sets[ind].cpt_rates[5]*360 > 20) {
-				cpt_threshold = 0.1;
-				cpt_avgfactor = 0.5;
+			if (drug_sets[ind].cpt_rates[5]*360 > 100) {
+				cpt_threshold = 0.15;
+				cpt_avgfactor = 0.63;
 			} else {
-				cpt_threshold = 0.07;
-				cpt_avgfactor = 0.6;
+				cpt_threshold = 0.25;
+				cpt_avgfactor = 0.44;
 				//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 			}
-		} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.1;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.6;
-				}
 		}
 	} else {
-		//this is propofol
-		if (drug_sets[0].model_name == "Cattai-Propofol") {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 40) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
+		if (cpt_threshold_auto == 1) {
+			if (drug_sets[ind].cpt_rates[5]*360 > 40) {
+				cpt_threshold = 0.08;
+				cpt_avgfactor = 0.667;
 			} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-				}
-			}
-		} else if (drug_sets[0].model_name == "Cattai-Propofol-Cats") {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 8) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
-			} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-				}
-			}
-		} else {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 40) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.66;
-				} else {
-					cpt_threshold = 0.05;
-					cpt_avgfactor = 0.6;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
+				cpt_threshold = 0.05;
+				cpt_avgfactor = 0.62;
+				//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 			}
 		}
 	}
-
-
 
 	//second pass
 
@@ -3422,9 +3491,6 @@ function preview_cpt(x,ind) {
 					//	test_rate = Math.ceil((cpt_rates[0]+cpt_rates[1])/2*360)/360;
 					//} else { //normal scenario
 					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
-					if ((drug_sets[ind].drug_name == "Fentanyl") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*roundingfactor)/roundingfactor};
-					if ((drug_sets[ind].model_name == "Cattai-Propofol") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
-					if ((drug_sets[ind].model_name == "Cattai-Propofol-Cats") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
 					//}
 					//if ((drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1) && (drug_sets[ind].cpt_rates[0]>0) && (drug_sets[ind].cpt_rates[0]>drug_sets[ind].cpt_rates[1])) {
 					//	for (k=0; k<120; k++) {drug_sets[ind].cpt_rates_real.push(test_rate);}
@@ -3477,7 +3543,6 @@ function preview_cpt(x,ind) {
 		drug_sets[ind].preview_rate = 0;	
 	} else {
 		drug_sets[ind].preview_rate = Math.round(drug_sets[ind].previewhistoryarray[0][1]*3600/drug_sets[ind].infusate_concentration*10)/10;
-		
 	}
 	drug_sets[ind].preview_downtrend = (drug_sets[ind].cpt_rates_real[working_clock-1] > test_rate);
 }
@@ -3642,6 +3707,7 @@ function displaypreview_hide_onsubmit() {
 
 		}
 	}
+
 
 }
 	
@@ -3815,10 +3881,10 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		if (drug_sets[ind].cpt_bolus>=90) {
 			drug_sets[ind].cpt_bolus = Math.round(drug_sets[ind].cpt_bolus/10)*10;
 		} else if (drug_sets[ind].cpt_bolus>1) {
-			if ((mass>30) && (drug_sets[ind].cpt_bolus>=40)) {
+			if ((mass>30) && (drug_sets[ind].cpt_bolus>=30)) {
 				drug_sets[ind].cpt_bolus = Math.ceil(drug_sets[ind].cpt_bolus/5)*5; //round up to nearest 5mg
 			} else {
-				drug_sets[ind].cpt_bolus = Math.ceil(drug_sets[ind].cpt_bolus);
+				drug_sets[ind].cpt_bolus = Math.ceil(drug_sets[ind].cpt_bolus) ;
 			}
 		} else {
 			drug_sets[ind].cpt_bolus = 0;
@@ -3889,8 +3955,6 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		e_state2[3] = e_state3[3];
 		e_state2[4] = e_state3[4];
 	}
-
-
 
 	//first pass
 	for (i=0; i<180; i++) {
@@ -3984,7 +4048,6 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 	*/
 
 	//determine threshold
-	/*
 	if (drug_sets[ind].drug_name == "Alfentanil") {
 		if (cpt_threshold_auto == 1) {
 			if (drug_sets[ind].cpt_rates[5]*360 > 100) {
@@ -3998,101 +4061,23 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 		}
 	} else {
 		if (cpt_threshold_auto == 1) {
-			if (drug_sets[ind].cpt_rates[5]*360 > 40) {
+			if (drug_sets[ind].cpt_rates[5]*360 >= 30) {
 				cpt_threshold = 0.08;
 				cpt_avgfactor = 0.667;
 			} else {
-				cpt_threshold = 0.13;
-				cpt_avgfactor = 0.55;
+				cpt_threshold = 0.05;
+				cpt_avgfactor = 0.62;
 				//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 			}
 		}
 	}
-	*/
 
-	//determine new thresholds
-	if (drug_sets[ind].drug_name == "Fentanyl") {
-		if (cpt_threshold_auto == 1) {
-			if (drug_sets[ind].cpt_rates[5]*360 > 20) {
-				cpt_threshold = 0.1;
-				cpt_avgfactor = 0.5;
-			} else {
-				cpt_threshold = 0.07;
-				cpt_avgfactor = 0.6;
-				//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-			}
-		} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.1;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.6;
-				}
-		}
-	} else {
-		if (drug_sets[0].model_name == "Cattai-Propofol") {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 40) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
-			} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-				}
-			}
-		} else if (drug_sets[0].model_name == "Cattai-Propofol-Cats") {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 8) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
-			} else {
-				x = document.getElementById("select_threshold").value * 1;
-				if (x == 1) { //lazy
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.5;
-				} else {
-					cpt_threshold = 0.07;
-					cpt_avgfactor = 0.5;
-				}
-			}
-		} else {
-			if (cpt_threshold_auto == 1) {
-				if (drug_sets[ind].cpt_rates[5]*360 > 40) {
-					cpt_threshold = 0.08;
-					cpt_avgfactor = 0.66;
-				} else {
-					cpt_threshold = 0.05;
-					cpt_avgfactor = 0.6;
-					//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
-				}
-			}
-		}
-	}
-
-	
 
 	//new second pass (downsample infusion rates from cpt_rates and write to cpt_rates_real)
 
 	
 	//automatically determine high or low rounding factor (3600->round to 0.1, 360->round to 1)
-	if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<40/360)) {
+	if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<30/360)) {
 		var roundingfactor = 3600;
 	} else {
 		if (drug_sets[ind].drug_name == "Propofol") {
@@ -4413,19 +4398,16 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 					//	test_rate = Math.ceil((cpt_rates[0]+cpt_rates[1])/2*360)/360;
 					//} else { //normal scenario
 					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
-					if ((drug_sets[ind].drug_name == "Fentanyl") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*roundingfactor)/roundingfactor};
-					if ((drug_sets[ind].model_name == "Cattai-Propofol") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
-					if ((drug_sets[ind].model_name == "Cattai-Propofol-Cats") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
 					//}
 					if ((drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1) && (drug_sets[ind].cpt_rates[0]>0) && (drug_sets[ind].cpt_rates[0]>drug_sets[ind].cpt_rates[1])) {
-						for (k=0; k<cpt_interval; k++) {drug_sets[ind].cpt_rates_real.push(test_rate);}
+						for (k=0; k<120; k++) {drug_sets[ind].cpt_rates_real.push(test_rate);}
 					}
-					for (k=drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval; k<j*cpt_interval; k++) {
+					for (k=drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120; k<j*120; k++) {
 							drug_sets[ind].cpt_rates_real.push(test_rate);
 					}
-					console.log(test_rate*3600/10 + " - from " + drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval + " to " + j*cpt_interval + "s");
+					console.log(test_rate*3600/10 + " - from " + drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120 + " to " + j*120 + "s");
 
-					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval;
+					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120;
 
 					var rate1 = Math.round(test_rate*3600/drug_sets[ind].infusate_concentration*10)/10;
 					var rate2 = Math.round(rate1*drug_sets[ind].infusate_concentration*drug_sets[ind].inf_rate_permass_factor/mass*drug_sets[ind].inf_rate_permass_dp)/drug_sets[ind].inf_rate_permass_dp;
@@ -4444,12 +4426,12 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 
 				if (j==179) {
 					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
-					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval;
+					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120;
 					var rate1 = Math.round(test_rate*3600/drug_sets[ind].infusate_concentration*10)/10;
 					var rate2 = Math.round(rate1*drug_sets[ind].infusate_concentration*drug_sets[ind].inf_rate_permass_factor/mass*drug_sets[ind].inf_rate_permass_dp)/drug_sets[ind].inf_rate_permass_dp;
 					drug_sets[ind].historytext = drug_sets[ind].historytext.concat("<div class='schemeinf' data-time='" + relativetime + "'>" + "<div class='timespan'>" + converttime(relativetime) + "</div>" + rate1 + "ml/h " + "<span style='opacity:0.5'>(" + rate2 + drug_sets[ind].inf_rate_permass_unit + ")</span></div>");	
 					drug_sets[ind].historyarray.push([relativetime, test_rate]);
-					for (k=drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval; k<21600; k++) {
+					for (k=drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120; k<21600; k++) {
 							drug_sets[ind].cpt_rates_real.push(test_rate);
 					}
 
@@ -4516,10 +4498,11 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 			myChart.data.datasets[ind*2+2].data.push({x:(working_clock+j)/60, y:temp_result});
 			myChart.data.datasets[ind*2+3].data.push({x:(working_clock+j)/60, y:temp_result_e});			
 		}
-		if ((j>=120*60) && (j%120==0)) {
+		if ((j>=12*60) && (j%120==0)) {
 			myChart.data.datasets[ind*2+2].data.push({x:(working_clock+j)/60, y:temp_result});
 			myChart.data.datasets[ind*2+3].data.push({x:(working_clock+j)/60, y:temp_result_e});			
 		}
+
 	}
 	
 	
@@ -4840,11 +4823,10 @@ function preview_cet(x,ind) {
 			console.log("cet_pause" + cet_pause);
 			//optimize breakpoint - if cet_pause is long, allow later start of deliverCPT
 			//new formula, see wikipedia - sigmoid curve - use that formula - normalize the curve, center on 300, x axis varies from -6 to +6
-			//sigmoidx = (cet_pause - 50)/50;
-			//sigmoid = 1/(1+Math.exp(-sigmoidx));
-			//sigmoidcorrfactor = 0.5 * sigmoid;
-			//breakpoint = Math.floor((cet_pause - cpt_pause)*sigmoidcorrfactor + cpt_pause);
-			breakpoint = Math.floor((cet_pause-cpt_pause)*0.1 + cpt_pause);
+			sigmoidx = (cet_pause - 300)/50;
+			sigmoid = 1/(1+Math.exp(-sigmoidx));
+			sigmoidcorrfactor = 0.5 * sigmoid + 0.3; //this will make sure the corrfactor min = 0.3, max = 0.8
+			breakpoint = Math.floor((cet_pause - cpt_pause)*sigmoidcorrfactor + cpt_pause);
 			
 			console.log("entering breakpoint -- " + breakpoint);
 			for (i=0; i<breakpoint; i++) {
@@ -4871,9 +4853,10 @@ function preview_cet(x,ind) {
 			}
 
 			est_cp = p_state3[1] + p_state3[2] + p_state3[3];
-			//var compensation = (drug_sets[ind].desired*1.01 - est_cp)/drug_sets[ind].p_udf[1];
 			compensation = 0;
-			console.log("compensation, over 1secs, " + compensation);
+			//var compensation = (drug_sets[ind].desired*1.01 - est_cp)/drug_sets[ind].p_udf[1];
+
+			//console.log("compensation, over 1secs, " + compensation);
 
 			//myChart.data.datasets[2].hidden = false;
 			//myChart.data.datasets[3].hidden = false;
@@ -5092,25 +5075,25 @@ function preview_cet(x,ind) {
 
 			}//end for
 			//threshold determination
-			if (drug_sets[ind].drug_name == "Fentanyl") {
+			if (drug_sets[ind].drug_name == "Alfentanil") {
 				if (cpt_threshold_auto == 1) {
 					if (drug_sets[ind].cpt_rates[5]*360 > 100) {
-						cpt_threshold = 0.1;
-						cpt_avgfactor = 0.5;
+						cpt_threshold = 0.15;
+						cpt_avgfactor = 0.63;
 					} else {
-						cpt_threshold = 0.07;
-						cpt_avgfactor = 0.6;
+						cpt_threshold = 0.25;
+						cpt_avgfactor = 0.44;
 						//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 					}
 				}
 			} else {
 				if (cpt_threshold_auto == 1) {
-					if (drug_sets[ind].cpt_rates[5]*360 > 40) {
+					if (drug_sets[ind].cpt_rates[5]*360 >= 30) {
 						cpt_threshold = 0.08;
-						cpt_avgfactor = 0.66;
+						cpt_avgfactor = 0.667;
 					} else {
 						cpt_threshold = 0.05;
-						cpt_avgfactor = 0.6;
+						cpt_avgfactor = 0.62;
 						//if (cpt_bolus>0) cpt_bolus = cpt_bolus +5; // up the bolus
 					}
 				}
@@ -5118,7 +5101,7 @@ function preview_cet(x,ind) {
 
 			//second pass
 			//automatically determine high or low rounding factor (3600->round to 0.1, 360->round to 1)
-			if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<40/360)) {
+			if ((paedi_mode == 1) || (drug_sets[ind].cpt_rates[5]<30/360)) {
 				var roundingfactor = 3600;
 			} else {
 				if (drug_sets[ind].drug_name == "Propofol") {
@@ -5187,7 +5170,7 @@ function preview_cet(x,ind) {
 				}
 
 				if (j==59) {
-					test_rate = Math.round((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]+drug_sets[ind].cpt_rates[j])/2*roundingfactor)/roundingfactor;
+					test_rate = Math.round(((drug_sets[ind].cpt_rates[drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]]-drug_sets[ind].cpt_rates[j])*cpt_avgfactor+drug_sets[ind].cpt_rates[j])*roundingfactor)/roundingfactor;
 					relativetime = working_clock+drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*120;
 					var rate1 = Math.round(test_rate*3600/drug_sets[ind].infusate_concentration*10)/10;
 					var rate2 = Math.round(rate1*drug_sets[ind].infusate_concentration*drug_sets[ind].inf_rate_permass_factor/mass*drug_sets[ind].inf_rate_permass_dp)/drug_sets[ind].inf_rate_permass_dp;
@@ -5455,12 +5438,11 @@ function deliver_cet_real(x, ind) {
 			console.log("cet_pause" + cet_pause);
 			//optimize breakpoint - if cet_pause is long, allow later start of deliverCPT
 			//new formula, see wikipedia - sigmoid curve - use that formula - normalize the curve, center on 300, x axis varies from -6 to +6
-			//recenter on 100
-			//sigmoidx = (cet_pause - 50)/50;
-			//sigmoid = 1/(1+Math.exp(-sigmoidx));
-			//sigmoidcorrfactor = 0.5 * sigmoid + 0.2; //this will make sure the corrfactor min = 0.2, max = 0.8.
-			//breakpoint = Math.floor((cet_pause - cpt_pause)*sigmoidcorrfactor + cpt_pause);
-			breakpoint = Math.floor((cet_pause-cpt_pause)*0.1 + cpt_pause);
+			sigmoidx = (cet_pause - 300)/50;
+			sigmoid = 1/(1+Math.exp(-sigmoidx));
+			sigmoidcorrfactor = 0.5 * sigmoid + 0.3; //this will make sure the corrfactor min = 0.3, max = 0.8
+			breakpoint = Math.floor((cet_pause - cpt_pause)*sigmoidcorrfactor + cpt_pause);
+			
 			console.log("entering breakpoint -- " + breakpoint);
 			for (i=0; i<breakpoint; i++) {
 
@@ -5486,8 +5468,10 @@ function deliver_cet_real(x, ind) {
 			}
 
 			est_cp = p_state3[1] + p_state3[2] + p_state3[3];
-			//var compensation = (drug_sets[ind].desired*1.01 - est_cp)/drug_sets[ind].p_udf[1];
+
+			//var compensation = (drug_sets[ind].desired - est_cp)/drug_sets[ind].p_udf[1];
 			compensation = 0;
+
 			console.log("compensation, over 1secs, " + compensation);
 
 			//myChart.data.datasets[2].hidden = false;
@@ -6290,26 +6274,6 @@ function find_trough(temp_trough,temp_time,temp_peak) {
 		    }
 		}
 		return temp_time+i;
-}
-
-function find_decrement_cp_level(temp_target,temp_limit) {
-	let working_clock = Math.floor(time_in_s);
-    temp1 = drug_sets[active_drug_set_index].cpt_cp[working_clock-1][0];
-    temp2 = drug_sets[active_drug_set_index].cpt_cp[working_clock-1][1];
-    temp3 = drug_sets[active_drug_set_index].cpt_cp[working_clock-1][2];
-    value = temp1+temp2+temp3;
-    console.log('entering find decrement cp, cp is now ' + value);
-    let cpcounter;
-    for (cpcounter=0; cpcounter<temp_limit; cpcounter++) {
-    	test_trough = virtual_model(temp1,temp2,temp3,0,cpcounter,0,active_drug_set_index);
-    	if (test_trough < temp_target) {
-    		console.log(">>found trough CP level at " + cpcounter);
-    		console.log(">>the cp is " + test_trough);
-    		break;
-    	}
-    }
-    return working_clock + cpcounter;
-    
 }
 
 function scheme_bolusadmin(x, ind) {
@@ -7393,6 +7357,7 @@ function timeFxResume(parametertime) {
 	    updatechart(myChart);
 	}
 }
+
 
 function ptol_generate_margins(ind,param1,param2) {
 	//this is resource intensive
@@ -8782,7 +8747,7 @@ function calculate_udfs(drug_sets_index) {
 	cube(drug_sets[drug_sets_index].k10, drug_sets[drug_sets_index].k12, drug_sets[drug_sets_index].k21, drug_sets[drug_sets_index].k13, drug_sets[drug_sets_index].k31, drug_sets[drug_sets_index].lambda);
 	drug_sets[drug_sets_index].p_coef[4]=0;
 	drug_sets[drug_sets_index].lambda[4] = drug_sets[drug_sets_index].k41;
-	if (drug_sets[drug_sets_index].k31 > 0) {
+
 		drug_sets[drug_sets_index].p_coef[1] = (drug_sets[drug_sets_index].k21 - drug_sets[drug_sets_index].lambda[1]) * (drug_sets[drug_sets_index].k31 - drug_sets[drug_sets_index].lambda[1]) / 
 			(drug_sets[drug_sets_index].lambda[1] - drug_sets[drug_sets_index].lambda[2]) / 
 			(drug_sets[drug_sets_index].lambda[1] - drug_sets[drug_sets_index].lambda[3]) / 
@@ -8803,15 +8768,7 @@ function calculate_udfs(drug_sets_index) {
 			(drug_sets[drug_sets_index].lambda[1] - drug_sets[drug_sets_index].k41) / 
 			(drug_sets[drug_sets_index].lambda[2] - drug_sets[drug_sets_index].k41) / 
 			(drug_sets[drug_sets_index].lambda[3] - drug_sets[drug_sets_index].k41) / drug_sets[drug_sets_index].vc;
-	} else if (drug_sets[drug_sets_index].k21 > 0) {
-		drug_sets[drug_sets_index].p_coef[1] = (drug_sets[drug_sets_index].k21 - drug_sets[drug_sets_index].lambda[1]) / (drug_sets[drug_sets_index].lambda[2] - drug_sets[drug_sets_index].lambda[1]) / drug_sets[drug_sets_index].vc / drug_sets[drug_sets_index].lambda[1];
-		drug_sets[drug_sets_index].p_coef[2] = (drug_sets[drug_sets_index].k21 - drug_sets[drug_sets_index].lambda[2]) / (drug_sets[drug_sets_index].lambda[1] - drug_sets[drug_sets_index].lambda[2]) / drug_sets[drug_sets_index].vc / drug_sets[drug_sets_index].lambda[2];
-		drug_sets[drug_sets_index].p_coef[3] = 0;
-		drug_sets[drug_sets_index].e_coef[1] = drug_sets[drug_sets_index].p_coef[1] / (drug_sets[drug_sets_index].k41 - drug_sets[drug_sets_index].lambda[1]) * drug_sets[drug_sets_index].k41;
-		drug_sets[drug_sets_index].e_coef[2] = drug_sets[drug_sets_index].p_coef[2] / (drug_sets[drug_sets_index].k41 - drug_sets[drug_sets_index].lambda[2]) * drug_sets[drug_sets_index].k41;
-		drug_sets[drug_sets_index].e_coef[3] = 0;
-		drug_sets[drug_sets_index].e_coef[4] = (drug_sets[drug_sets_index].k21 - drug_sets[drug_sets_index].k41) / (drug_sets[drug_sets_index].lambda[1] - drug_sets[drug_sets_index].k41) / (drug_sets[drug_sets_index].lambda[2] - drug_sets[drug_sets_index].k41) / drug_sets[drug_sets_index].vc;
-	}
+		
 
 	temp1 = 0;
 	temp2 = 0;
@@ -8918,10 +8875,15 @@ function switchpaedimode(arg) {
 			document.getElementById("row_fen_weightadjusted").style.display = "none";
 			document.getElementById("row_height").style.display = "table-row";
 			document.getElementById("row_fen_weightadjusted").style.display = "none";
-
+			if (document.getElementById("select_model").value == "Eleveld") {
+				document.getElementById("row_eleveldopioid").style.display = "table-row";	
+			} else {
+				document.getElementById("row_eleveldopioid").style.display = "none";	
+			}
 			
 
 		}
+		document.getElementById("rescuebuttons").style.display = "block";
 		paedi_mode = 0;
 	} else {
 		//paedi mode 1
@@ -8948,6 +8910,12 @@ function switchpaedimode(arg) {
 			document.getElementById("row_PMA_paedimode").style.display = "none";
 			document.getElementById("row_remidilution").style.display = "table-row";
 		}
+		if (document.getElementById("select_model_paedi").value == "Eleveld") {
+				document.getElementById("row_eleveldopioid").style.display = "table-row";	
+			} else {
+				document.getElementById("row_eleveldopioid").style.display = "none";	
+			}
+		document.getElementById("rescuebuttons").style.display = "none";
 		paedi_mode = 1;
 	}
 
@@ -9066,7 +9034,6 @@ function readmodel(x, drug_set_index) {
 	}
 	if (x == "Eleveld") {
 
-		var opioid = 1; // arbitralily set YES to intraop opioids;
 		const toweeks = 52.1429;
 		if (paedi_mode == 0) {
 			PMA = age*toweeks+40; //arbitrarily set PMA 40 weeks +age	
@@ -9090,10 +9057,18 @@ function readmodel(x, drug_set_index) {
 		}
 		var v3ref = 273; //just use this from the table
 		if (gender == 0) { 
-			var cl1 = 1.79 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40))* Math.exp(-0.00286*age) ;
+			if (opioid == 1) {
+				var cl1 = 1.79 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40))* Math.exp(-0.00286*age) ;
+			} else {
+				var cl1 = 1.79 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40)) ;
+			}
 			//maturation valid for ~<5months according to Eleveld 2018
 		} else {
-			var cl1 = 2.1 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40))* Math.exp(-0.00286*age) ;
+			if (opioid == 1) {
+				var cl1 = 2.1 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40))* Math.exp(-0.00286*age) ;
+			} else {
+				var cl1 = 2.1 * Math.pow(mass/70,0.75) * (fclmaturation(PMA)/fclmaturation(35*toweeks+40)) ;
+			}
 		}
 		var cl2 = 1.75 * Math.pow(v2/v2ref,0.75)* (1 + 1.3*(1-fq3maturation(age*toweeks)));
 		var cl3 = 1.11 * Math.pow(v3/v3ref,0.75)*(fq3maturation(age*toweeks)/fq3maturation(35*toweeks));
@@ -9103,8 +9078,14 @@ function readmodel(x, drug_set_index) {
 		drug_sets[drug_set_index].k13 = cl3 / drug_sets[drug_set_index].vc;
 		drug_sets[drug_set_index].k21 = cl2 / v2;
 		drug_sets[drug_set_index].k31 = cl3 / v3;
+		if (opioid == 1) {
+			opioidtext = "Assume: presence of concomitant opioid";	
+		} else {
+			opioidtext = "Propofol alone; assume absence of opioid"
+		}
+		
 		drug_sets[drug_set_index].modeltext = "Eleveld model (BJA 2018;120:942-959)" + "<br>" +
-		"Assume: presence of opioids" + "<br>" +
+		opioidtext + "<br>" +
 		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
 		"v2 = " + v2 + "<br>" + 
 		"v3 = " + v3 + "<br>" + 
@@ -9268,182 +9249,6 @@ function readmodel(x, drug_set_index) {
 		"k31 = " + drug_sets[drug_set_index].k31 + "<br>" +
 		"ke0 = " + drug_sets[drug_set_index].k41 + ";<br>" +
 		"ke0 derived from Scott & Stanski (J Pharmacol Exp Ther 1987;240:159-166)";
-	}
-	if (x == "Beths") {
-		drug_sets[drug_set_index].vc = 0.78 * mass;
-		drug_sets[drug_set_index].k10 = 0.07;
-		drug_sets[drug_set_index].k12 = 0.0365;
-		drug_sets[drug_set_index].k21 = 0.0312;
-		drug_sets[drug_set_index].k13 = 0.0049;
-		drug_sets[drug_set_index].k31 = 0.0011;
-		drug_sets[drug_set_index].k41 = 0.723; //J vet pharmacol therap 21:182-188
-		drug_sets[drug_set_index].modeltext = "Beths model for dogs (Vet Rec. 2001;148:198-203)" + "<br>" +
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
-		"k31 = " + drug_sets[drug_set_index].k31 + "<br>" + 
-		"ke0 = 0.723, from Bras (J Vet Pharmacol. Therap. 2008;32:182-188)";
-
-		drug_sets[drug_set_index].drug_name = "Propofol";
-		drug_sets[drug_set_index].conc_units = "mcg";
-		drug_sets[drug_set_index].infused_units = "mg";
-		drug_sets[drug_set_index].inf_rate_permass = 0;
-		drug_sets[drug_set_index].inf_rate_permass_factor = 1;
-		drug_sets[drug_set_index].inf_rate_permass_unit = "mg/kg/h";
-		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
-	}
-	if (x == "Cattai-Fentanyl") {
-		if (parseloading == 0) if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
-		if (gender == 0) {
-			genderfactor = 1;
-		} else {
-			genderfactor = 1.236;
-		}
-		drug_sets[drug_set_index].vc = 3.76 * genderfactor * Math.pow((mass / 15.1),0.89);
-		drug_sets[drug_set_index].k10 = 0.129;
-		drug_sets[drug_set_index].k12 = 0.141;
-		drug_sets[drug_set_index].k21 = 0.191;
-		drug_sets[drug_set_index].k13 = 0.0771;
-		drug_sets[drug_set_index].k31 = 0.01;
-		drug_sets[drug_set_index].k41 = 0;
-		drug_sets[drug_set_index].modeltext = "Cattai model for fentanyl in dogs (Vet Anaesth Analg. 2023;50:31-40)" + "<br>" +
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
-		"k31 = " + drug_sets[drug_set_index].k31 + "<br>";
-
-		drug_sets[drug_set_index].drug_name = "Fentanyl";
-		drug_sets[drug_set_index].conc_units = "ng";
-		drug_sets[drug_set_index].infused_units = "mcg";
-		drug_sets[drug_set_index].inf_rate_permass = 0;
-		drug_sets[drug_set_index].inf_rate_permass_factor = 1/60;
-		drug_sets[drug_set_index].inf_rate_permass_unit = "mcg/kg/m";
-		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
-	}
-	if (x == "Cattai-Propofol") {
-		if (parseloading == 0) {
-			age = document.getElementById("inputAge").value * 1;
-			if (document.getElementById("select_gender").value == "Male") {gender = 0} else {gender = 1};
-			if (document.getElementById("select_premed").value == "1") {state_premed = true} else {state_premed = false};
-			drug_sets[drug_set_index].state_premed = state_premed;
-		} else {
-			state_premed = object.P_patient[9];
-		}
-
-		if (mass <= 9) {
-			state_elderly_1 = (age >= 10) ? true:false;
-			state_elderly_2 = (age >= 11) ? true:false;
-		} else if (mass <= 25) {
-			state_elderly_1 = (age >= 9) ? true:false;
-			state_elderly_2 = (age >= 10) ? true:false;
-		} else if (mass <= 40) {
-			state_elderly_1 = (age >= 8) ? true:false;
-			state_elderly_2 = (age >= 9) ? true:false;
-		} else {
-			//>40
-			state_elderly_1 = (age >= 7) ? true:false;
-			state_elderly_2 = (age >= 8) ? true:false;
-		}
-		console.log("stateelderly1" + state_elderly_1 + "stateelderly2" + state_elderly_2);
-		if (state_premed == true) {
-			k_premed = 1.209;
-		} else {
-			k_premed = 1;
-		}
-		if (state_elderly_2 == true) {
-			k_ag2 = 1.521;
-		} else {
-			k_ag2 = 1;
-		}
-		if (gender == 0) {
-			k_sex = 1;
-		} else {
-			k_sex = 1-0.345;
-		}
-		if (state_elderly_1 == true) {
-			k_ag1 = 1.347;
-		} else {
-			k_ag1 = 1;
-		}
-		drug_sets[drug_set_index].vc = 1.48 * (1 + 0.0933 * (mass - 12.25));
-		drug_sets[drug_set_index].k10 = 0.382 * (1 + -0.0111 * (mass - 12.25)) * k_premed * k_ag2;
-		drug_sets[drug_set_index].k12 = 0.544;
-		drug_sets[drug_set_index].k21 = 0.228;
-		drug_sets[drug_set_index].k13 = 0.129 * k_sex * k_ag1;
-		drug_sets[drug_set_index].k31 = 0.00993;
-		drug_sets[drug_set_index].k41 = 0.723;
-
-		drug_sets[drug_set_index].modeltext = "Cattai-propofol model for dogs (Vet Anaesth Analg. 2019;48:568-578)" + "<br>" +
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
-		"k31 = " + drug_sets[drug_set_index].k31 + "<br>" + 
-		"ke0 = 0.723, from Bras (J Vet Pharmacol. Therap. 2008;32:182-188)";
-		if (state_premed == true) {
-			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume usage of acepromazine-based premed)");
-		} else {
-			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume usage of dexmedetomidine-based premed)");
-		}
-
-		drug_sets[drug_set_index].drug_name = "Propofol";
-		drug_sets[drug_set_index].conc_units = "mcg";
-		drug_sets[drug_set_index].infused_units = "mg";
-		drug_sets[drug_set_index].inf_rate_permass = 0;
-		drug_sets[drug_set_index].inf_rate_permass_factor = 1;
-		drug_sets[drug_set_index].inf_rate_permass_unit = "mg/kg/h";
-		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
-
-	}
-	if (x=="Sano") {
-		drug_sets[drug_set_index].vc = 1.5 * mass;
-		drug_sets[drug_set_index].k10 = 0.05;
-		drug_sets[drug_set_index].k12 = 0.09;
-		drug_sets[drug_set_index].k21 = 0.05;
-		drug_sets[drug_set_index].k13 = 0;
-		drug_sets[drug_set_index].k31 = 0;
-		drug_sets[drug_set_index].k41 = 0;
-		drug_sets[drug_set_index].drug_name = "Fentanyl";
-		drug_sets[drug_set_index].conc_units = "ng";
-		drug_sets[drug_set_index].infused_units = "mcg";
-		drug_sets[drug_set_index].inf_rate_permass = 0;
-		drug_sets[drug_set_index].inf_rate_permass_factor = 1/60;
-		drug_sets[drug_set_index].inf_rate_permass_unit = "mcg/kg/m";
-		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
-		drug_sets[drug_set_index].modeltext = "Sano model for dogs; two-compartment (Vet Anaesth Analg. 2006;33:266-273" + "<br>" + 
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" ;
-	}
-	if (x=="Cattai-Propofol-Cats") {
-		drug_sets[drug_set_index].vc = 0.35 * mass;
-		drug_sets[drug_set_index].k10 = 0.06;
-		drug_sets[drug_set_index].k12 = 0.1;
-		drug_sets[drug_set_index].k21 = 0.4;
-		drug_sets[drug_set_index].k13 = 0.04;
-		drug_sets[drug_set_index].k31 = 0.01;
-		drug_sets[drug_set_index].k41 = 0;
-		drug_sets[drug_set_index].modeltext = "Cattai model for cats (Vet Rec. 2016;178:503)" + "<br>" +
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
-		"k31 = " + drug_sets[drug_set_index].k31 + "<br>";
-
-		drug_sets[drug_set_index].drug_name = "Propofol";
-		drug_sets[drug_set_index].conc_units = "mcg";
-		drug_sets[drug_set_index].infused_units = "mg";
-		drug_sets[drug_set_index].inf_rate_permass = 0;
-		drug_sets[drug_set_index].inf_rate_permass_factor = 1;
-		drug_sets[drug_set_index].inf_rate_permass_unit = "mg/kg/h";
-		drug_sets[drug_set_index].inf_rate_permass_dp = 100;
 	}
 	/*
 	if (x == "Shafer (Weight adjusted)") {
@@ -9829,50 +9634,33 @@ function cube(k10, k12, k21, k13, k31, r) {
 	var r1;
 	var toradian;
 
-	if (k31 > 0) {
-		toradian = Math.asin(1.0) * 2.0 / 180.0;
-		/* first take roots of X^3 + a2X^2 + a1X^1 + a0 = 0 */
-	    /* where the coefficients are : */
-		a0 = k10 * k21 * k31;
-		a1 = k10 * k31 + k21 * k31 + k21 * k13 + k10 * k21 + k31 * k12;
-		a2 = k10 + k12 + k13 + k21 + k31;
+	toradian = Math.asin(1.0) * 2.0 / 180.0;
+	/* first take roots of X^3 + a2X^2 + a1X^1 + a0 = 0 */
+    /* where the coefficients are : */
+	a0 = k10 * k21 * k31;
+	a1 = k10 * k31 + k21 * k31 + k21 * k13 + k10 * k21 + k31 * k12;
+	a2 = k10 + k12 + k13 + k21 + k31;
 
-	    /* now transform to x^3 + px + q = 0 */
-		p = a1 - (a2 * a2 / 3.0);
-		q = (2 * a2 * a2 * a2 / 27.0) - (a1 * a2 / 3.0) + a0;
-		r1 = Math.sqrt(-(p * p * p) / 27.0);
-		phi = (-q / 2.0) / r1;
-		if (phi > 1)
-			phi = 1;
-		else if (phi < -1)
-			phi = -1;
-		phi = (Math.acos(phi) / 3.0);
-		r1 = 2.0 * Math.exp(Math.log(r1) / 3.0);
-		r[0] = -(Math.cos(phi) * r1 - a2 / 3.0);
-		r[1] = -(Math.cos(phi + 120.0 * toradian) * r1 - a2 / 3.0);
-		r[2] = -(Math.cos(phi + 240.0 * toradian) * r1 - a2 / 3.0);	
-	} else if (k21 > 0) {
-		    /* first take roots of X^2 - a1X^1 + a0 = 0 */
-    		/* where the coefficients are : */
-			a0 = k10 * k21;
-			a1 = -(k10 + k12 + k21);
-			r[0] = (-a1 + Math.sqrt(a1 * a1 - 4 * a0)) / 2;
-			r[1] = (-a1 - Math.sqrt(a1 * a1 - 4 * a0)) / 2;
-			r[2] = 0;
-	}
-	
-	if (k31 > 0) {
-		r.sort(function(a, b){return a-b});
-		r[3] = r[2];
-		r[2] = r[1];
-		r[1] = r[0];
-	} else if (k21 > 0) {
-		r.sort(function(a, b){return a-b});
-		r[3] = 0;
-		//r[2] = r[1];
-		//r[1] = r[0];
-	}
+    /* now transform to x^3 + px + q = 0 */
+	p = a1 - (a2 * a2 / 3.0);
+	q = (2 * a2 * a2 * a2 / 27.0) - (a1 * a2 / 3.0) + a0;
+	r1 = Math.sqrt(-(p * p * p) / 27.0);
+	phi = (-q / 2.0) / r1;
+	if (phi > 1)
+		phi = 1;
+	else if (phi < -1)
+		phi = -1;
+	phi = (Math.acos(phi) / 3.0);
+	r1 = 2.0 * Math.exp(Math.log(r1) / 3.0);
+	r[0] = -(Math.cos(phi) * r1 - a2 / 3.0);
+	r[1] = -(Math.cos(phi + 120.0 * toradian) * r1 - a2 / 3.0);
+	r[2] = -(Math.cos(phi + 240.0 * toradian) * r1 - a2 / 3.0);	
 
+	r.sort(function(a, b){return a-b});
+
+	r[3] = r[2];
+	r[2] = r[1];
+	r[1] = r[0];
 
 	//console.log(r[1], r[2], r[3]);
 }
@@ -9900,7 +9688,7 @@ function lookahead(bolusgiven, duration, ind) {
 		drug_sets[ind].historyarrays.push([0,2,working_clock,drug_sets[ind].inf_rate_mls]);
 		document.getElementById("historywrapper").innerHTML = drug_sets[ind].historytext;
 
-		var crosscheck = myChart.data.datasets[ind*2+2].data[myChart.data.datasets[ind*2+2].data.length - 1].y;
+		var crosscheck = myChart.data.datasets[ind*2+3].data[myChart.data.datasets[ind*2+3].data.length - 1].y;
 		//this is to prevent a very specific error -> in dual mode, if only start inf and not bolus, will hang
 		if ((drug_sets[ind].cpt_cp.length>0) && (drug_sets[ind].firstrun>-1) && (crosscheck>0)) {
 			myChart.data.datasets[ind*2+2].data.length = myChart.data.datasets[ind*2+2].data.findIndex((element)=>element.x>time_in_s/60);
@@ -10014,7 +9802,6 @@ function lookahead(bolusgiven, duration, ind) {
 	}
 	
 }
-
 
 function lookaheadfill(ind, inputTime, maxDuration) {
 	working_clock = inputTime;
@@ -10384,6 +10171,11 @@ function sendToValidate(arg) {
 		} else {
 			document.getElementById("row_remidilution").style.display = "none";
 		}
+		if (document.getElementById("select_model").value == "Eleveld") {
+			document.getElementById("row_eleveldopioid").style.display = "table-row";	
+		} else {
+			document.getElementById("row_eleveldopioid").style.display = "none";	
+		}
 	} else { //paedi mode 1
 		if (document.getElementById("select_model_paedi").value === "Eleveld-Remifentanil") {
 			document.getElementById("row_remidilution").style.display = "table-row";
@@ -10394,6 +10186,11 @@ function sendToValidate(arg) {
 			document.getElementById("row_PMA_paedimode").style.display = "table-row";
 		} else {
 			document.getElementById("row_PMA_paedimode").style.display = "none";
+		}
+		if (document.getElementById("select_model_paedi").value == "Eleveld") {
+			document.getElementById("row_eleveldopioid").style.display = "table-row";	
+		} else {
+			document.getElementById("row_eleveldopioid").style.display = "none";	
 		}
 	}
 	if (paedi_mode == 0) {
@@ -10509,53 +10306,36 @@ function toPageOne() {
 }
 
 function toPageTwo() {
-	document.getElementById("modalInitScreen1").style.display = "none";
-	document.getElementById("modalInitScreen2").style.display = "block";
-	document.getElementById("btn_initProceed").innerHTML = "Proceed";
-	document.getElementById("btn_initProceed").setAttribute("onclick","confirmProceed()");
-	document.getElementById("btn_disclaimer").style.display = "none";
-	document.getElementById("btn_about").style.display = "none";
-	document.getElementById("btn_back").style.display = "block";
-	document.getElementById("modalInitTitle").innerHTML = "Patient Data";
-	
-	document.getElementById("modalInitScreen2InfoLine1").innerHTML = document.getElementById("select_animal").options[document.getElementById("select_animal").selectedIndex].text;
-	if (document.getElementById("select_animal").value == "Dog") {
-		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model").options[document.getElementById("select_model").selectedIndex].text;
-		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-dog'></i>";
-	} else {
-		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model2").options[document.getElementById("select_model2").selectedIndex].text;
-		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-cat'></i>";
-	}
-}
+	if (initsubmit()==0) {
+		//alter the age thing here:
+		El9 = document.getElementById("patientRight");
+		if (paedi_mode == 0) {
+			El9.innerHTML = "Age: " + age + "years, " + document.getElementById("select_gender").value + "<br> BW: " + weight + "kg";
+		} else {
+			if (document.getElementById("inputPMA").value*1>0) {
+				El9.innerHTML = "Age: " + document.getElementById("inputAgePaedi").value + ageunit + " (PMA: " + document.getElementById("inputPMA").value*1 + "w) " + ", " + document.getElementById("select_gender").value + "<br> BW: " + weight + "kg";
+			} else {
+				El9.innerHTML = "Age: " + document.getElementById("inputAgePaedi").value + ageunit + ", " + document.getElementById("select_gender").value + "<br> BW: " + weight + "kg";
+			}
+		}
+		if (height>0) {El9.innerHTML = El9.innerHTML.concat(", BH: " + height + "cm")} else {};
+		El9.innerHTML = El9.innerHTML.concat("<div style='font-size:70%; border-top:1px solid rgb(167 203 168); padding-top:3px; margin-top:3px; margin-right:5px'>" + document.getElementById("valRightContainer2").innerHTML + "</div>");
 
-function goBack() {
-	document.getElementById("modalInitScreen1").style.display = "block";
-	document.getElementById("modalInitScreen2").style.display = "none";
-	document.getElementById("btn_initProceed").innerHTML = "Next";
-	document.getElementById("btn_initProceed").setAttribute("onclick","toPageTwo()");
-	document.getElementById("btn_disclaimer").style.display = "block";
-	document.getElementById("btn_about").style.display = "block";
-	document.getElementById("btn_back").style.display = "none";
-	document.getElementById("modalInitTitle").innerHTML = "Model Information";
-}
-
-function confirmProceed() {
-	if (initsubmit() == 0) {
+		toPageTwoTransition();
+		document.getElementById("rescuebuttons").style.display="none";
 		loadoptions();
-		applyoptions();
-		hideallmodal();
-		hidemodal('modalInitial');
-		if (document.getElementById("select_mode").value == "cpt") {
-			initcpt();	
-		}
-		if (document.getElementById("select_mode").value == "manual") {
-			initmanual(0);	
-		}
-		if (document.getElementById("select_mode").value == "cet") {
-			initcet();
-		}
+		if (complex_mode==0) applyoptions();
+	} else {
+		El4 = document.getElementById("checkConfirm");
+		El5 = document.getElementById("checkDisclaim");
+		El6 = document.getElementById("btn_initProceed");
+		El4.checked = "";
+		El5.checked = "";
+		El4.parentElement.style.borderBottomColor = "transparent";
+		El5.parentElement.style.borderBottomColor = "transparent";
+		El6.classList.add("disabled");
+		El6.removeEventListener("click", toPageTwo);
 	}
-	
 }
 
 function toPageTwoTransition() {
@@ -10602,40 +10382,83 @@ function displayDisclaimer() {
 }
 
 function displayAbout() {
-	text = `
-					<h1><b>SimTIVA.vet</b></h1>
-					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in small animals. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
-					<br>
-					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 19/3/2024 (build 5).
-					<br>
-					<br><i>The purpose of this app is to simulate TCI/TIVA for educational purposes; and to help deliver TCI/TIVA in a setting with no TCI pumps available.</i>
-					<br>
-					<br>Coding is done in Javascript. The code to the mathematical calculations are based on "STANPUMP", which is freely available from the link below. Details of the pharamcological are described in the 'Documentation' section. For instructions on using this app, visit the 'Help' page. 
-					<br>
-					<br>Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!</a>.
-              		<div class="collapsible" onclick="
-              			if (!this.classList.contains('active')) {this.classList.add('active');this.nextElementSibling.style.display='block';} else {this.classList.remove('active');this.nextElementSibling.style.display='none';}"">Acknowledgments & Licenses</div>
-              		<div class="collapsiblecontent">
-              			This project is made possible with the following-
-              			<br>
-              			<br><b>Contributions & Suggestions by Enzo Minghella</b>
-              			<br>
-              			<br><b>STANPUMP by Steven L. Shafer</b>
-              			<br>Freely available at <a href="http://opentci.org/code/stanpump"  target="_blank">OpenTCI-STANPUMP</a>
-              			<br>
-              			<br><b>Chart.js</b>
-              			<br><a href="http://chartjs.org"  target="_blank">Chart.js</a> is open source and available under the MIT license.
-              			<br>
-              			<br><b>Font Awesome Free</b>
-              			<br>SIL OFL 1.1 license applies to all icons packaged as font files. <a href="https://github.com/FortAwesome/Font-Awesome"  target="_blank">Source/License</a>
-              			<br>
-              			<br><b>LZ-String</b>
-              			<br>Copyright Pieroxy (2013) under MIT license, from <a href='https://pieroxy.net/blog/pages/lz-string/index.html' target='_blank'>pieroxy.net</a>, used for Javascript string compression.
-              			<br>
-              			<br><span style="color:#ccc">Source Sans font: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries, licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL).</span>
-              		</div>
-				`;
+	text = "<h1>SimTIVA is a computer simulation program to simulate delivery of total intravenous anaesthesia (TIVA) using a target-controlled infusion (TCI) pump. This progressive web app (PWA) is designed for use on smartphones, tablets and computers.</h1><br><b>Written by Terence Luk, 2024</b>. This work is licensed under GNU General Public License v3.0. Read more about the project <a href='https://simtiva.blogspot.com/2021/10/welcome.html' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!<br><br>This is an open source project and the source code is published on <a href='https://github.com/luktinghin/simtiva/' target='_blank'>GitHub</a>.<br>Last updated 20/3/2024 (V4.6) Build 100.<br><br>The purposes are: (1) <i> To simulate TCI/TIVA for educational purposes</i>, and (2) <i>Potentially, to help deliver TCI/TIVA in a low resource setting with no TCI pumps available.</i><br>Coding is done in Javascript. The code to the mathematical calculations are based on 'STANPUMP', which is freely available from the link below. The pharmacokinetic models available in this program are Marsh, Schnider, Paedfusor and Eleveld for propofol, and Minto and Eleveld for remifentanil. For instructions on using this app, visit the 'Help' page. For documentation of the pharmacological details, visit the 'Documentation' page.<br><br>Contact us via our <a href='https://simtiva.blogspot.com/p/feedback.html' target='_blank'>blog</a> page; or get in touch on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a>.<div class='' style='width:100%; margin-top:2rem; margin-bottom:1rem; background:rgba(128,128,128,0.4); border-bottom:1px solid #198964; font-weight:bold'>Licenses & Legal</div><div class=''>Acknowledgments: this project is made possible with the following-<br><br><b>STANPUMP by Steven L. Shafer</b><br>Freely available at <a href='http://opentci.org/code/stanpump' target='_blank'>OpenTCI-STANPUMP</a><br><br><b>Chart.js</b><br><a href='http://chartjs.org'  target='_blank'>Chart.js</a> is open source and available under the MIT license.<br><br><b>Font Awesome Free</b><br>SIL OFL 1.1 license applies to all icons packaged as font files. <a href='https://github.com/FortAwesome/Font-Awesome' target='_blank'>Source/License</a><br><br><b>WHO Child Growth Standards</b><br>Copyright World Health Organization (WHO), 2021; all rights reserved. Growth chart data (weight & length for age and BMI) from <a href='https://www.who.int/tools/child-growth-standards/standards' target='_blank'>WHO website</a> used for data validation. Computational method using LMS method described <a href='https://www.who.int/growthref/computation.pdf' target='_blank'>here</a>.<br><br><b>LZ-String</b><br>Copyright Pieroxy (2013) under MIT license, from <a href='https://pieroxy.net/blog/pages/lz-string/index.html' target='_blank'>pieroxy.net</a>, used for Javascript string compression.<br><br><span style='color:#ccc'>Source Sans font: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries, licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL).</span></div><div style='padding-top:1rem;'></div>";
 	displayWarning("About", text);
+}
+
+function displayAbout2() {
+	let El1 = document.createElement("div");
+	El1.classList.add("customAboutContainer");
+	El1.innerHTML = `
+		<div class="customAboutItem" id="customAbout1" onclick="
+				document.querySelector('.customAboutText').style.display = 'block';
+				document.querySelector('.customAboutQuickGuideText').style.display = 'none';
+				document.getElementById('customAbout1').classList.add('active');
+				document.getElementById('customAbout2').classList.remove('active');
+				document.querySelector('.customAboutContainer').classList.add('active');
+			">
+			<span class="customAboutIcon"><i class="fas fa-info-circle fa-fw"></i></span>
+			<span>About</span>
+		</div>
+		<div class="customAboutItem" id="customAbout2" onclick="
+				document.querySelector('.customAboutText').style.display = 'none';
+				document.querySelector('.customAboutQuickGuideText').style.display = 'block';
+				document.getElementById('customAbout1').classList.remove('active');
+				document.getElementById('customAbout2').classList.add('active');
+				document.querySelector('.customAboutContainer').classList.add('active');
+			">
+			<span class="customAboutIcon"><i class="fas fa-question fa-fw"></i></span>
+			<span>Quick Start Guide</span>
+		</div>
+		<div class="customAboutItem" onclick="
+				window.open('https://manual.simtiva.app', '_blank');
+				document.getElementById('customAbout1').classList.remove('active');
+				document.getElementById('customAbout2').classList.remove('active');
+				document.querySelector('.customAboutQuickGuideText').style.display = 'none';
+				document.querySelector('.customAboutText').style.display = 'none';
+				document.querySelector('.customAboutContainer').classList.remove('active');
+
+			">
+			<span class="customAboutIcon"><i class="fab fa-readme fa-fw"></i></span>
+			<span>User Manual</span>
+		</div>
+	`;
+	let El0 = document.createElement("div");
+	let ElAbout = document.createElement("div");
+	ElAbout.classList.add("customAboutText");
+	ElAbout.innerHTML = "<h1>SimTIVA is a computer simulation program to simulate delivery of total intravenous anaesthesia (TIVA) using a target-controlled infusion (TCI) pump. This progressive web app (PWA) is designed for use on smartphones, tablets and computers.</h1><br><b>Written by Terence Luk, 2024</b>. This work is licensed under GNU General Public License v3.0. Read more about the project <a href='https://simtiva.blogspot.com/2021/10/welcome.html' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!<br><br>This is an open source project and the source code is published on <a href='https://github.com/luktinghin/simtiva/' target='_blank'>GitHub</a>.<br>Last updated 20/3/2024 (V4.6) Build 100.<br><br>The purposes are: (1) <i> To simulate TCI/TIVA for educational purposes</i>, and (2) <i>Potentially, to help deliver TCI/TIVA in a low resource setting with no TCI pumps available.</i><br>Coding is done in Javascript. The code to the mathematical calculations are based on 'STANPUMP', which is freely available from the link below. The pharmacokinetic models available in this program are Marsh, Schnider, Paedfusor and Eleveld for propofol, and Minto and Eleveld for remifentanil. For instructions on using this app, visit the 'Help' page. For documentation of the pharmacological details, visit the 'Documentation' page.<br><br>Contact us via our <a href='https://simtiva.blogspot.com/p/feedback.html' target='_blank'>blog</a> page; or get in touch on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a>.<div class='' style='width:100%; margin-top:2rem; margin-bottom:1rem; background:rgba(128,128,128,0.4); border-bottom:1px solid #198964; font-weight:bold'>Licenses & Legal</div><div class=''>Acknowledgments: this project is made possible with the following-<br><br><b>STANPUMP by Steven L. Shafer</b><br>Freely available at <a href='http://opentci.org/code/stanpump' target='_blank'>OpenTCI-STANPUMP</a><br><br><b>Chart.js</b><br><a href='http://chartjs.org'  target='_blank'>Chart.js</a> is open source and available under the MIT license.<br><br><b>Font Awesome Free</b><br>SIL OFL 1.1 license applies to all icons packaged as font files. <a href='https://github.com/FortAwesome/Font-Awesome' target='_blank'>Source/License</a><br><br><b>WHO Child Growth Standards</b><br>Copyright World Health Organization (WHO), 2021; all rights reserved. Growth chart data (weight & length for age and BMI) from <a href='https://www.who.int/tools/child-growth-standards/standards' target='_blank'>WHO website</a> used for data validation. Computational method using LMS method described <a href='https://www.who.int/growthref/computation.pdf' target='_blank'>here</a>.<br><br><b>LZ-String</b><br>Copyright Pieroxy (2013) under MIT license, from <a href='https://pieroxy.net/blog/pages/lz-string/index.html' target='_blank'>pieroxy.net</a>, used for Javascript string compression.<br><br><span style='color:#ccc'>Source Sans font: Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'. All Rights Reserved. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries, licensed under the SIL Open Font License, Version 1.1 (http://scripts.sil.org/OFL).</span></div><div style='padding-top:1rem;'></div>";
+	let ElQuickGuide = document.createElement("div");
+	ElQuickGuide.classList.add("customAboutQuickGuideText");
+	ElQuickGuide.innerHTML = `
+	<b>Instructions for use</b>
+					<br>This is the Quick Start Guide. For details, please visit the separate User Manual.
+					<br><b>1.</b> Enter patient data on the first screen you see.
+					<br><b>2.</b> Choose a model
+					<br><b>3.</b> There are four modes: CP targeting, CE targeting, manual infusion, and intermittent bolus.
+					<br><b>4.</b> In addition, there is a Complex mode, which allows simultaneous simulation of propofol and an opioid.
+					<br>
+					<br><b>CP/CE targeting mode</b>
+					<br><b>1.</b> Enter desired CP/CE target.
+					<br><img src="preview.gif" style="width:100%; max-width:600px" loading="lazy">
+					<br><b>2.</b> While you are entering your target, a <span style="color:blue">blue</span> preview box will appear. This will guide your initial bolus and infusion rate.
+					<br><b>3.</b> Press Start, when your syringe pump setup is ready to go.
+					<br><b>4.</b> The predicted CP and CE will appear on top part of the screen. The 'Graph' section will preview CP/CE of the infusion regimen and the 'Scheme' section will guide you through the next rate changes to achieve and maintain your desired target concentration.
+					<br><img src="preview2.gif" style="width:100%; max-width:600px" loading="lazy">
+					<br><b>5.</b> When the next rate change is imminent, a <span style="color:red">red</span> reminder box will appear to notify you of the changes. Make the necessary change on your syringe pump.
+					<br>
+					<br><b>Intermittent Bolus Mode</b>
+					<br>In some settings, such as a short case in a remote location, or in low resource environment, it may not be possible to use any syringe pump at all. With the intermittent bolus mode, a series of repeated small manual boluses are generated, to simulate a target-controlled infusion as close as possible. The accuracy of the repeated intermittent manual bolus scheme is affected by the fluctuation of CE.
+					<br>
+					<br><b>Complex mode</b>
+					<br>In this mode, you may run two-drug simulations simultaneously. For each drug, the functions for CP or CE targeting, manual infusion, or intermittent bolus mode are preserved. In addition, you may explore the pharmacodynamic (PD) interaction between propofol and opioid, as propofol and opioid demonstrate intense synergism. Probability of tolerance to laryngoscopy (PTOL) is used as a measure of potency of propofol-opioid combination. Isobologram charts illustrate the propofol-opioid combinations to achieve the same pharmacodynamic effect.
+					<br>
+					<br><b>NB.</b> For the <span style="color:blue">blue</span> preview box, dosage recommendations may be slightly inaccurate because TCI is time-dependent: the moment you enter the target concentration, the preview starts to calculate; but this moment lags behind the moment of real target delivery when you click the 'Update Cpt/Cet' button.
+	`
+	El0.appendChild(El1);
+	El0.appendChild(ElAbout);
+	El0.appendChild(ElQuickGuide);
+	displayWarning("Help", El0.innerHTML);
+
 }
 
 function ptolwarning() {
@@ -11112,7 +10935,6 @@ function displayModalOptions() {
 						</td>
 					</tr>
 				</table>
-				<div>&nbsp;</div>
 				<a class="button invert" id="" onclick="applyoptions();hidewarningmodal();">Apply</a>
 				<a class="button right muted" id="" onclick="loadoptions('default');displayModalOptions();loadoptions();applyoptions();">Reset settings</a>
 	`
@@ -11456,10 +11278,6 @@ function togglemenu() {
 
 }
 
-
-
-
-
 function hide_prompts(object) {
 	object.style.display="none";
 	if (document.getElementById("prompts_container").classList.contains("expand")) {
@@ -11613,17 +11431,17 @@ function loadoptions(reset) {
 		if (optionsarray[2].indexOf(1) == 0) {
 			cpt_threshold_auto = 1;
 			cpt_threshold = 0.05;
-			cpt_avgfactor = 0.6;
+			cpt_avgfactor = 0.62;
 			document.getElementById("select_threshold").value = 0;
 		} else if (optionsarray[2].indexOf(1) == 1) {
 			cpt_threshold_auto = 0;
 			cpt_threshold = 0.08;
-			cpt_avgfactor = 0.66;		
+			cpt_avgfactor = 0.667;		
 			document.getElementById("select_threshold").value = 1;
 		} else if (optionsarray[2].indexOf(1) == 2) {
 			cpt_threshold_auto = 0;
 			cpt_threshold = 0.05;
-			cpt_avgfactor = 0.6;
+			cpt_avgfactor = 0.62;
 			document.getElementById("select_threshold").value = 2;
 		}
 
@@ -11870,17 +11688,17 @@ function applyoptions() {
 	if (x==0) {
 		cpt_threshold_auto = 1;
 		cpt_threshold = 0.05;
-		cpt_avgfactor = 0.6;
+		cpt_avgfactor = 0.62;
 		optionsarray.push([1,0,0]);
 	} else if (x==1) {
 		cpt_threshold_auto = 0;
 		cpt_threshold = 0.08;
-		cpt_avgfactor = 0.66;		
+		cpt_avgfactor = 0.667;		
 		optionsarray.push([0,1,0]);
 	} else if (x==2) {
 		cpt_threshold_auto = 0;
 		cpt_threshold = 0.05;
-		cpt_avgfactor = 0.6;
+		cpt_avgfactor = 0.62;
 		optionsarray.push([0,0,1]);
 	}
 
@@ -12341,16 +12159,20 @@ function outputpatientstring() {
 		}
 		P_patient.push(document.getElementById('gender').innerHTML);
 		P_patient.push(drug_sets[0].infused_units);
-		if (drug_sets[0].state_premed != undefined) {
-			P_patient.push(drug_sets[0].state_premed);
-		} //position 9 now becomes state_premed
-		//P_patient.push(drug_sets[0].infusate_concentration); 
+		P_patient.push(drug_sets[0].infusate_concentration); //useless but for legacy
 		if (P_patient[0]=="Shafer") {
 			if (drug_sets[0].fentanyl_weightadjusted_flag == 0) {
 				P_patient.push(0); // P_patient[10] is now fentanyl_weightadjusted_flag
 			} else {
 				P_patient.push(1);
 				P_patient.push(drug_sets[0].fentanyl_weightadjusted_factor);
+			}
+		}
+		if (P_patient[0]=="Eleveld") {
+			if (opioid == 1) {
+				P_patient.push(1); //P_patient[10] for eleveld is opioid = 0 or 1
+			} else {
+				P_patient.push(0);
 			}
 		}
 
@@ -12461,6 +12283,7 @@ function savefile_patient() {
 function savefile_data() {
 	let outputobject = outputdataobject();
 	localStorage.setItem(uid + "DATA",JSON.stringify(outputobject));
+	//add warning banner check here
 	if (document.getElementById("warningBanner").style.display != "none") hideWarningBanner();
 }
 
@@ -12928,7 +12751,7 @@ function exportDataFile(input_uid) {
 				outputDataObject.P_patient[5] + "," +  //bh
 				modestring + "," + 
 				modelstring + "," + 
-				"https://simtiva.vet/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
+				"https://simtiva.app/view.html?P=" + LZString.compressToEncodedURIComponent(JSON.stringify(outputDataObject)) + "\n" ;
 				// JSON.stringify(outputDataObject) + "\"\n" ;
 		return outputDataString1;
 	}
@@ -12971,7 +12794,7 @@ function previewFile() {
 		      	//preview first record and see if it's fine
 		      	let parseArrayComma = parseArrayRaw[1].split(",");
 		      	let parseArrayURL = parseArrayComma[parseArrayComma.length-1];
-		      	if (parseArrayURL.slice(0,19) != "https://simtiva.vet") {
+		      	if (parseArrayURL.slice(0,19) != "https://simtiva.app") {
 		      		errorMessage += "Wrong weblink reference. Possible corrupted database.";
 		      	}
 		      }
@@ -13154,6 +12977,16 @@ function parseobject(input_uid,external,extObject) {
 		object.P_patient[0] = "Eleveld-Remifentanil";
 	}
 
+	if ((object.P_patient[0] == "Eleveld") && (complex_mode == 0)) {
+		if (object.P_patient[10] != undefined) {
+			if (object.P_patient[10] == 0) {
+				opioid = 0;
+			} else {
+				opioid = 1;
+			}
+		}
+	}
+
 	readmodel(object.P_patient[0],0);
 
 	if (object.P_patient[0]=="Shafer") {
@@ -13196,8 +13029,7 @@ function parseobject(input_uid,external,extObject) {
 
 
 	//drug_sets[0].drug_name = object.P_patient[1];
-	if (object.P_patient[2]!=undefined) drug_sets[0].infusate_concentration = object.P_patient[2]; 
-	//this is different from human simtiva. changed to [2] in simtivavet because [9] is used for premed
+	if (object.P_patient[9]!=undefined) drug_sets[0].infusate_concentration = object.P_patient[9];
 
 
 	if ((object.P_patient[0] === "Minto") || (object.P_patient[0] === "Eleveld-Remifentanil")) {
@@ -13878,7 +13710,6 @@ function parseobject(input_uid,external,extObject) {
 
 	//update view
 	parsedisplay(working_clock,object.P_patient[7],object.P_patient[0],VI,d,mode);
-	parsedisplayvet();
 
 
 		//off chart legend
@@ -13995,13 +13826,11 @@ function parsedisplay(t,sex,model,VI,d,mode) {
 	document.querySelector(".cardscontainer").style.paddingTop = "1rem";
 	document.getElementById("clock").innerHTML = converttime(t);
 	document.getElementById("bw").innerHTML = mass + "kg";
-	/*
 	if (height>0) {
 		document.getElementById("bh").innerHTML = height + "cm";
 	} else {
 		document.getElementById("bh").innerHTML = "?";
 	}
-	*/
 	//populate age display
 	if (paedi_mode == 0) {
 		if (age>=0) {
@@ -14042,68 +13871,6 @@ function parsedisplay(t,sex,model,VI,d,mode) {
 		myChart.options.scales.y.title.text = "Concentration (ng/ml)";
 	}
   if (modal != undefined) hideallmodal();
-}
-
-function parsedisplayvet() {
-	if (drug_sets[0].model_name == "Beths") {
-		age = 0;
-		gender = 0;
-		height = 0;
-		document.getElementById("age").style.display = "none";
-		document.getElementById("gender").style.display = "none";
-		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-		//unhide CE
-		myChart.data.datasets[3].hidden = false;
-		document.getElementById("top_ce").style.display = "inline-block";
-		//change chart filtering
-		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
-	}
-	if (drug_sets[0].model_name == "Cattai-Propofol") {
-		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-		//unhide CE
-		myChart.data.datasets[3].hidden = false;
-		document.getElementById("top_ce").style.display = "inline-block";
-		document.getElementById("modelname").innerHTML = "Cattai";
-		//change chart filtering
-		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
-
-	}
-	if (drug_sets[0].model_name == "Cattai-Propofol-Cats") {
-		drug_sets[0].infusate_concentration = 10; //defaults 10 for propofol
-		gender = 0;
-		height = 0;
-		document.getElementById("age").style.display = "none";
-		document.getElementById("gender").style.display = "none";
-		document.getElementById("modelname").innerHTML = "Cattai";
-		//change chart filtering
-		myChart.options.plugins.tooltip.filter = function(item, chart) {if ((item.datasetIndex == 2) || (item.datasetIndex == 3)) {return true} else {return false}}
-
-	}
-	if (drug_sets[0].model_name == "Cattai-Fentanyl") {
-		age = 0; //not used in cattai fentanyl
-		document.getElementById("age").style.display = "none";
-		if (document.getElementById("select_fendilution").value == "custom") {
-			drug_sets[0].infusate_concentration = document.getElementById("fendilution").innerHTML *1;
-		} else {
-			drug_sets[0].infusate_concentration = document.getElementById("select_fendilution").value * 1;
-		}
-		document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
-		document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[0].infusate_concentration + "mcg/ml)</span>";
-		document.getElementById("modelname").innerHTML = "Cattai";
-
-	}
-	if (drug_sets[0].model_name == "Sano") {
-		age = 0; //not used in cattai fentanyl
-		document.getElementById("age").style.display = "none";
-		if (document.getElementById("select_fendilution").value == "custom") {
-			drug_sets[0].infusate_concentration = document.getElementById("fendilution").innerHTML *1;
-		} else {
-			drug_sets[0].infusate_concentration = document.getElementById("select_fendilution").value * 1;
-		}
-		//document.getElementById("gender").innerHTML = document.getElementById("select_gender").value;
-		document.getElementById("drugname").innerHTML = "Fentanyl <span style='opacity:0.5'>(" + drug_sets[0].infusate_concentration + "mcg/ml)</span>";
-		document.getElementById("modelname").innerHTML = "Sano";
-	}
 }
 
 
@@ -14439,14 +14206,14 @@ function previewshareoutput() {
 	
 
 	
-	document.getElementById("sharedatatext").value = 'https://simtiva.vet/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 }
 
 function updatedatatext() {
 	clearTimeout(texttimeout);
 	texttimeout = setTimeout(function() {
 		savefile_patient();
-		document.getElementById("sharedatatext").value = 'https://simtiva.vet/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());	
+		document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());	
 	},500);
 }
 
@@ -14460,7 +14227,7 @@ async function outputimage2(filename) { //arg is to write the image to share box
 		  navigator.share({
 		    files: filesArray,
 		    title: filename,
-		    text: 'From SimTIVA: https://simtiva.vet',
+		    text: 'From SimTIVA: https://simtiva.app',
 		  });
 
 }
@@ -14532,7 +14299,7 @@ function sharefunction() {
 }
 
 async function shareViewURL() {
-	const url = 'https://simtiva.vet/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	const url = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 	name = document.getElementById("inputFileName").value;
 	if ((name != undefined) && (name.length>0)) {
 
@@ -14715,7 +14482,7 @@ function canvasUpdate(oldCanvas, filename) {
 	},120);
 
 	//also update data-text
-	document.getElementById("sharedatatext").value = 'https://simtiva.vet/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
+	document.getElementById("sharedatatext").value = 'https://simtiva.app/view.html?P=' + LZString.compressToEncodedURIComponent(outputstring());
 }
 
 function cloneCanvas(oldCanvas, filename) {
@@ -14896,7 +14663,7 @@ function cloneCanvas(oldCanvas, filename) {
     //add some remarks to picture
     context.textAlign = "right";
     context.fillText("SimTIVA Simulation Result", oldCanvas.width-50, textheight + textsize * 4);
-    context.fillText("From http://simtiva.vet", oldCanvas.width-50, textheight + textsize * 5.2);
+    context.fillText("From http://simtiva.app", oldCanvas.width-50, textheight + textsize * 5.2);
     context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width-50, textheight + textsize * 6.4);
     //context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     //context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
@@ -14905,7 +14672,7 @@ function cloneCanvas(oldCanvas, filename) {
 
     if (textcontent.length>1) {
     	context.fillText("SimTIVA Simulation Result", oldCanvas.width*2-50, textheight + textsize * 4);
-    	context.fillText("From http://simtiva.vet", oldCanvas.width*2-50, textheight + textsize * 5.2);
+    	context.fillText("From http://simtiva.app", oldCanvas.width*2-50, textheight + textsize * 5.2);
     	context.fillText("Time elapsed = " + converttime(time_in_s), oldCanvas.width*2-50, textheight + textsize * 6.4);
     	//context.fillText("Cp " + Math.round(getcp(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 7.6);
     	//context.fillText("Ce " + Math.round(getce(time_in_s)*100)/100, oldCanvas.width-50, textheight + textsize * 8.8);
@@ -15174,8 +14941,11 @@ function createEvent(inputtime, inputtext, isEdit) {
 		El4.innerHTML = `
 			<div class='eventmarker'>${number}</div>
 			<div class='eventtime'>${outputtime}</div>
-			${inputtext}
-		`
+		`;
+		let El5 = document.createElement("div");
+		El5.style.display = "inline-block";
+		El5.textContent = inputtext;
+		El4.appendChild(El5);
 		El3.appendChild(El4);
 	} else { 
 		//this is edit mode
@@ -15200,8 +14970,11 @@ function createEvent(inputtime, inputtext, isEdit) {
 		ElLabel.innerHTML = `
 			<div class='eventmarker'>${number}</div>
 			<div class='eventtime'>${outputtime}</div>
-			${inputtext}
-		`
+		`;
+		let El5 = document.createElement("div");
+		El5.style.display = "inline-block";
+		El5.textContent = inputtext;
+		ElLabel.appendChild(El5);
 		ElLabel.setAttribute('id', 'labelevent'+inputtime);
 
 	}
@@ -15260,7 +15033,6 @@ function setnow(input__time) {
 		document.getElementById("hh").value = hours;
 	}
 }
-
 function deltahours(param) {
 	var param1 = document.getElementById("hh").value * 1;
 	var param2 = (param1 + param + 1000) % 10;
@@ -16078,6 +15850,8 @@ function popup_reset() {
 			</div>
 		`)
 }
+
+
 
 function generateBoxes() {
 	if (drug_sets[active_drug_set_index].manualmode_active == 1) {
@@ -17138,11 +16912,6 @@ function setBolusUnit(parameter) {
 	dropdownhide();
 }
 
-function enableSano() {
-	document.getElementById("select_model").options[3].disabled = false;
-}
-
-
 function displayWarningBanner() {
 	//loop7 checks whether sim session expires. Q2mins.
 	will_end_drug_set = 0;
@@ -17205,6 +16974,30 @@ function extendSession(ind) {
 	}
 }
 
+//VSCapture functions
+BIS_real = new Array();
+exportparams = {};
+function captureBIS() {
+	dataexport = []; //replace with real data capture
+	exportparams.timestamp = new Date(dataexport[0].Time);
+	exportparams.timestamp2 = new Date(dataexport[1].Time);
+	exportparams.timeresolution = (Date.parse(exportparams.timestamp2) - Date.parse(exportparams.timestamp))/1000;
+	for (i=0; i<dataexport.length; i++) {
+    	BIS_real[i*exportparams.timeresolution]=dataexport[i].BIS;
+	}
+
+	// alter the main chart
+	myChart.options.scales.y1 = {
+        type: 'linear',
+        display: true,
+        position: 'right',
+
+        // grid line settings
+        grid: {
+          drawOnChartArea: false, // only want the grid lines for one axis to show up
+        },
+      }
+}
 
 /* failed code below 
 
