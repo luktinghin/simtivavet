@@ -1447,7 +1447,7 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
     color: white;
 }
 
-.modal span {cursor: pointer;}
+.modal span {}
 
 
 #modalabout .modal-body {height:60vh;}
@@ -1517,25 +1517,69 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 
 #infobox {
   border-radius: 9px;
-  background: #fff;
+  background: #eee;
   border: 1px solid #ddd;
   padding: 10px;
   font-size: 0.75rem;
   margin-top: 10px;
+  height: 40dvh;
+}
+
+#infoboxcontents {
+  padding: 10px 0 0 0;
 }
 
 #modalInitScreen1Container {
-  background: #eee;
-  border: 1px solid #ccc;
-  border-radius: 9px;
-  padding: 8px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
+.animalselectorouter {
+  display: flex;
+  justify-content: stretch;
+  height: 50px;
+  border-radius: 9px;
+  padding: 4px;
+  background: rgb(213,237,214);
+}
+
+.animalbox {
+  border-radius: 9px;
+  height: 100%;
+  border-radius: 11px;
+  color: #555;
+  flex-basis: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 42px;
+  text-align: center;
+  cursor: pointer;
+  background: transparent;
+  transition: background-color .3s linear;
+}
+
+.animalbox.active {
+  border: 2px solid rgb(155,201,157);
+  color: black;
+  background: white;
+}
+
 body.dark #modalInitScreen1Container {
-  background: #444;
-  border: 1px solid transparent;
+  
+}
+
+body.dark .animalselectorouter {
+  background: #5f5f5f;
+}
+
+body.dark .animalbox {
+  color: #ccc;
+}
+
+body.dark .animalbox.active {
+  color: white;
+  background-color: #187f18;
+  border: 2px solid #4cAF50;
 }
 
 #modalInitScreen2InfoContainer {
@@ -6086,7 +6130,7 @@ body.dark select {
 }
 
 body.dark .modal-content {
-  background: #363636;
+  background: #414141;
 }
 
 body.dark .top-bar-container {

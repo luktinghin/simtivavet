@@ -112,34 +112,35 @@
 
 		<div id="modalInitial" class="modal">
 			<div class="modal-content" id="modalInitialcontent">
-				<div class="modal-header"><span id="modalInitTitle">Model Information</span><!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="enableSano();//displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
+				<div class="modal-header"><span id="modalInitTitle">Model Information</span><!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
 					<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
-					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> an experimental progressive web app to guide TCI/TIVA in small animals.</div>
+					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> a web app to guide TCI/TIVA in small animals.</div>
 					<div id="modalInitScreen1">
 
 
 						<div id="modalInitScreen1Container">
-						<div style="font-size:0.65rem">Choose animal:</div>
-						<select id="select_animal" onchange="updateAnimal();">
-							<option value="Dog" selected>Dog</option>
-							<option value="Cat">Cat</option>
-						</select>
-						<div style="font-size:0.65rem">Choose model:</div>
-						<select id="select_model" onchange="updateInit();" >
+						<div class="animalselectorouter">
+							<div class="animalbox active" onclick="updateAnimal(0)" id="animalboxdog">
+								<i class="fas fa-dog fa-fw" style="padding-right:6px"></i>DOG
+							</div>
+							<div class="animalbox" onclick="updateAnimal(1)" id="animalboxcat">
+								<i class="fas fa-cat fa-fw" style="padding-right:6px"></i>CAT
+							</div>
+						</div>
+
+						<div id="infobox">
+							<select id="select_model" onchange="updateInit();" >
 								<option value="Beths" selected>Beths (Propofol)</option>
 								<option value="Cattai-Propofol">Cattai (Propofol)</option>
 								<option value="Cattai-Fentanyl">Cattai (Fentanyl)</option>
-								<option value="Sano" disabled>Sano (Fentanyl)</option>
-						</select>
-						<select id="select_model2" style="display: none" onchange="updateInit();" >
-								
-								<option value="Cattai-Propofol-Cats">Cattai (Propofol)</option>
-
-						</select>
-						<div id="infobox">
+								<!--<option value="Sano" disabled>Sano (Fentanyl)</option>-->
+							</select>
+							<select id="select_model2" style="display: none" onchange="updateInit();" >
+									<option value="Cattai-Propofol-Cats">Cattai (Propofol)</option>
+							</select>
 							<div id="infoboxcontents">
-								<div>Model description: <span id="Description">‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighting between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.</span></div>
+								<div>Model description: <span id="Description">‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighing between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.</span></div>
 								<div>PMID: <span id="PMID">11265996</span></div>
 								<div>DOI: <span id="DOI"><a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a></span></div>
 							</div>
@@ -227,152 +228,7 @@
 			</div>
 		</div>
 	</div>
-		<div id="modalScreen2" class="modal">
-			<div class="modal-content" id="modalScreen2content">
-
-				<div class="modal-header" id="page2title"><!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--></div>
-				<div class="modal-body">
-					<div id="patientCard">
-						<div id="patientLeft">
-						</div>
-						<div id="patientRight">
-						</div>
-						<div id="patientEdit">
-							<div onclick="toPageOne();">EDIT</div>
-						</div>
-					</div>
-					<!--<div id="drugCard">
-						<div id="drugLeft">
-						</div>
-						<div id="drugRight">
-						</div>
-						<div id="drugEdit">
-							<div onclick="toPageTwo();">EDIT</div>
-						</div>
-					</div>
-					-->
-					<div id="simplemodeselection" style="padding-top:1rem; padding-bottom:0.5rem; text-align:center; border:2px solid #ccc; border-radius:9px;box-shadow:inset 0 4px 0 0 rgba(0,0,0,0.15);">Choose one of the following:<br>
-						<a class="button huge" onclick="initcpt();hideallmodal();"><span style="border-bottom:1px solid LightCoral">CP</span> TARGETING<i class="fas fa-tint fa-fw" style="color:LightCoral;"></i></a>
-						<br>
-						<a class="button huge" onclick="initcet();hideallmodal()"><span style="border-bottom:1px solid green">CE</span> TARGETING<i class="fas fa-brain fa-fw" style="color:green;"></i></a>
-						<br>
-						<a class="button huge" onclick="initmanual(0);hideallmodal();">MANUAL<i class="fas fa-syringe fa-fw" style="color:rgb(81 203 238)"></i></a>
-						<br>
-						<a class="button huge" onclick="initcetbolus(0);hideallmodal();">INTERMITTENT BOLUS<i class="fas fa-hourglass-half fa-fw" style="color:#c19f14"></i></a>
-					</div>
-					<div id="complexmodeselection0" style="margin-top: 10px; border:2px solid #ccc; border-radius:9px;box-shadow:inset 0 4px 0 0 rgba(0,0,0,0.15); padding: 0px 5px;">
-						<table class="" style="width:100%">
-							<tr class="fr" style="height: 4rem; vertical-align:bottom">
-								<td style="width:38%">						
-									<div style="font-size: 10px; border-bottom: 2px solid rgb(255,210,80); transform:translateX(-7px); padding-left:7px; width: 50px; background: rgba(255,210,80,0.7)">Drug 1</div>
-									<div style=" font-size: 20px; font-weight:bold;">PROPOFOL</div></td>
-								<td>
-									<select id="model_propofol">
-										<option value="Marsh">Marsh</option>
-										<option value="Schnider">Schnider</option>
-										<option value="Paedfusor">Paedfusor</option>
-										<option value="Eleveld" selected>Eleveld</option>
-									</select>
-								</td>
-							</tr>
-
-							<tr>
-								<td>Infusion mode</td>
-								<td>
-									<select id="mode_propofol">
-										<option value="0">CP Targeting</option>
-										<option value="1" selected>CE Targeting</option>
-										<option value="2">Manual</option>
-										<option value="3">Intermittent Bolus</option>
-									</select>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div id="complexmodeselection1" style="margin-top: 10px;border:2px solid #ccc; border-radius:9px;box-shadow:inset 0 4px 0 0 rgba(0,0,0,0.15); padding: 0px 5px;">
-
-						<table class="" style="width:100%">
-							<tr class="fr" style="height: 4rem; vertical-align:bottom">
-								<td style="width:38%">
-									<div style="font-size: 10px; border-bottom: 2px solid rgb(0,129,255); transform:translateX(-7px); padding-left:7px; width: 50px; background: rgba(0,129,255,0.7)">Drug 2</div>
-									<div style=" font-size: 20px; font-weight:bold; ">OPIOID</div>
-								</td>
-								<td>
-									<select id="model_opioid" onchange="
-										if (this.value==='Shafer') {
-											document.getElementById('row_fen_weightadjusted1').style.display='table-row';
-											document.getElementById('select_opioiddilution').value = 10;
-										} else {
-											if (this.value=='Maitre') {
-												document.getElementById('select_opioiddilution').value = 100;
-											} else {
-												document.getElementById('select_opioiddilution').value = 20;
-											}
-											document.getElementById('row_fen_weightadjusted1').style.display='none';
-										}
-									">
-										<option value="Minto">Remifentanil (Minto)</option>
-										<option value="Eleveld-Remifentanil">Remifentanil (Eleveld)</option>
-										<option value="Maitre">Alfentanil (Maitre)</option>
-										<option value="Shafer">Fentanyl (Shafer)</option>
-									</select>
-								</td>
-							</tr>
-							<tr id="row_opioiddilution"><td>Concentration</td>
-								<td>
-									<select id="select_opioiddilution" onchange="change_opioiddilution(this.value)">
-										<option value="5">5mcg/ml</option>
-										<option value="10">10mcg/ml</option>
-										<option value="20" selected>20mcg/ml</option>
-										<option value="25">25mcg/ml</option>
-										<option value="40">40mcg/ml</option>
-										<option value="50">50mcg/ml</option>
-										<option value="100">100mcg/ml</option>
-										<option value="custom">Custom</option>
-									</select>
-									<div id="custom_opioiddilution" onclick="
-											if (document.getElementById('model_opioid').value == 'Shafer') {
-												popup_dilution('opioiddilution','fentanyl');
-											} else if (document.getElementById('model_opioid').value == 'Maitre') {
-												popup_dilution('opioiddilution','alfentanil');
-											} else {
-												popup_dilution('opioiddilution','remifentanil');
-											}
-										">
-										<span id="opioiddilution">_</span>mcg/ml
-									</div>
-								</td>
-							</tr>
-							<tr id="row_fen_weightadjusted1">
-								<td>Weight adjusted?<!--<i class="far fa-question-circle tooltip3"><span class="tooltiptext">If YES: PK model adjusted to BW according to Shibutani, 2004; recommended for obese.</span></i>--></td>
-								<td>
-									<select id="select_fen_weightadjusted1">
-										<option value="0" >No</option>
-										<option value="1" selected>Yes</option>
-									</select> 
-								</td>
-							</tr>
-							<tr>
-								<td>Infusion mode</td>
-								<td>
-									<select id="mode_opioid">
-										<option value="0">CP Targeting</option>
-										<option value="1" selected>CE Targeting</option>
-										<option value="2">Manual</option>
-										<option value="3">Intermittent Bolus</option>
-									</select>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div id="complexbuttons" style="padding-top:10px">
-						<a class="button wide invert" id="btn_proceedComplex" onclick="proceedComplex();">Proceed</a>
-						<a class="button wide muted right" id="btn_backComplex" onclick="toPageOne();">Back</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
+		
 
 
 
@@ -786,7 +642,7 @@
 				</div>
 			</div>
 		</div>
-<div id="modalJump" class="modal">
+		<div id="modalJump" class="modal">
 			<div class="modal-content" id="modalJumpcontent">
 				<div class="modal-header" id="modalJumptitle">Jump to time<span class="close" onClick="hidemodal('modalJump')">&times;</span></div>
 				<div class="modal-body">
@@ -982,49 +838,7 @@
 		</div>
 		<!--endmodal-->
 
-  <!-- start leftbar-->
-  <div class="leftbar propofol hide">
-  	<div class="ptolcontainer">
-  		<div id="">&nbsp;
-  		</div>
-  	</div>
-  	<div class="leftbarlabel">
-  		<div class="druglabelcontainer propofol active" onclick="tabswitch(0);">
-  			<div class="druglabelicon alert hide"><i class="fas fa-bell"></i></div>
-  			<div class="druglabelicon propofol">
-  				P
-  			</div>
-  			<div class="druglabeltext propofol active">
-  				<div class="line1">PROPOFOL</div>
-  				<div class="line2 hide">
-  					<div class="line2text"><i class="fas fa-tint fa-fw"></i>&nbsp;<span id="cp_propo"></span>&nbsp;&nbsp;</div>
-  					<div class="line2text"><i class="fas fa-brain fa-fw"></i>&nbsp;<span id="ce_propo"></span>&nbsp;&nbsp;</div>
-  					<div class="line2text"><i class="fas fa-running fa-fw"></i>&nbsp;<span id="inf_propo"></span></div>
-  				</div>
-  			</div>
-  		</div>
-  	</div>
-  	<div class="spacer">
-  	</div>
-  	<div class="leftbarlabel">
-  		<div class="druglabelcontainer opioid " onclick="tabswitch(1);">
-  			<div class="druglabelicon alert hide"><i class="fas fa-bell"></i></div>
-  			<div class="druglabelicon opioid">
-  				R
-  			</div>
-  			<div class="druglabeltext opioid ">
-  				<div class="line1">REMIFENTANIL</div>
-  				<div class="line2 hide">
-  					<div class="line2text"><i class="fas fa-tint fa-fw"></i>&nbsp;<span id="cp_opioid"></span>&nbsp;&nbsp;</div>
-  					<div class="line2text"><i class="fas fa-brain fa-fw"></i>&nbsp;<span id="ce_opioid"></span>&nbsp;&nbsp;</div>
-  					<div class="line2text"><i class="fas fa-running fa-fw"></i>&nbsp;<span id="inf_opioid"></span></div>
-  				</div>
-  			</div>
 
-  		</div>
-  	</div>
-  </div>
-  <!-- end leftbar-->
 
 	<div id="parallax3"></div>
     <div class="menuwrapper" id="menu">
@@ -1063,7 +877,6 @@
 
 
 	<div id="bodywrapper" class="">
-
 		<div class="sharebutton" id="sharebutton" onclick="sharefunction();">
 			<i class="fas fa-share-alt fa-fw"></i>
 		</div>
@@ -1703,67 +1516,8 @@
 
 		</div>
 
-		<div id="ptolcard" class="">
-			<div id="ptolcard_left" style="padding:0.5rem;flex-basis:70%">
-				<div style="font-size:200%;font-weight:bold;line-height:1" id=""><span id="ptoltitle">PTOL</span><span id="ptoltooltip" onclick="ptolwarning();" style="display:none"><i class="far fa-question-circle"></i></span></div>
-				<div style="font-size:80%;opacity:50%" id="ptoldesc">Probability of tolerance to laryngoscopy (%)</div>
-			</div><!--
-			--><div id="ptolcard_right" style="flex-basis: 25%;text-align:center;font-size:400%;font-weight:bold">
-				-
-			</div><!--
-			--><div id="ptolcard_switch" style="text-align:center;align-self:stretch;padding-top:30px; cursor:pointer" onclick="cycleEffectEst();">
-				<div style="line-height:0.5">
-					<i class="fas fa-caret-up"></i><br>
-					<i class="fas fa-caret-down"></i>
-				</div>
-			</div>
-		</div>
 
 
-		<div id="interactionscontainer">
-			<div id="interactionstabselector">
-				<a class="interactionstab active" id="btn_displayisobologram" onclick="show_isobologram()">Isobologram</a>
-				<a class="interactionstab" id="btn_displaylegend" onclick="show_legend();">PD Interaction</a>
-			</div>
-			<div id="chart2wrapper">
-				
-					
-					<div id="chart2container">
-						<canvas id="myChart2"></canvas>
-					</div>
-					
-
-			</div> <!-- end chart2wrapper -->
-			<div id="legendwrapper">
-				<div class="legendtitle">Propofol-Opioid Interaction</div>
-				<div class="legendcontent">Propofol and opioids such as remifentanil demonstrate intense synergism. The interaction can be quantified using a hypnotic-analgesic endpoint such as ablating response to laryngoscopy. For example, remifenanil concentration of 4ng/ml may reduce propofol concentration associated with loss of response to laryngoscopy by two-thirds (Bouillon 2001). Probability to tolerate laryngoscopy (PTOL) and its derivative, the noxious stimulation response index (NSRI), have been proposed as measures of potency of propofol-remifentanil drug combination (Hannivoort 2016).</div>
-				<div class="legendtitle">Isobologram</div>
-				<div class="legendcontent">Using different combinations of CE-propofol and CE-remifentanil (effect-site concentrations of propofol and remifentanil respectively), all yielding the same predicted response (90% probability to tolerate laryngoscopy, PTOL90), a line (isobole) is drawn connecting all the possible combinations of CE-propofol/CE-remifentanil to achieve the same identical effect (van den Berg 2021). In our simulation programme, the same method is repeated for PTOL80, PTOL70... PTOL10 to generate a total of 9 isoboles on the 2-dimensional chart. The contour of the isoboles is typical of synergism, or supradditive interaction.</div>
-				<div class="legendtitle">Combinations of CEProp/CERemi for PTOL90</div>
-				<div class="legendcontent">Using PTOL90 isobole as an example, the combinations of CE-propofol and CE-remifentanil yielding the identical effect are: {8.6mcg/ml, 1ng/ml}, {5.9mcg/ml, 2ng/ml}, {3.6mcg/ml, 4ng/ml}, {2mcg/ml, 8ng/ml} according to the Bouillon interaction model (van den Berg 2021). Following this, the clinician may decide on using PTOL as a guidance to control different CE of propofol/remifentanil based on haemodynamic, hypnotic, or other consequences while maintaining the same level of pharmacodynamic endpoint.</div>
-			</div>
-
-			<!-- obsolete code for UI interactions toggles
-			<button onclick="complex_mode=1;">COMPLEX</button>
-			<button onclick="readmodel('Minto',1);drug_sets[1].infusate_concentration=20;initcet_complex(1);complexinterface_init();">INIT MINTO CET</button>
-			<button onclick="readmodel('Minto',1);drug_sets[1].infusate_concentration=20;initcpt_complex(1);complexinterface_init();">INIT MINTO CPT</button>
-			<button onclick="readmodel('Minto',1);drug_sets[1].infusate_concentration=20;initmanual(1);complexinterface_init();">INIT MINTO MANUAL</button>
-			<input id="remi_desired">
-			<button onclick="start_cet_complex(getElementById('remi_desired').value*1,1);">DELIVER REMI</button>
-			<button onclick="if (active_drug_set_index == 0) {myChart.data.datasets[6].data = ptol_generate_data_p(0.9);myChart.data.datasets[7].data = ptol_generate_data_p(0.5);} else {myChart.data.datasets[6].data = ptol_generate_data_r(0.9);myChart.data.datasets[7].data = ptol_generate_data_r(0.5)} myChart.update();">REFRESH CHART PTOL</button>
-			<button onclick="setInterval(update_ptol,1000)">UPDATE PTOL 1s</button>
-			<button onclick="testarg = 0; setInterval(function() {tabaltupdate();tabaltdisplaycycle(testarg);if (testarg==0) {testarg = 1} else {testarg = 0};},5000)">UPDATE TAB INFO 5s</button>
-			<button onclick="tabswitch();">SWITCHTAB</button>
-			-->
-
-		</div> <!-- end interactions container -->
-
-				
-				<div style='display:none'>
-					<div>CURRENT: <span id='isobole_chart_current'></span></div>
-					<div>CURSOR: <span id='isobole_chart_description'></span></div>
-					<div><b>PTOL:</b><span id="ptol"></span></div>
-				</div>
 		<div class="card" id="card_controlpanel">
 			<div class="cardtitle">CONTROL PANEL</div>
 			<div class="cardcontents">
@@ -1937,15 +1691,6 @@
 		<div class="card" id="card_options">
 			<div class="cardtitle">OPTIONS</div>
 			<div class="cardcontents">
-						<div id="ptolcardoptions">
-      <label class="container labelptolcontainer" style="">Display detailed tab info
-          <input type="checkbox" onChange="toggleshowtabinfo();" id="isTabInfo"><span class="checkmark"></span>
-      </label>
-      <!--<label class="container labelptolcontainer" style="">Display effective dose margins <span style='font-size: 80%'>(PTOL50-90)</span>
-          <input type="checkbox" id="" onChange="toggleshowPTOLmargins();" checked><span class="checkmark"></span>
-      </label>
-    -->
-    </div>
 				<i style="color:grey; font-size:90%; padding-top:10px; padding-bottom:10px; display:block;">Some options are experimental features and available on Android devices only: these include Vibrate, Sound, Wakelock, and Notifications.</i>
 				<table class="table-control">
 					<!--options array-->

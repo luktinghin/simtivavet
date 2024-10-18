@@ -623,749 +623,6 @@ const chartInfRateLayer = {
 
 //charting scripts
 
-
-	setTimeout(
-		function() {
-			var ctx = document.getElementById('myChart2').getContext('2d');
-			myChart2 = new Chart(ctx, {
-				type: 'line',
-				data: {
-					datasets: [{ //dataset 0 - current dot
-						label:'Current Dot',
-						data: [{x:0,y:0}],
-						borderWidth:0,
-						pointRadius:7,
-						pointBorderColor:'red',
-						pointBackgroundColor:'red'
-					},{ // dataset 1
-						label:'History dot 4',
-						data: [],
-						borderWidth:0,
-						pointRadius:2,
-						borderColor:'grey',
-						pointBorderColor:dotColor0,
-						pointBackgroundColor:dotColor0,
-					},{ // dataset 2
-						label:'History dot 3',
-						data: [],
-						borderWidth:0,
-						pointRadius:3,
-						borderColor:'grey',
-						pointBorderColor:dotColor1,
-						pointBackgroundColor:dotColor1,
-					},{ // dataset 3
-						label:'History dot 2',
-						data: [],
-						borderWidth:0,
-						pointRadius:4,
-						borderColor:'grey',
-						pointBorderColor:dotColor2,
-						pointBackgroundColor:dotColor2,
-					},{ // dataset 4
-						label:'History dot 1',
-						data: [],
-						borderWidth:0,
-						pointRadius:5,
-						borderColor:'grey',
-						pointBorderColor:dotColor3,
-						pointBackgroundColor:dotColor3,
-					},{ // dataset 5
-						label:'current, actually',
-						data: [],
-						borderWidth:0,
-						pointRadius:5,
-						borderColor:'red',
-						pointBorderColor:dotColor4,
-						pointBackgroundColor:dotColor4,
-					},{ // dataset 6
-						label:'Future dot 1',
-						data: [],
-						borderWidth:0,
-						pointRadius:5,
-						borderColor:'blue',
-						pointBorderColor:dotColor5,
-						pointBackgroundColor:dotColor5,
-					},{ // dataset 7
-						label:'Future dot 2',
-						data: [],
-						borderWidth:0,
-						pointRadius:4,
-						borderColor:'blue',
-						pointBorderColor:dotColor6,
-						pointBackgroundColor:dotColor6,
-					},{ // dataset 8
-						label:'Future dot 3',
-						data: [],
-						borderWidth:0,
-						pointRadius:3,
-						borderColor:'blue',
-						pointBorderColor:dotColor7,
-						pointBackgroundColor:dotColor7,
-					},{ // dataset 9
-						label:'Future dot 4',
-						data: [],
-						borderWidth:0,
-						pointRadius:2,
-						borderColor:'blue',
-						pointBorderColor:dotColor8,
-						pointBackgroundColor:dotColor8,
-					},{ //dataset 10
-						label:'trend line',
-						data: [],
-						borderWidth:1,
-						pointRadius:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						             0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6],
-						pointStyle:['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
-						            '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
-						            'triangle'],
-						borderColor:lineColor1,
-						pointBorderColor:lineColor1,
-						pointBackgroundColor:lineColor1,
-						tension:0.4
-					},{ //dataset 11
-						label: 'PTOL90',
-						data: [
-							{x: 0.1, y: 14.732482339267616},
-							{x: 0.2, y: 13.649211579027352},
-							
-							{x: 0.6, y: 10.547118038339317},
-							{x: 0.8, y: 9.470881503814896},
-							{x: 1, y: 8.593948031239442},
-							{x: 1.2, y: 7.865647350625931},
-							
-							{x: 1.6, y: 6.725698459230869},
-							{x: 1.8, y: 6.271259374147702},
-							{x: 2, y: 5.874344223885188},
-							{x: 2.2, y: 5.5246808772253555},
-							
-							{x: 2.6, y: 4.936948869009893},
-							{x: 2.8, y: 4.687608017039696},
-							{x: 3, y: 4.46224224698971},
-							{x: 3.2, y: 4.257552235659907},
-							
-							{x: 3.6, y: 3.8997747368649573},
-							{x: 3.8, y: 3.7425257555397575},
-							{x: 4, y: 3.5974666177281387},
-							{x: 4.2, y: 3.463232788708432},
-							
-							{x: 4.6, y: 3.2227305117147913},
-							{x: 4.8, y: 3.114585192529731},
-							{x: 5, y: 3.013462296668376},
-							{x: 5.2, y: 2.918699331364339},
-							
-							{x: 5.6, y: 2.7459952289167453},
-							{x: 5.8, y: 2.667087320039827},
-							{x: 6, y: 2.5925876742286587},
-							{x: 6.2, y: 2.5221369222115757},
-							
-							{x: 6.6, y: 2.3921298643656184},
-							{x: 6.8, y: 2.3320260989292962},
-							{x: 7, y: 2.2748685965045583},
-							{x: 7.2, y: 2.2204459028082772},
-							
-							{x: 7.6, y: 2.1190556789357533},
-							{x: 7.8, y: 2.071755328959509},
-							{x: 8, y: 2.0265204964494754},
-							{x: 8.2, y: 1.9832187764398717},
-							
-							{x: 8.6, y: 1.9019393183890572},
-							{x: 8.8, y: 1.8637477658109634},
-							{x: 9, y: 1.8270598176650783},
-							{x: 9.2, y: 1.791788392613629},
-							
-							{x: 9.6, y: 1.7251791586874718},
-							{x: 9.8, y: 1.693697787178576},
-							{x: 10, y: 1.6633447802398922}
-						],
-						borderWidth:3,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor1,
-						backgroundColor: bandColor0,
-						fill:'+1'
-					},{ //12
-						label: 'PTOL80',
-						data: [
-							{x: 0.1, y: 11.654377308880333},
-							{x: 0.2, y: 10.797437800874429},
-							{x: 0.4, y: 9.413150903326423},
-							
-							{x: 0.8, y: 7.492099698565929},
-							{x: 1, y: 6.798386763513528},
-							{x: 1.2, y: 6.222252292029331},
-							{x: 1.4, y: 5.73613883171454},
-							
-							{x: 1.8, y: 4.9609849355368985},
-							{x: 2, y: 4.646998547211778},
-							{x: 2.2, y: 4.370391490830125},
-							{x: 2.4, y: 4.124863878985736},
-							
-							{x: 2.8, y: 3.70821096191647},
-							{x: 3, y: 3.5299315887474085},
-							{x: 3.2, y: 3.3680081213736743},
-							{x: 3.4, y: 3.2202884669274607},
-							
-							{x: 3.8, y: 2.96058778411073},
-							{x: 4, y: 2.845836319610314},
-							{x: 4.2, y: 2.739648397236795},
-							{x: 4.4, y: 2.641099893739068},
-							
-							{x: 4.8, y: 2.4638448673136275},
-							{x: 5, y: 2.383849904089159},
-							{x: 5.2, y: 2.308886070627236},
-							{x: 5.4, y: 2.2384932026203077},
-							
-							{x: 5.8, y: 2.109844167986957},
-							{x: 6, y: 2.05090997335045},
-							{x: 6.2, y: 1.9951787240746222},
-							{x: 6.4, y: 1.9423962181467223},
-							
-							{x: 6.8, y: 1.8447883679885955},
-							{x: 7, y: 1.7995729668124045},
-							{x: 7.2, y: 1.7565209819604333},
-							{x: 7.4, y: 1.7154807721015444},
-							
-							{x: 7.8, y: 1.6388968090612972},
-							{x: 8, y: 1.6031130359376877},
-							{x: 8.2, y: 1.5688584838877373},
-							{x: 8.4, y: 1.536037176693433},
-							
-							{x: 8.8, y: 1.4743489366655842},
-							{x: 9, y: 1.4453263198020887},
-							{x: 9.2, y: 1.417424267296257},
-							{x: 9.4, y: 1.390579110718676},
-							
-							{x: 9.8, y: 1.339828048283688},
-							{x: 10, y: 1.3158167929381022}
-						],
-						borderWidth:1,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						backgroundColor: bandColor2,
-						borderColor: lineColor0,
-						fill:'+1'
-					},{ //13
-						label: 'PTOL70',
-						data: [
-							{x: 0.1, y: 9.973210105571793},
-							{x: 0.2, y: 9.23988583310328},
-							{x: 0.4, y: 8.055285085269524},
-							
-							{x: 0.8, y: 6.411349353581867},
-							{x: 1, y: 5.817705894916879},
-							{x: 1.2, y: 5.324679971618839},
-							
-							{x: 1.6, y: 4.552987222108863},
-							{x: 1.8, y: 4.24535295034475},
-							{x: 2, y: 3.9766597256393856},
-							
-							{x: 2.4, y: 3.529844026129343},
-							{x: 2.6, y: 3.342086365165016},
-							{x: 2.8, y: 3.1732941245001163},
-							
-							{x: 3.2, y: 2.88216622316983},
-							{x: 3.4, y: 2.7557554239079955},
-							{x: 3.6, y: 2.6399673808866515},
-
-							{x: 4, y: 2.4353187467093913},
-							{x: 4.2, y: 2.344448644220235},
-							{x: 4.4, y: 2.2601159591763413},
-							
-							{x: 4.8, y: 2.108430324332292},
-							{x: 5, y: 2.039974794321503},
-							{x: 5.2, y: 1.975824643556676},
-							
-							{x: 5.6, y: 1.858911942754506},
-							{x: 5.8, y: 1.8054949329052385},
-							{x: 6, y: 1.7550621135503435},
-							
-							{x: 6.4, y: 1.6622016842619654},
-							{x: 6.6, y: 1.619361434667585},
-							{x: 6.8, y: 1.5786739614347312},
-							
-							{x: 7.2, y: 1.503139322131634},
-							{x: 7.4, y: 1.468019244511736},
-							{x: 7.6, y: 1.4345028234041621},
-							
-							{x: 8, y: 1.371860778714024},
-							{x: 8.2, y: 1.3425475142115877},
-							{x: 8.4, y: 1.3144607461318472},
-							
-							{x: 8.8, y: 1.261671157933781},
-							{x: 9, y: 1.2368351115177618},
-							{x: 9.2, y: 1.2129579858127857},
-							
-							{x: 9.6, y: 1.1678666108755074},
-							{x: 9.8, y: 1.1465551763704798},
-							{x: 10, y: 1.1260075925645574}],
-						borderWidth:1,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor0,
-						backgroundColor: bandColor4,
-						fill:'+1'
-					},{ //14
-						label: 'PTOL60',
-						data: [
-							{x: 0.1, y: 8.777618956368189},
-							{x: 0.2, y: 8.132205797811704},
-							{x: 0.4, y: 7.089615310912767},
-							
-							{x: 0.8, y: 5.64275504337955},
-							{x: 1, y: 5.120277724548109},
-							{x: 1.2, y: 4.686355883484711},
-							
-							{x: 1.6, y: 4.007173871385477},
-							{x: 1.8, y: 3.736418880075648},
-							{x: 2, y: 3.499936672475923},
-							
-							{x: 2.4, y: 3.106685360961775},
-							{x: 2.6, y: 2.9414361396340207},
-							{x: 2.8, y: 2.7928787588444237},
-							
-							{x: 3.2, y: 2.5366513497761276},
-							{x: 3.4, y: 2.4253947116280523},
-							{x: 3.6, y: 2.323487370803344},
-							
-							{x: 4, y: 2.1433720707410693},
-							{x: 4.2, y: 2.0633955009372977},
-							{x: 4.4, y: 1.9891726411913517},
-							
-							{x: 4.8, y: 1.8556711216483082},
-							{x: 5, y: 1.7954220592571293},
-							{x: 5.2, y: 1.7389622460729428},
-							
-							{x: 5.6, y: 1.6360650717491003},
-							{x: 5.8, y: 1.589051707618379},
-							{x: 6, y: 1.5446647884111615},
-							
-							{x: 6.4, y: 1.4629364927280313},
-							{x: 6.6, y: 1.4252319439463812},
-							{x: 6.8, y: 1.3894220961085324},
-							
-							{x: 7.2, y: 1.3229425699789374},
-							{x: 7.4, y: 1.2920326968485885},
-							{x: 7.6, y: 1.262534233450219},
-							
-							{x: 8, y: 1.2074017341729166},
-							{x: 8.2, y: 1.1816025518187947},
-							{x: 8.4, y: 1.1568828331614975},
-							
-							{x: 8.8, y: 1.1104216752032043},
-							{x: 9, y: 1.0885629808094406},
-							{x: 9.2, y: 1.067548251450185},
-							
-							{x: 9.6, y: 1.027862442846089},
-							{x: 9.8, y: 1.00910582892554},
-							{x: 10, y: 0.9910214950738276}],
-						borderWidth:1,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor0,
-						backgroundColor: bandColor6,
-						fill:'+1'
-					},{ //15
-						label: 'PTOL50',
-						data: [
-							{x: 0.1, y: 7.806984126984127},
-							{x: 0.2, y: 7.232941176470589},
-							{x: 0.4, y: 6.305641025641026},
-							
-							{x: 0.8, y: 5.018775510204081},
-							{x: 1, y: 4.554074074074074},
-							{x: 1.2, y: 4.168135593220339},
-							
-							{x: 1.6, y: 3.5640579710144933},
-							{x: 1.8, y: 3.3232432432432435},
-							{x: 2, y: 3.112911392405063},
-							
-							{x: 2.4, y: 2.7631460674157307},
-							{x: 2.6, y: 2.6161702127659576},
-							{x: 2.8, y: 2.484040404040404},
-							
-							{x: 3.2, y: 2.2561467889908258},
-							{x: 3.4, y: 2.1571929824561407},
-							{x: 3.6, y: 2.0665546218487396},
-							
-							{x: 4, y: 1.906356589147287},
-							{x: 4.2, y: 1.835223880597015},
-							{x: 4.4, y: 1.769208633093525},
-							
-							{x: 4.8, y: 1.6504697986577181},
-							{x: 5, y: 1.5968831168831168},
-							{x: 5.2, y: 1.5466666666666666},
-							
-							{x: 5.6, y: 1.455147928994083},
-							{x: 5.8, y: 1.4133333333333333},
-							{x: 6, y: 1.3738547486033519},
-							
-							{x: 6.4, y: 1.3011640211640212},
-							{x: 6.6, y: 1.2676288659793815},
-							{x: 6.8, y: 1.2357788944723618},
-							
-							{x: 7.2, y: 1.1766507177033494},
-							{x: 7.4, y: 1.149158878504673},
-							{x: 7.6, y: 1.1229223744292238},
-							
-							{x: 8, y: 1.073886462882096},
-							{x: 8.2, y: 1.0509401709401711},
-							{x: 8.4, y: 1.0289539748953975},
-							
-							{x: 8.8, y: 0.9876305220883533},
-							{x: 9, y: 0.9681889763779528},
-							{x: 9.2, y: 0.9494980694980696},
-							
-							{x: 9.6, y: 0.9142007434944238},
-							{x: 9.8, y: 0.8975182481751824},
-							{x: 10, y: 0.8814336917562724}],
-						borderWidth:3,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor1,
-						backgroundColor: bandColor8,
-						fill:'+1'
-					},{ //16
-						label: 'PTOL40',
-						data: [
-							{x: 0.1, y: 6.943682730128474},
-							{x: 0.2, y: 6.433117823501381},
-							{x: 0.4, y: 5.60835912818069},
-							
-							{x: 0.8, y: 4.463796040796876},
-							{x: 1, y: 4.0504815925749424},
-							{x: 1.2, y: 3.7072204406618123},
-							
-							{x: 1.6, y: 3.1699421159282166},
-							{x: 1.8, y: 2.9557568378249583},
-							{x: 2, y: 2.7686836202411},
-							
-							{x: 2.4, y: 2.4575955730229992},
-							{x: 2.6, y: 2.3268724042451803},
-							{x: 2.8, y: 2.209353595949969},
-							
-							{x: 3.2, y: 2.0066606054958434},
-							{x: 3.4, y: 1.9186491754302364},
-							{x: 3.6, y: 1.8380336638575372},
-							
-							{x: 4, y: 1.695550434101139},
-							{x: 4.2, y: 1.632283626858559},
-							{x: 4.4, y: 1.573568388482352},
-							
-							{x: 4.8, y: 1.467959771805684},
-							{x: 5, y: 1.4202987402535514},
-							{x: 5.2, y: 1.375635257855641},
-							
-							{x: 5.6, y: 1.2942367218878517},
-							{x: 5.8, y: 1.2570460114887754},
-							{x: 6, y: 1.2219329944080835},
-							
-							{x: 6.4, y: 1.1572804550214122},
-							{x: 6.6, y: 1.127453639170345},
-							{x: 6.8, y: 1.099125658286668},
-							
-							{x: 7.2, y: 1.046535913871038},
-							{x: 7.4, y: 1.0220841401824623},
-							{x: 7.6, y: 0.9987488858403969},
-							
-							{x: 8, y: 0.9551353973757507},
-							{x: 8.2, y: 0.9347265213634485},
-							{x: 8.4, y: 0.9151715732177695},
-							
-							{x: 8.8, y: 0.8784176947752887},
-							{x: 9, y: 0.8611260078702635},
-							{x: 9.2, y: 0.8445019536642738},
-							
-							{x: 9.6, y: 0.8131078289927395},
-							{x: 9.8, y: 0.7982700948870325},
-							{x: 10, y: 0.7839641792080535}],
-						borderWidth:1,
-						pointRadius:0,
-
-						borderJoinStyle:'round',
-						borderColor: lineColor0,
-						backgroundColor: bandColor10,
-						fill:'+1'
-					},{ //17
-						label: 'PTOL30',
-						data: [
-							{x: 0.1, y: 6.1112721494688405},
-							{x: 0.2, y: 5.6619139031843675},
-							{x: 0.4, y: 4.936027505340218},
-							
-							{x: 0.8, y: 3.928674953229969},
-							{x: 1, y: 3.5649087538568236},
-							{x: 1.2, y: 3.2627978425130255},
-							
-							{x: 1.6, y: 2.789928589974906},
-							{x: 1.8, y: 2.6014199014630877},
-							{x: 2, y: 2.436773072256563},
-							
-							{x: 2.4, y: 2.162978345036725},
-							{x: 2.6, y: 2.0479263054071115},
-							{x: 2.8, y: 1.9444956839219039},
-							
-							{x: 3.2, y: 1.7661015844795274},
-							{x: 3.4, y: 1.688640988669022},
-							{x: 3.6, y: 1.617689686624105},
-							
-							{x: 4, y: 1.4922873853354146},
-							{x: 4.2, y: 1.4366050202109588},
-							{x: 4.4, y: 1.3849285806350249},
-							
-							{x: 4.8, y: 1.2919803537467685},
-							{x: 5, y: 1.250032939664081},
-							{x: 5.2, y: 1.210723727724959},
-							
-							{x: 5.6, y: 1.139083270463127},
-							{x: 5.8, y: 1.1063509925762556},
-							{x: 6, y: 1.0754473335657457},
-							
-							{x: 6.4, y: 1.0185453582448067},
-							{x: 6.6, y: 0.9922941892178788},
-							{x: 6.8, y: 0.9673621744134094},
-							
-							{x: 7.2, y: 0.9210769029103756},
-							{x: 7.4, y: 0.8995564145246191},
-							{x: 7.6, y: 0.8790185968414086},
-							
-							{x: 8, y: 0.8406335052762816},
-							{x: 8.2, y: 0.8226712508900363},
-							{x: 8.4, y: 0.8054605552647217},
-							
-							{x: 8.8, y: 0.773112741800275},
-							{x: 9, y: 0.7578939870404271},
-							{x: 9.2, y: 0.7432628289894536},
-							
-							{x: 9.6, y: 0.715632240551184},
-							{x: 9.8, y: 0.702573258059374},
-							{x: 10, y: 0.6899823394561595},
-
-						],
-						borderWidth:1,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor0,
-						backgroundColor: bandColor12,
-						fill:'+1'
-					},{ //18
-						label: 'PTOL20',
-						data: [
-{x: 0.1, y: 5.229708936275862},
-{x: 0.2, y: 4.845171514490873},
-{x: 0.4, y: 4.223995679299734},
-
-{x: 0.8, y: 3.3619557447487685},
-{x: 1, y: 3.0506635461609193},
-{x: 1.2, y: 2.7921327371642315},
-
-{x: 1.6, y: 2.3874758187346328},
-{x: 1.8, y: 2.2261598850363464},
-{x: 2, y: 2.0852636897808816},
-
-{x: 2.4, y: 1.8509643987942659},
-{x: 2.6, y: 1.7525088456669111},
-{x: 2.8, y: 1.663998297905956},
-
-{x: 3.2, y: 1.511337903602657},
-{x: 3.4, y: 1.4450511534446462},
-{x: 3.6, y: 1.3843347184259636},
-
-{x: 4, y: 1.2770219495557336},
-{x: 4.2, y: 1.2293718768111166},
-{x: 4.4, y: 1.1851498668538822},
-
-{x: 4.8, y: 1.1056096073334876},
-{x: 5, y: 1.0697131915109717},
-{x: 5.2, y: 1.0360744119037084},
-
-{x: 5.6, y: 0.9747682336845541},
-{x: 5.8, y: 0.9467576522568371},
-{x: 6, y: 0.9203119077803891},
-
-{x: 6.4, y: 0.8716181560459769},
-{x: 6.6, y: 0.8491537705808745},
-{x: 6.8, y: 0.8278182487069832},
-
-{x: 7.2, y: 0.7882097200607161},
-{x: 7.4, y: 0.7697936051060263},
-{x: 7.6, y: 0.7522184086424185},
-
-{x: 8, y: 0.719370443199518},
-{x: 8.2, y: 0.7039992798832891},
-{x: 8.4, y: 0.6892712614756888},
-
-{x: 8.8, y: 0.6615896847095969},
-{x: 9, y: 0.6485662657192506},
-{x: 9.2, y: 0.6360456814389562},
-
-{x: 9.6, y: 0.6124008605676196},
-{x: 9.8, y: 0.601225662382079},
-{x: 10, y: 0.5904510089343715}
-						],
-						borderWidth:1,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor0,
-						backgroundColor: bandColor14,
-						fill:'+1'
-					},{ //19
-						label: 'PTOL10',
-						data: [
-{x: 0.1, y: 4.137048988447118},
-{x: 0.2, y: 3.83285420988483},
-{x: 0.4, y: 3.3414626445149795},
-
-{x: 0.8, y: 2.659531492573147},
-{x: 1, y: 2.413278576594152},
-{x: 1.2, y: 2.2087634429844782},
-
-{x: 1.6, y: 1.8886527990736843},
-{x: 1.8, y: 1.7610411234605974},
-{x: 2, y: 1.649582824507395},
-
-{x: 2.4, y: 1.4642364397312835},
-{x: 2.6, y: 1.3863515227243002},
-{x: 2.8, y: 1.3163337690513557},
-
-{x: 3.2, y: 1.1955692030833414},
-{x: 3.4, y: 1.1431319573340721},
-{x: 3.6, y: 1.095101202824237},
-
-{x: 4, y: 1.0102096367138311},
-{x: 4.2, y: 0.9725152472842105},
-{x: 4.4, y: 0.9375326844322605},
-
-{x: 4.8, y: 0.8746110277589544},
-{x: 5, y: 0.8462145658187286},
-{x: 5.2, y: 0.8196040448810328},
-
-{x: 5.6, y: 0.7711067641188415},
-{x: 5.8, y: 0.748948523770599},
-{x: 6, y: 0.7280281739446045},
-
-{x: 6.4, y: 0.6895081647411863},
-{x: 6.6, y: 0.6717373357530114},
-{x: 6.8, y: 0.6548595132466544},
-
-{x: 7.2, y: 0.6235265221822212},
-{x: 7.4, y: 0.6089581454957206},
-{x: 7.6, y: 0.595054991488969},
-
-{x: 8, y: 0.5690700573628131},
-{x: 8.2, y: 0.5569104407524966},
-{x: 8.4, y: 0.5452595947116494},
-
-{x: 8.8, y: 0.5233616190204184},
-{x: 9, y: 0.5130592249452134},
-{x: 9.2, y: 0.5031546067030279},
-
-{x: 9.6, y: 0.48444997448358446},
-{x: 9.8, y: 0.4756096464820591},
-{x: 10, y: 0.46708617611499714}],
-						borderWidth:3,
-						pointRadius:0,
-						borderJoinStyle:'round',
-						borderColor: lineColor1,
-						fill:false
-					},{ //dataset 9 - for animation
-					},]
-				},//end data
-				options: {
-
-		    	maintainAspectRatio: false,
-		    	interaction: {
-
-		    	},
-	        animation: {
-	            duration: 0 // general animation time
-	        },
-	        hover: {
-	            animationDuration: 0.1 // duration of animations when hovering an item
-	        },
-	        responsiveAnimationDuration: 0, // animation duration after a resize
-
-		    	scales: {
-		    		y: {
-		    			display: true,
-		    			min: 0,
-		    			max: 10,
-		    			title: {
-		    				display: true,
-		    				text: "Propofol Ce (mcg/ml)"
-		    			}
-		    		},
-		    		x: {
-		    			type: 'linear',
-		    			display: true,
-		    			position:'bottom',
-		    			min:0,
-		    			max:10,
-		    			title: {
-		    				display: true,
-		    				text: "Remifentanil Ce (ng/ml)"
-		    			}
-		    			
-		    		}
-		    	},
-		    	plugins: {
-		    		tooltip: {
-		    			enabled:false,
-		    			//mode: 'nearest',
-		    			//intersect: false
-		    		},
-		    		legend: {
-		    			display:false
-		    		},
-			    	crosshair: {
-			    		line: {
-			    			color: 'rgb(0,0,0,0)',
-			    			width: 0,
-			    			//dashPattern: [20,5]
-			    		},
-				        sync: {
-				          enabled: true,            // enable trace line syncing with other charts
-				          group: 1,                 // chart group
-				          suppressTooltips: false   // suppress tooltips when showing a synced tracer
-				        },
-				        zoom: {
-				        	enabled: false,
-				        }
-			    	}
-			    	
-		    	}
-				}
-			})
-
-
-	/*
-
-			myChart2.canvas.addEventListener('mousemove', (e) => {
-				crosshair(myChart2, e);
-			})
-
-			function crosshair(chart, mousemove) {
-				chart.update('none');
-				//const x = mousemove.offsexX;
-				//const y = mousemove.offsetY;
-				const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
-
-
-				if (mousemove.offsetX >= left && mousemove.offsetX <= right && mousemove.offsetY >= top && mousemove.offsetY <= bottom) {
-
-					y = Math.round((mousemove.offsetY - bottom)/(top-bottom) * 10 *10)/10;
-					x = Math.round((mousemove.offsetX - left)/(right-left) * 10 *10)/10;
-					document.getElementById('isobole_chart_description').innerHTML = "CeProp " + y + ", CeRemi " + x + ", PTOL: " + ptol_calculate_pair(y,x);
-				}
-
-			}
-	*/
-
-			function behindPositionDot1(ctx, value) {
-		console.log(myChart2.data.datasets[1].data(p0DataIndex).meta_minute);
-	}
-
-		},800)
-
 	setTimeout(
 
 		function() {
@@ -1792,33 +1049,7 @@ const chartInfRateLayer = {
 				myChart.options.scales.y.grid.borderColor = "rgba(255,255,255,0.6)";
 				myChart.options.scales.x.ticks.color = "rgba(255,255,255,0.6)";
 				myChart.options.scales.y.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.x.grid.color = "rgba(255,255,255,0.2)";
-				myChart2.options.scales.y.grid.color = "rgba(255,255,255,0.2)";
-				myChart2.options.scales.x.grid.borderColor = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.y.grid.borderColor = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.x.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.y.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.data.datasets[1].pointBackgroundColor = dotColor0dark;
-				myChart2.data.datasets[1].pointBorderColor = dotColor0dark;
-				myChart2.data.datasets[2].pointBackgroundColor = dotColor1dark;
-				myChart2.data.datasets[2].pointBorderColor = dotColor1dark;
-				myChart2.data.datasets[3].pointBackgroundColor = dotColor2dark;
-				myChart2.data.datasets[3].pointBorderColor = dotColor2dark;
-				myChart2.data.datasets[4].pointBackgroundColor = dotColor3dark;
-				myChart2.data.datasets[4].pointBorderColor = dotColor3dark;
-				myChart2.data.datasets[5].pointBackgroundColor = dotColor4dark;
-				myChart2.data.datasets[5].pointBorderColor = dotColor4dark;
-				myChart2.data.datasets[6].pointBackgroundColor = dotColor5dark;
-				myChart2.data.datasets[6].pointBorderColor = dotColor5dark;
-				myChart2.data.datasets[7].pointBackgroundColor = dotColor6dark;
-				myChart2.data.datasets[7].pointBorderColor = dotColor6dark;
-				myChart2.data.datasets[8].pointBackgroundColor = dotColor7dark;
-				myChart2.data.datasets[8].pointBorderColor = dotColor7dark;
-				myChart2.data.datasets[9].pointBackgroundColor = dotColor8dark;
-				myChart2.data.datasets[9].pointBorderColor = dotColor8dark;
-				myChart2.data.datasets[10].pointBorderColor = lineColor1dark;
-				myChart2.data.datasets[10].pointBackgroundColor = lineColor1dark;
-				myChart2.data.datasets[10].borderColor = lineColor1dark;
+
 
 			}
 		},1500);
@@ -1882,11 +1113,15 @@ function init() {
 	setmodal("modalInitial");	
 }
 
-function updateAnimal() {
-	if (document.getElementById("select_animal").value == "Dog") {
+function updateAnimal(param) {
+	if (param == 0) {
+		document.getElementById("animalboxdog").classList.add('active');
+		document.getElementById("animalboxcat").classList.remove('active');
 		document.getElementById("select_model").style.display = "block";
 		document.getElementById("select_model2").style.display = "none";
 	} else {
+		document.getElementById("animalboxdog").classList.remove('active');
+		document.getElementById("animalboxcat").classList.add('active');
 		document.getElementById("select_model").style.display = "none";
 		document.getElementById("select_model2").style.display = "block";
 	}
@@ -1906,7 +1141,7 @@ function updateInit() {
 		ElPremed.style.display = "none";
 		PMID = 11265996;
 		DOI = `<a href="https://doi.org/10.1136/vr.148.7.198" target="_blank">10.1136/vr.148.7.198</a>`;	
-		Description = "‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighting between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.";	
+		Description = "‘Beths model’ for Propofol TCI in dogs was validated on 16, ASA1-2, mixed-breed dogs, aged between 2.5 - 12 years, weighing between 9 - 38kg, receiving a premedication of either acepromazine and methadone or acepromazine and pethidine (meperidine) and undergoing routine dental procedures. Venous blood samples were used for evaluation and optimisation of this model.";	
 	}
 	if (document.getElementById("select_model").value == "Cattai-Fentanyl") {
 		ElAge.style.display = "none";
@@ -1915,7 +1150,7 @@ function updateInit() {
 		ElPremed.style.display = "none";
 		PMID = 35550343;
 		DOI = `<a href="https://doi.org/10.1016/j.vaa.2021.08.049" target="_blank">10.1016/j.vaa.2021.08.049</a>`;
-		Description = "‘Cattai model’ for Fentanyl TCI in dogs was validated on 20 mixed-breed dogs, aged between 0.5 -13 years, weighting between 6.5 - 34 kg, receiving a premedication of either acepromazine and methadone or methadone alone and undergoing magnetic resonance imaging for spinal pain. Arterial blood samples were used for evaluation and optimisation of this model.";
+		Description = "‘Cattai model’ for Fentanyl TCI in dogs was validated on 20 mixed-breed dogs, aged between 0.5 -13 years, weighing between 6.5 - 34 kg, receiving a premedication of either acepromazine and methadone or methadone alone and undergoing magnetic resonance imaging for spinal pain. Arterial blood samples were used for evaluation and optimisation of this model.";
 	}
 	if (document.getElementById("select_model").value == "Cattai-Propofol") {
 		ElAge.style.display = "table-row";
@@ -1924,7 +1159,7 @@ function updateInit() {
 		ElPremed.style.display = "table-row";
 		PMID = 31326349;
 		DOI = `<a href="https://doi.org/10.1016/j.vaa.2019.04.009" target="_blank">10.1016/j.vaa.2019.04.009</a>`;
-		Description = "‘Cattai model’ for Propofol TCI in dogs was validated on 14 mixed-breed dogs, aged 6.4 ± 2.7 years, weighting 23 ± 9.4kg, receiving a premedication of either acepromazine and methadone or dexmedetomidine and methadone and undergoing magnetic resonance imaging. Arterial blood samples were used for evaluation and optimisation of this model.";
+		Description = "‘Cattai model’ for Propofol TCI in dogs was validated on 14 mixed-breed dogs, aged 6.4 ± 2.7 years, weighing 23 ± 9.4kg, receiving a premedication of either acepromazine and methadone or dexmedetomidine and butorphanol and undergoing magnetic resonance imaging. Arterial blood samples were used for evaluation and optimisation of this model.";
 	}
 	if (document.getElementById("select_model").value == "Sano") {
 		ElAge.style.display = "none";
@@ -1935,7 +1170,7 @@ function updateInit() {
 		DOI = `<a href="https://doi.org/10.1111/j.1467-2995.2005.00266.x" target="_blank">10.1111/j.1467-2995.2005.00266.x</a>`;
 		Description = "";
 	}
-	if ((document.getElementById("select_animal").value=="Cat") && (document.getElementById("select_model2").value == "Cattai-Propofol-Cats")) {
+	if ((document.getElementById("animalboxcat").classList.contains('active')) && (document.getElementById("select_model2").value == "Cattai-Propofol-Cats")) {
 		ElAge.style.display = "none";
 		ElGender.style.display = "none";
 		ElFen.style.display = "none";
@@ -1956,21 +1191,12 @@ function initsubmit() {
 	simspeed=1;
 	//initiate parameters;
 	mass = document.getElementById("inputBW").value *1; 
-	if (document.getElementById("select_animal").value == "Dog") {
+	if (document.getElementById("animalboxdog").classList.contains('active')) {
 		ElModel = document.getElementById("select_model");
 	} else {
 		ElModel = document.getElementById("select_model2");
 	}
-		//off complex interface displays
-		document.getElementById("ptolcard").style.display = "none";
-		document.getElementById("ptolcardoptions").style.display = "none";
-		document.getElementById("interactionscontainer").style.display = "none";
-		document.getElementById("ptolcard_switch").style.display = "none";
 
-		//interface change
-		document.getElementById("complexmodeselection0").style.display = "none";
-		document.getElementById("complexmodeselection1").style.display = "none";
-		document.getElementById("complexbuttons").style.display = "none";
 
 	//data validation
 	if (mass>0) {
@@ -10518,11 +9744,12 @@ function toPageTwo() {
 	document.getElementById("btn_back").style.display = "block";
 	document.getElementById("modalInitTitle").innerHTML = "Patient Data";
 	
-	document.getElementById("modalInitScreen2InfoLine1").innerHTML = document.getElementById("select_animal").options[document.getElementById("select_animal").selectedIndex].text;
-	if (document.getElementById("select_animal").value == "Dog") {
+	if (document.getElementById("animalboxdog").classList.contains('active')) {
+		document.getElementById("modalInitScreen2InfoLine1").innerHTML = "DOG";
 		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model").options[document.getElementById("select_model").selectedIndex].text;
 		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-dog'></i>";
 	} else {
+		document.getElementById("modalInitScreen2InfoLine1").innerHTML = "CAT";
 		document.getElementById("modalInitScreen2InfoLine2").innerHTML = document.getElementById("select_model2").options[document.getElementById("select_model2").selectedIndex].text;
 		document.getElementById("animalIcon").innerHTML = "<i class='fas fa-cat'></i>";
 	}
@@ -14250,35 +13477,9 @@ function goDark(arg) {
 				myChart.options.scales.y.grid.borderColor = "rgba(255,255,255,0.6)";
 				myChart.options.scales.x.ticks.color = "rgba(255,255,255,0.6)";
 				myChart.options.scales.y.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.x.grid.color = "rgba(255,255,255,0.2)";
-				myChart2.options.scales.y.grid.color = "rgba(255,255,255,0.2)";
-				myChart2.options.scales.x.grid.borderColor = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.y.grid.borderColor = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.x.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.options.scales.y.ticks.color = "rgba(255,255,255,0.6)";
-				myChart2.data.datasets[1].pointBackgroundColor = dotColor0dark;
-				myChart2.data.datasets[1].pointBorderColor = dotColor0dark;
-				myChart2.data.datasets[2].pointBackgroundColor = dotColor1dark;
-				myChart2.data.datasets[2].pointBorderColor = dotColor1dark;
-				myChart2.data.datasets[3].pointBackgroundColor = dotColor2dark;
-				myChart2.data.datasets[3].pointBorderColor = dotColor2dark;
-				myChart2.data.datasets[4].pointBackgroundColor = dotColor3dark;
-				myChart2.data.datasets[4].pointBorderColor = dotColor3dark;
-				myChart2.data.datasets[5].pointBackgroundColor = dotColor4dark;
-				myChart2.data.datasets[5].pointBorderColor = dotColor4dark;
-				myChart2.data.datasets[6].pointBackgroundColor = dotColor5dark;
-				myChart2.data.datasets[6].pointBorderColor = dotColor5dark;
-				myChart2.data.datasets[7].pointBackgroundColor = dotColor6dark;
-				myChart2.data.datasets[7].pointBorderColor = dotColor6dark;
-				myChart2.data.datasets[8].pointBackgroundColor = dotColor7dark;
-				myChart2.data.datasets[8].pointBorderColor = dotColor7dark;
-				myChart2.data.datasets[9].pointBackgroundColor = dotColor8dark;
-				myChart2.data.datasets[9].pointBorderColor = dotColor8dark;
-				myChart2.data.datasets[10].pointBorderColor = lineColor1dark;
-				myChart2.data.datasets[10].pointBackgroundColor = lineColor1dark;
-				myChart2.data.datasets[10].borderColor = lineColor1dark;
+
 			myChart.update();
-			myChart2.update();
+			
 			isDark = true;
 	} else {
 		var metaThemeColor = document.querySelector("meta[name=theme-color]");
@@ -14291,35 +13492,7 @@ function goDark(arg) {
 				myChart.options.scales.y.grid.borderColor = "rgba(0,0,0,0.25)";
 				myChart.options.scales.x.ticks.color = "rgba(102,102,102,1)";
 				myChart.options.scales.y.ticks.color = "rgba(102,102,102,1)";
-				myChart2.options.scales.x.grid.color = "rgba(0,0,0,0.1)";
-				myChart2.options.scales.y.grid.color = "rgba(0,0,0,0.1)";
-				myChart2.options.scales.x.grid.borderColor = "rgba(0,0,0,0.25)";
-				myChart2.options.scales.y.grid.borderColor = "rgba(0,0,0,0.25)";
-				myChart2.options.scales.x.ticks.color = "rgba(102,102,102,1)";
-				myChart2.options.scales.y.ticks.color = "rgba(102,102,102,1)";
-				myChart2.data.datasets[1].pointBackgroundColor = dotColor0;
-				myChart2.data.datasets[1].pointBorderColor = dotColor0;
-				myChart2.data.datasets[2].pointBackgroundColor = dotColor1;
-				myChart2.data.datasets[2].pointBorderColor = dotColor1;
-				myChart2.data.datasets[3].pointBackgroundColor = dotColor2;
-				myChart2.data.datasets[3].pointBorderColor = dotColor2;
-				myChart2.data.datasets[4].pointBackgroundColor = dotColor3;
-				myChart2.data.datasets[4].pointBorderColor = dotColor3;
-				myChart2.data.datasets[5].pointBackgroundColor = dotColor4;
-				myChart2.data.datasets[5].pointBorderColor = dotColor4;
-				myChart2.data.datasets[6].pointBackgroundColor = dotColor5;
-				myChart2.data.datasets[6].pointBorderColor = dotColor5;
-				myChart2.data.datasets[7].pointBackgroundColor = dotColor6;
-				myChart2.data.datasets[7].pointBorderColor = dotColor6;
-				myChart2.data.datasets[8].pointBackgroundColor = dotColor7;
-				myChart2.data.datasets[8].pointBorderColor = dotColor7;
-				myChart2.data.datasets[9].pointBackgroundColor = dotColor8;
-				myChart2.data.datasets[9].pointBorderColor = dotColor8;
-				myChart2.data.datasets[10].pointBorderColor = lineColor1;
-				myChart2.data.datasets[10].pointBackgroundColor = lineColor1;
-				myChart2.data.datasets[10].borderColor = lineColor1;
-				myChart.update();
-				myChart2.update();
+
 				isDark = false;
 	}
 
