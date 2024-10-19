@@ -114,10 +114,11 @@
 			<div class="modal-content" id="modalInitialcontent">
 				<div class="modal-header"><span id="modalInitTitle">Model Information</span><!--<span class="close notcondensed" onClick="hideallmodal()">&times;</span>--><img onclick="displayAbout();" src="apple-touch-icon-180x180.png" style="position:absolute;right:6px;width:44px;cursor:pointer"></div>
 				<div class="modal-body">
-					<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
-					<div style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> a web app to guide TCI/TIVA in small animals.</div>
+					<div id="intro">
+						<div style="font-size:1.6rem;font-weight:bold">SimTIVA<span style="opacity: 0.5">.vet</span></div>
+						<div id="" style="margin-top:0.5rem;margin-bottom:0.5rem;font-size:0.75rem"><i>Welcome to Veterinary Simulator for TIVA:</i> a web app to guide TCI/TIVA in small animals.</div>
+					</div>
 					<div id="modalInitScreen1">
-
 
 						<div id="modalInitScreen1Container">
 						<div class="animalselectorouter">
@@ -160,11 +161,11 @@
 								<div onclick="goBack();">CHANGE</div>
 							</div>
 						</div>
-					<table class="table-Init" style="margin-bottom:1.5rem">
+					<table class="table-Init" style="margin-bottom:1rem">
 					<tr class="fr">
-						<td>Mode</td>
+						<td style="width:50%">Mode</td>
 						<td>
-							<select id="select_mode" onchange="" >
+							<select id="select_mode" onchange="updateCpt();" >
 									<option value="cpt">CP targeting</option>
 									<!--<option value="cet">CE targeting</option>-->
 									<option value="manual">Manual</option>
@@ -214,7 +215,45 @@
 							</div>
 						</td>
 					</tr>
-					</table>
+
+								<tr class="" style="" id="row_induction1">
+									<td style="padding:0 2px">Induction max speed</td>
+									<td style="padding:0 2px">
+										<select id="page2selectmaxrate" onchange="sendToUpdateMax(this.value);">
+											<option value="0" selected>Flash</option>
+											<option value="1500">1500ml/h</option>
+											<option value="1400">1400ml/h</option>
+											<option value="1300">1300ml/h</option>
+											<option value="1200">1200ml/h</option>
+											<option value="1100">1100ml/h</option>
+											<option value="1000">1000ml/h</option>
+											<option value="900">900ml/h</option>
+											<option value="800">800ml/h</option>
+											<option value="700">700ml/h</option>
+											<option value="600">600ml/h</option>
+											<option value="500">500ml/h</option>
+											<option value="400">400ml/h</option>
+											<option value="300">300ml/h</option>
+										</select>
+									</td>
+								</tr>
+								<tr style="height:1rem" id="row_induction2">
+									<td colspan="2"  style="padding:0 0 3px 2px;border-top:0;opacity:0.6;font-size:0.7rem;font-style:italic;pointer-events:none"><span id="page2bolustext">Flash: assume bolus given instantaneously. Ideal for manual rapid bolus.</span></td>
+								</tr>
+								<tr style="" id="row_maintenance1">
+									<td style="padding:0 2px">Maintenance accuracy</td>
+									<td style="padding:0 2px">
+										<select id="page2selectmaintenance">
+											<option value="0">Auto</option>
+											<option value="1">Lazy</option>
+											<option value="2">Accurate</option>
+										</select>
+									</td>
+								</tr>
+								<tr style="height:1rem" id="row_maintenance2">
+									<td colspan="2" style="padding:0;border-top:0;opacity:0.6;font-size:0.7rem;font-style:italic">Threshold for rate changes. Lazy: less frequent rate changes. Accurate: more frequent rate changes.</td>
+								</tr>
+							</table>
 					</div> <!--end of modal Init Screen 2 -->
 					
 
@@ -1748,7 +1787,26 @@
 							</select>
 						</td>
 					</tr>
-
+					<tr id="option_bolusspeed_row" style="display:none"><td>Bolus max. speed <i class="far fa-question-circle tooltip background"><span class="tooltiptext">Max bolus rate for programmed bolus. Flash means instantaneous bolus.</span></i></td>
+						<td>
+							<select id="select_bolusspeed" onchange="applybolusspeed();">
+											<option value="0" selected>Flash</option>
+											<option value="1500">1500ml/h</option>
+											<option value="1400">1400ml/h</option>
+											<option value="1300">1300ml/h</option>
+											<option value="1200">1200ml/h</option>
+											<option value="1100">1100ml/h</option>
+											<option value="1000">1000ml/h</option>
+											<option value="900">900ml/h</option>
+											<option value="800">800ml/h</option>
+											<option value="700">700ml/h</option>
+											<option value="600">600ml/h</option>
+											<option value="500">500ml/h</option>
+											<option value="400">400ml/h</option>
+											<option value="300">300ml/h</option>
+							</select>
+						</td>
+					</tr>
 					<tr id="option_threshold_row"><td>Threshold <i class="far fa-question-circle tooltip background"><span class="tooltiptext">Adjusts the threshold of CPT/CET infusion schemes. Lazy: less frequent rate changes. Accurate: more frequent rate changes.</span></i></td>
 						<td>
 							<select id="select_threshold">
