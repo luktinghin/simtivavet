@@ -12819,7 +12819,7 @@ function parseobject(input_uid,external,extObject) {
 					}
 				} else {
 					if (parse_historyarray[count][3]>0) {
-						if (parse_historyarray[count].length>3) {
+						if (parse_historyarray[count].length>4) {
 							drug_sets[0].max_rate = parse_historyarray[count][4];
 							deliver_cpt(parse_historyarray[count][3],0,0,0);
 						} else {
