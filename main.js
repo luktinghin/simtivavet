@@ -12791,13 +12791,24 @@ function parseobject(input_uid,external,extObject) {
 					console.log("states retrieved, time " + time_in_s);
 					historydivs = document.getElementById("historywrapper").querySelectorAll("[data-time]"); 
 					if (parse_historyarray[count][3]>0) {
-						deliver_cpt(parse_historyarray[count][3],0,0,0); //for cpt mode effect flag is 0, third param is for compen, 4th param is drug_set
+						if (parse_historyarray[count].length>4) {
+							//normal CPT target array has 4 items, the fifth will denote the max rate
+							drug_sets[0].max_rate = parse_historyarray[count][4];
+							deliver_cpt(parse_historyarray[count][3],0,0,0);
+						} else {
+							deliver_cpt(parse_historyarray[count][3],0,0,0); //for cpt mode effect flag is 0, third param is for compen, 4th param is drug_set
+						}
 					} else {
 						pauseCpt(0);
 					}
 				} else {
 					if (parse_historyarray[count][3]>0) {
-						deliver_cpt(parse_historyarray[count][3],0,0,0); //for cpt mode effect flag is 0
+						if (parse_historyarray[count].length>3) {
+							drug_sets[0].max_rate = parse_historyarray[count][4];
+							deliver_cpt(parse_historyarray[count][3],0,0,0);
+						} else {
+							deliver_cpt(parse_historyarray[count][3],0,0,0); //for cpt mode effect flag is 0	
+						}
 					} else {
 						pauseCpt(0);
 					}
