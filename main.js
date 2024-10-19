@@ -508,7 +508,11 @@ const chartInfRateLayer = {
 					if (drug_sets[active_drug_set_index].historyarrays[icount][1] == 1) {
 						bolustime = drug_sets[active_drug_set_index].historyarrays[icount][2]; 
 						if (drug_sets[active_drug_set_index].historyarrays[icount][3]>0) {
-							bolustext = drug_sets[active_drug_set_index].historyarrays[icount][3] + drug_sets[active_drug_set_index].infused_units;
+							if (drug_sets[active_drug_set_index].historyarrays[icount].length > 4) {
+								bolustext = drug_sets[active_drug_set_index].historyarrays[icount][3] + drug_sets[active_drug_set_index].infused_units + " over " + drug_sets[active_drug_set_index].historyarrays[icount][5] + "s";
+							} else {
+								bolustext = drug_sets[active_drug_set_index].historyarrays[icount][3] + drug_sets[active_drug_set_index].infused_units;
+							}
 						} else {
 							bolustext = "";
 						}
@@ -11690,8 +11694,20 @@ function outputscheme(arg1, arg2) {
 				if (drug_sets[z].historyarrays[i][1] == 0) {
 					content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Target: (" + drug_sets[z].conc_units + "/ml): " + drug_sets[z].historyarrays[i][3]);
 				} 
-				if (drug_sets[z].historyarrays[i][1] == 1) content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Bolus (" + drug_sets[z].infused_units + "): " + drug_sets[z].historyarrays[i][3]);
-				if (drug_sets[z].historyarrays[i][1] == 3) content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Pause for (s): " + drug_sets[z].historyarrays[i][2]);
+				if (drug_sets[z].historyarrays[i][1] == 1) {
+					if (drug_sets[z].historyarrays[i].length == 4) {
+						content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Bolus (" + drug_sets[z].infused_units + "): " + drug_sets[z].historyarrays[i][3]);
+					} else {
+						content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Bolus (" + drug_sets[z].infused_units + "): " + drug_sets[z].historyarrays[i][3] + " over " + drug_sets[z].historyarrays[i][5] + "s");
+					}
+				}
+				if (drug_sets[z].historyarrays[i][1] == 3) {
+					if (drug_sets[z].historyarrays[i].length == 3) {
+						content[z].push(converttime(drug_sets[z].historyarrays[i-1][2]) + " - " + "Pause for (s): " + drug_sets[z].historyarrays[i][2]);
+					} else {
+						content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Pause for (s): " + drug_sets[z].historyarrays[i][3]);
+					}
+				}
 				if (drug_sets[z].historyarrays[0][0] == 0) { //if manual mode
 					if (drug_sets[z].historyarrays[i][1] == 2) content[z].push(converttime(drug_sets[z].historyarrays[i][2]) + " - " + "Infusion rate (ml/h): " + drug_sets[z].historyarrays[i][3]);
 				} else {
