@@ -10134,7 +10134,7 @@ function displayAbout() {
 					<h1><b>SimTIVA.vet</b></h1>
 					<br>Welcome to Veterinary Simulator for TIVA: an experimental progressive web app to guide target-controlled infusion (TCI) & total intravenous anaesthesia (TIVA) in small animals. The pharmacological models include Beths model and Cattai model for propofol, and Cattai model for fentanyl.
 					<br>
-					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 19/3/2024 (build 5).
+					<br><b>Written by Terence Luk, in collaboration with Enzo Minghella, 2024</b>. The code is based on the SimTIVA app for TCI in human patients. This work is licensed under GNU General Public License v3.0. This is an open source project and the source code is published on <a href='https://github.com/luktinghin/vetsimtiva/' target='_blank'>GitHub</a>. Last updated 19/10/2024 (build 10).
 					<br>
 					<br><i>The purpose of this app is to simulate TCI/TIVA for educational purposes; and to help deliver TCI/TIVA in a setting with no TCI pumps available.</i>
 					<br>

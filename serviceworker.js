@@ -1,5 +1,5 @@
 
-const cacheName = "simtivavet-v1-5";
+const cacheName = "simtivavet-v1-10";
 
 const assets = [
 	"/",
