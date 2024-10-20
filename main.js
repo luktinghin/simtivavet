@@ -3153,7 +3153,12 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 
 	//new first pass
 	est_cp = p_state2[1] + p_state2[2] + p_state2[3];
-	temp_vol = temp_vol = drug_sets[ind].volinf[working_clock-1];
+
+	if (working_clock==0) {
+		temp_vol = 0;
+	} else {
+		temp_vol = drug_sets[ind].volinf[working_clock-1];
+	};
 	cpt_pause = 0;
 	if ((effect_flag == 0) && (est_cp >= drug_sets[ind].desired)) {
 		while (est_cp>=drug_sets[ind].desired) {
@@ -3781,20 +3786,20 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 	var look_l3 = Math.exp(-drug_sets[ind].lambda[3] );
 	var look_l4 = Math.exp(-drug_sets[ind].lambda[4] );
 	var temp_result, temp_result_e, temp_vol;
-
-	if (drug_sets[ind].volinf.length==0) {
+	
+	if (working_clock==0) {
 		temp_vol = 0;
 	} else {
 		temp_vol = drug_sets[ind].volinf[working_clock-1];
 	};
-
 	//you've got to deliver the real bolus at this point too
-
+	if ((max_rate_input == 0) && (drug_sets[ind].cpt_bolus > 0)) {
+		temp_vol = temp_vol + drug_sets[ind].cpt_bolus/drug_sets[ind].infusate_concentration;
+	}
 	for (j=0; j<21600; j++) {
 
 		test_rate = drug_sets[ind].cpt_rates_real[j+working_clock];
 		temp_vol = temp_vol+test_rate/drug_sets[ind].infusate_concentration;
-
 		p_state3[1] = p_state3[1] * look_l1 + drug_sets[ind].p_coef[1] * test_rate * (1 - look_l1);
 		p_state3[2] = p_state3[2] * look_l2 + drug_sets[ind].p_coef[2] * test_rate * (1 - look_l2);
 		p_state3[3] = p_state3[3] * look_l3 + drug_sets[ind].p_coef[3] * test_rate * (1 - look_l3);
@@ -3811,12 +3816,8 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 
 		drug_sets[ind].cpt_cp.push([p_state3[1],p_state3[2],p_state3[3]]);
 		drug_sets[ind].cpt_ce.push([e_state3[1],e_state3[2],e_state3[3],e_state3[4]]);
-		if ((j==0) && (drug_sets[ind].cpt_bolus>0)) { //detect bolus given and update VI
-			temp_vol += drug_sets[ind].cpt_bolus/10;
-			drug_sets[ind].volinf.push(temp_vol);
-		} else {
-			drug_sets[ind].volinf.push(temp_vol);
-		}
+		drug_sets[ind].volinf.push(temp_vol);
+
 		//charting engine: if before first 15mins then higher resolution
 		if ((j<15*60) && (j%10==0)) {
 			myChart.data.datasets[ind*2+2].data.push({x:(working_clock+j)/60, y:temp_result});
@@ -8080,7 +8081,7 @@ function bolusadmin(x, ind, max_rate_input) {
 		drug_sets[ind].cpt_ce.push([e_state3[1],e_state3[2],e_state3[3],e_state3[4]]);
 		temp_vol = temp_vol + max_rate/drug_sets[ind].infusate_concentration;
 		drug_sets[ind].volinf.push(temp_vol);
-		drug_sets[ind].cpt_rates_real.push(0);
+		drug_sets[ind].cpt_rates_real.push(0.00000001);
 	} else {
 		bolus_duration = Math.floor(x / max_rate * rate_corr_factor);
 		if (temp_peak != undefined) {
