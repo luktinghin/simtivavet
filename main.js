@@ -10564,7 +10564,7 @@ function displayModalOptions() {
 	temp_unit = document.getElementById("select_defaultrateunit").options[1].textContent;
 	temp_unit_bolus = document.getElementById("select_defaultbolusunit").options[0].textContent;
 	text = `
-		<table class="table-control">
+		<table class="table-control" style="padding-bottom:0">
 					<tr class="fr" id=""><td>Unit <i class="far fa-question-circle tooltip2"><span class="tooltiptext">Preferred secondary unit for propofol infusion.</span></i></td>
 						<td>
 							<select id="" onchange="document.getElementById('select_unit').value=this.value">
@@ -11877,11 +11877,9 @@ function outputpatientstring() {
 		P_patient.push(mass);
 		P_patient.push(height);
 		//array pos 6 is age. if array -> paedi mode is ON.
-		if (paedi_mode == 0) {
+		
 			P_patient.push(age);
-		} else {
-			P_patient.push([document.getElementById("inputAgePaedi").value*1,ageunit,document.getElementById("inputPMA").value*1]);
-		}
+		
 		P_patient.push(document.getElementById('gender').innerHTML);
 		P_patient.push(drug_sets[0].infused_units);
 		if (drug_sets[0].state_premed != undefined) {
@@ -11907,11 +11905,11 @@ function outputpatientstring() {
 		P_patient.push(mass);
 		P_patient.push(height);
 		//array pos 6 is age. if array -> paedi mode is ON.
-		if (paedi_mode == 0) {
+		
 			P_patient.push(age);
-		} else {
-			P_patient.push([document.getElementById("inputAgePaedi").value*1,ageunit,document.getElementById("inputPMA").value*1]);
-		}
+		
+		
+		
 		P_patient.push(document.getElementById('gender').innerHTML);
 		P_patient.push(drug_sets[0].infused_units);
 		P_patient.push(drug_sets[0].infusate_concentration); //useless but for legacy
@@ -12065,11 +12063,8 @@ function loadSourceLocal() {
 		document.getElementById("loadfile_container").classList.remove("collapse");
 		document.getElementById("loadfile_container").classList.remove("compress");
 		document.getElementById("loadfile_container").style.display = "block";
-
 		importDataArray.length = 0;
-
 	}
-
 }
 
 function rescue() {
@@ -12152,42 +12147,28 @@ function renderFileList(inputkeysarray) {
 
 	function createfileelement(tempObject,tempId,parentEl) {
 		
-		//console.log(tempObject);
+		origModelName = tempObject.P_patient[0];
+		let newModelName;
 
 		//render correct age
 		if (typeof tempObject.P_patient[6] == "number") {
 			tempAge = tempObject.P_patient[6];
-			tempAgeString = tempAge + "years";
+			tempAgeString = tempAge + "y";
+			if (tempAge == 0) tempAgeString = "";
+		} 
+		
+		if (tempObject.P_patient[7] === ", Male") {
+			tempGenderString = "Male";
 		} else {
-			if (tempObject.P_patient[6][1] == "y") {
-				tempAge = tempObject.P_patient[6][0];
-			} else if (tempObject.P_patient[6][1] == "m") {
-				tempAge = tempObject.P_patient[6][0]/12;
-			} else if (tempObject.P_patient[6][1] == "w") {
-				tempAge = tempObject.P_patient[6][0]/52;
-			} else if (tempObject.P_patient[6][1] == "d") {
-				tempAge = tempObject.P_patient[6][0]/365;
-			}
-			if (tempObject.P_patient[6][2]>0) {
-				tempAgeString = tempObject.P_patient[6][0] + tempObject.P_patient[6][1] + " (PMA:" + tempObject.P_patient[6][2] + "w)";	
-			} else {
-				tempAgeString = tempObject.P_patient[6][0] + tempObject.P_patient[6][1];	
-			}		
+			tempGenderString = "Female";
 		}
 
-		if (tempAge>=18) { //age
-			if (tempObject.P_patient[7] === "Male") {
-				tempIcon = "<i class='fas fa-male fa-fw'></i>";
-			} else {
-				tempIcon = "<i class='fas fa-female fa-fw'></i>";
-			}
-		} else if (tempAge>=3) {
-			tempIcon = "<i class='fas fa-child fa-fw'></i>";
-		} else if (tempAge>0) {
-			tempIcon = "<i class='fas fa-baby fa-fw'></i>";
+		
+		if (origModelName == "Cattai-Propofol-Cats") {
+			tempIcon = "<i class='fas fa-cat fa-fw'></i>";
 		} else {
-			tempIcon = "";
-		}
+			tempIcon = "<i class='fas fa-dog fa-fw'></i>";
+		} 
 		
 		tempDuration = converttime(tempObject.P_time);
 		console.log(tempDuration);
@@ -12258,10 +12239,11 @@ function renderFileList(inputkeysarray) {
 			}
 		}
 		if (isComplex == 0) {
-			if ((tempObject.P_patient[1] == "Remifentanil") && (tempObject.P_patient[0] == "Eleveld-Remifentanil")) {
-				tempObject.P_patient[0] = "Eleveld";
-			}
-			El2.innerHTML = `
+			//if ((tempObject.P_patient[1] == "Remifentanil") && (tempObject.P_patient[0] == "Eleveld-Remifentanil")) {
+			//	tempObject.P_patient[0] = "Eleveld";
+			//}
+			if (origModelName == "Cattai-Propofol-Cats") {
+				El2.innerHTML = `
 							<div class="file_innerleft">
 								${tempIcon}
 								<br>
@@ -12270,8 +12252,8 @@ function renderFileList(inputkeysarray) {
 							<div class="file_innerright">
 								<div class="file_content_line1">Started on ${tempObject.P_d} <div class="loadduration">${tempDuration}</div></div>
 								<div class="file_name">${tempObject.name}</div>
-								<div class="file_content_line2">${tempObject.P_patient[1]} (${tempObject.P_patient[0]}) - ${tempMode2}</div>
-								<div class="file_content_line3">${tempObject.P_patient[7]}/${tempAgeString}, BW:${tempObject.P_patient[4]}kg, BH: ${tempObject.P_patient[5]}cm</div>
+								<div class="file_content_line2">CAT: ${tempObject.P_patient[1]} (Cattai) - ${tempMode2}</div>
+								<div class="file_content_line3">BW: ${tempObject.P_patient[4]}kg</div>
 							</div>
 							<div class="deleteFileIcon" onclick="deleteFile(this.parentElement.id, this.parentElement.dataset.timestamp, this.parentElement.dataset.duration);">
 								<span class="fa-stack fa-2x">
@@ -12279,7 +12261,76 @@ function renderFileList(inputkeysarray) {
 									<i class="fas fa-trash-alt fa-stack-1x fa-inverse"></i>
 								</span>
 							</div>
-			`
+				`;
+			} else if (origModelName == "Cattai-Propofol") {
+				if (tempObject.P_patient[9] == true) {
+					tempPremedString = "dexmedetomidine-based premed";
+				} else {
+					tempPremedString = "acepromazine-based premed";
+				}
+				El2.innerHTML = `
+							<div class="file_innerleft">
+								${tempIcon}
+								<br>
+								${tempIconMode} 
+							</div>
+							<div class="file_innerright">
+								<div class="file_content_line1">Started on ${tempObject.P_d} <div class="loadduration">${tempDuration}</div></div>
+								<div class="file_name">${tempObject.name}</div>
+								<div class="file_content_line2">DOG: ${tempObject.P_patient[1]} (Cattai) - ${tempMode2}</div>
+								<div class="file_content_line3">${tempObject.P_patient[4]}kg, ${tempAgeString}/${tempGenderString} <span style='opacity:0.5;font-size:0.6rem;letter-spacing:-0.2pt'>(${tempPremedString})</span></div>
+							</div>
+							<div class="deleteFileIcon" onclick="deleteFile(this.parentElement.id, this.parentElement.dataset.timestamp, this.parentElement.dataset.duration);">
+								<span class="fa-stack fa-2x">
+									<i class="fas fa-circle fa-stack-2x"></i>
+									<i class="fas fa-trash-alt fa-stack-1x fa-inverse"></i>
+								</span>
+							</div>
+				`;
+			} else if (origModelName == "Cattai-Fentanyl") {
+				El2.innerHTML = `
+							<div class="file_innerleft">
+								${tempIcon}
+								<br>
+								${tempIconMode} 
+							</div>
+							<div class="file_innerright">
+								<div class="file_content_line1">Started on ${tempObject.P_d} <div class="loadduration">${tempDuration}</div></div>
+								<div class="file_name">${tempObject.name}</div>
+								<div class="file_content_line2">DOG: ${tempObject.P_patient[1]} (Cattai) - ${tempMode2}</div>
+								<div class="file_content_line3">BW: ${tempObject.P_patient[4]}kg, Age: ${tempAgeString}</div>
+							</div>
+							<div class="deleteFileIcon" onclick="deleteFile(this.parentElement.id, this.parentElement.dataset.timestamp, this.parentElement.dataset.duration);">
+								<span class="fa-stack fa-2x">
+									<i class="fas fa-circle fa-stack-2x"></i>
+									<i class="fas fa-trash-alt fa-stack-1x fa-inverse"></i>
+								</span>
+							</div>
+				`;
+			} else if (origModelName == "Beths") {
+				//Beths
+				El2.innerHTML = `
+							<div class="file_innerleft">
+								${tempIcon}
+								<br>
+								${tempIconMode} 
+							</div>
+							<div class="file_innerright">
+								<div class="file_content_line1">Started on ${tempObject.P_d} <div class="loadduration">${tempDuration}</div></div>
+								<div class="file_name">${tempObject.name}</div>
+								<div class="file_content_line2">DOG: ${tempObject.P_patient[1]} (Beths) - ${tempMode2}</div>
+								<div class="file_content_line3">BW: ${tempObject.P_patient[4]}kg</div>
+							</div>
+							<div class="deleteFileIcon" onclick="deleteFile(this.parentElement.id, this.parentElement.dataset.timestamp, this.parentElement.dataset.duration);">
+								<span class="fa-stack fa-2x">
+									<i class="fas fa-circle fa-stack-2x"></i>
+									<i class="fas fa-trash-alt fa-stack-1x fa-inverse"></i>
+								</span>
+							</div>
+				`;
+			} else {
+				El2.innerHTML = `Error reading simfile`;
+			}
 		} else {
 			if ((tempObject.P_patient[11] == "Remifentanil") && (tempObject.P_patient[10] == "Eleveld-Remifentanil")) {
 				tempObject.P_patient[10] = "Eleveld";
@@ -12442,6 +12493,13 @@ function exportDataFile(input_uid) {
 				tempAgeString = outputDataObject.P_patient[6][0] + outputDataObject.P_patient[6][1];	
 			}		
 		}
+		if ((outputDataObject.P_patient[7] == ", Male") || (outputDataObject.P_patient[7] == "Male")) {
+			genderString = "Male";
+		} else if ((outputDataObject.P_patient[7] == ", Female") || (outputDataObject.P_patient[7] == "Female")) {
+			genderString = "Female";
+		} else {
+			genderString = "";
+		}
 		//patientstring = outputDataObject.P_patient[7] + "," + tempAgeString;
 		modestring = "";
 		modelstring = "";
@@ -12466,7 +12524,7 @@ function exportDataFile(input_uid) {
 				outputDataObject.P_time + "," + 
 				"\"" + outputDataObject.name + "\"," + 
 				tempAgeString + "," +  
-				outputDataObject.P_patient[7] + "," + //sex
+				genderString + "," + //sex
 				outputDataObject.P_patient[4] + "," +  //bw
 				outputDataObject.P_patient[5] + "," +  //bh
 				modestring + "," + 
@@ -12653,22 +12711,22 @@ function parseobject(input_uid,external,extObject) {
 	if (typeof object.P_patient[6] == "number") {
 		paedi_mode = 0;
 		age = object.P_patient[6];
-	} else {
-		paedi_mode = 1;
-		ageunit = object.P_patient[6][1];
-		if (ageunit == "d") {
-			age = object.P_patient[6][0] / 365;
-		} else if (ageunit == "w") {
-			age = object.P_patient[6][0] / 52;
-		} else if (ageunit == "m") {
-			age = object.P_patient[6][0] / 12;
-		} else if (ageunit == "y") {
-			age = object.P_patient[6][0];
-		}
-		PMA = object.P_patient[6][2];
+	} //else {
+	//	paedi_mode = 1;
+	//	ageunit = object.P_patient[6][1];
+	//	if (ageunit == "d") {
+	//		age = object.P_patient[6][0] / 365;
+	//	} else if (ageunit == "w") {
+	//		age = object.P_patient[6][0] / 52;
+	//	} else if (ageunit == "m") {
+	//		age = object.P_patient[6][0] / 12;
+	//	} else if (ageunit == "y") {
+	//		age = object.P_patient[6][0];
+	//	}
+	//	PMA = object.P_patient[6][2];
 		//also need to render the inputPMA because otherwise readmodel will result in error
-		document.getElementById("inputPMA").value=PMA;
-	}
+	//	document.getElementById("inputPMA").value=PMA;
+	//}
 	height = object.P_patient[5];
 	mass = object.P_patient[4];
 	
@@ -12679,7 +12737,7 @@ function parseobject(input_uid,external,extObject) {
 	if (object.name != undefined) {
 		if (object.name.length>0) document.getElementById("top_subtitle2").innerHTML = object.name;
 	}
-	if (object.P_patient[7] === "Male") {
+	if ((object.P_patient[7] == "Male") || (object.P_patient[7] == ", Male")) {
 		gender = 0;
 	} else {
 		gender = 1;
@@ -13352,11 +13410,7 @@ function parseobject(input_uid,external,extObject) {
 		ptol_generate_margins(0,0.9,0.5);
 		//BIS charting already incorporated into PD_mode 2 and PTOL generate margins
 	} else {
-		//off complex interface displays
-		document.getElementById("ptolcard").style.display = "none";
-		document.getElementById("ptolcardoptions").style.display = "none";
-		document.getElementById("interactionscontainer").style.display = "none";
-		document.getElementById("ptolcard_switch").style.display = "none";
+
 		if (object.P_patient[0] == "Eleveld") {
 			//styling for eBIS
 			PD_mode = 1;

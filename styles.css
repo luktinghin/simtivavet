@@ -1421,7 +1421,7 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 }
 
 .modal-header.alt {
-  padding-top:15px;
+  padding:15px 10px 0 10px;
   border-radius: 15px 15px 0px 0px;
   color:grey;
   background:#fefefe;
@@ -1435,7 +1435,7 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 }
 
 .modal-body.alt {
-  padding:16px;
+  padding:9px 10px 9px 10px;
   padding-bottom:26px;
   overflow-y:auto; 
   max-height: 70dvh;
@@ -4605,7 +4605,7 @@ body.dark #progressbar {
   z-index: 98; /*higher than modal*/
   opacity: 1;
   pointer-events: auto;
-  display: none;
+  
 }
 
 .button.frontpage {
@@ -4720,14 +4720,14 @@ body.dark #progressbar {
 
 .file_outerbox.active {
   border-color: rgb(155,201,157);
-  background: linear-gradient(90deg, rgb(213, 237, 214) 0px, rgb(213, 237, 214) 30px, rgb(255, 255, 255) 30px, rgb(255, 255, 255) 50%);
+  background: linear-gradient(90deg, rgb(213, 237, 214) 0px, rgb(213, 237, 214) 34px, rgb(255, 255, 255) 34px, rgb(255, 255, 255) 50%);
 }
 .file_outerbox.active .file_innerleft {
   color: #000;
 }
 
 .file_innerleft {
-  flex-basis: 30px;
+  flex-basis: 34px;
   height: 24px;
   font-size: 26px;
   position: relative;
