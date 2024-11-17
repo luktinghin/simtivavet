@@ -1918,7 +1918,11 @@ function trk() {
 		temptext2 = "";
 		//patient data 
 		if (mass != undefined) {
-			trackerprops.mass = mass;
+			if (animal == "cat") {
+				trackerprops.mass_cat = mass;
+			} else {
+				trackerprops.mass = mass;	
+			}
 			temptext2 = "Weight: " + mass;
 		}
 		if (age != undefined) {
