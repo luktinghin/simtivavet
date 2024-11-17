@@ -1922,20 +1922,20 @@ function trk() {
 			temptext2 = "Weight: " + mass;
 		}
 		if (age != undefined) {
-			trackerprops.age = age;
-			temptext2 += "; Age: " + age;
+			if (drug_sets[0].model_name == "Cattai-Propofol") {
+				trackerprops.age = age;
+				temptext2 += "; Age: " + age;
+			}
 		}
 		if (gender != undefined) {
-			if (gender == 0) {
-				trackerprops.sex = "male";
-			} else if (gender == 1) {
-				trackerprops.sex = "female";
+			if ((drug_sets[0].model_name == "Cattai-Propofol") || (drug_sets[0].model_name == "Cattai-Fentanyl")) {
+				if (gender == 0) {
+					trackerprops.sex = "male";
+				} else if (gender == 1) {
+					trackerprops.sex = "female";
+				}
+				temptext2 += ", Sex: " + trackerprops.sex;
 			}
-			temptext2 += ", Sex: " + trackerprops.sex;
-		}
-		if (height != undefined) {
-			trackerprops.height = height;
-			temptext2 += ", Height: " + height;
 		}
 		if (drug_sets[0].state_premed != undefined) {
 			trackerprops.premed = drug_sets[0].state_premed;
