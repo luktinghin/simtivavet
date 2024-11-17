@@ -1931,7 +1931,7 @@ function trk() {
 			} else if (gender == 1) {
 				trackerprops.sex = "female";
 			}
-			temptext2 += ", Sex: " + sex;
+			temptext2 += ", Sex: " + trackerprops.sex;
 		}
 		if (height != undefined) {
 			trackerprops.height = height;
@@ -13607,7 +13607,7 @@ function parseobject(input_uid,external,extObject) {
 	}
 
 	trk();
-	
+
 	function parsebolusadmin(x,ind) {
 		var working_clock2 = Math.floor(time_in_s);
 		l1 = Math.exp(-drug_sets[ind].lambda[1]);
