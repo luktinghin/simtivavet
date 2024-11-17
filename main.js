@@ -1937,9 +1937,9 @@ function trk() {
 			trackerprops.height = height;
 			temptext2 += ", Height: " + height;
 		}
-		if (state_premed != undefined) {
-			trackerprops.premed = state_premed;
-			temptext2 += ", Premed: " + state_premed;
+		if (drug_sets[0].state_premed != undefined) {
+			trackerprops.premed = drug_sets[0].state_premed;
+			temptext2 += ", Premed: " + drug_sets[0].state_premed;
 		}
 		combinedtext = temptext0 + " - " + temptext1;
 		trackerprops.string_model = combinedtext;
