@@ -1870,6 +1870,87 @@ function common_start_calls() {
 			loop3 = setInterval(updatechart, 5000, myChart);
 		loop7 = setInterval(displayWarningBanner, 60*2000);
 		initshare();
+		trk();
+}
+
+var displaymode = '';
+
+function getPWADisplayMode() {
+  if (document.referrer.startsWith('android-app://'))
+    return 'twa';
+  if (window.matchMedia('(display-mode: browser)').matches)
+    return 'net-browser';
+  if (window.matchMedia('(display-mode: standalone)').matches)
+    return 'PWA-standalone';
+  if (window.matchMedia('(display-mode: minimal-ui)').matches)
+    return 'PWA-minimal-ui';
+  if (window.matchMedia('(display-mode: fullscreen)').matches)
+    return 'PWA-fullscreen';
+  if (window.matchMedia('(display-mode: window-controls-overlay)').matches)
+    return 'PWA-window-controls-overlay';
+
+  return 'unknown';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Log launch display mode to analytics
+  displaymode = getPWADisplayMode();
+  console.log(displaymode);
+});
+
+function trk() {
+		//custom umami tracker function
+		trackerprops = {};
+		
+		if (drug_sets[0].model_name == "Cattai-Propofol-Cats") {
+			trackerprops.animal = "cat";
+		} else {
+			trackerprops.animal = "dog";
+		}
+		trackerprops.model = drug_sets[0].model_name;
+		if (drug_sets[0].cpt_active > 0) {
+			trackerprops.mode = 'CPT';
+		} else if (drug_sets[0].manualmode_active > 0) {
+			trackerprops.mode = 'Manual';
+		}
+		temptext0 = trackerprops.animal;
+		temptext1 = trackerprops.mode + trackerprops.model;
+		temptext2 = "";
+		//patient data 
+		if (mass != undefined) {
+			trackerprops.mass = mass;
+			temptext2 = "Weight: " + mass;
+		}
+		if (age != undefined) {
+			trackerprops.age = age;
+			temptext2 += "; Age: " + age;
+		}
+		if (gender != undefined) {
+			if (gender == 0) {
+				trackerprops.sex = "male";
+			} else if (gender == 1) {
+				trackerprops.sex = "female";
+			}
+			temptext2 += ", Sex: " + sex;
+		}
+		if (height != undefined) {
+			trackerprops.height = height;
+			temptext2 += ", Height: " + height;
+		}
+		if (state_premed != undefined) {
+			trackerprops.premed = state_premed;
+			temptext2 += ", Premed: " + state_premed;
+		}
+		combinedtext = temptext0 + " - " + temptext1;
+		trackerprops.string_model = combinedtext;
+		trackerprops.string_demographics = temptext2;
+		trackerprops.displaymode = displaymode;
+		if (parseloading == 0) {
+			umami.track('run', trackerprops);
+		} else {
+			umami.track('view', trackerprops);	
+		}
+		umami.identify(trackerprops);
 }
 
 function start_cet() {
@@ -13525,6 +13606,8 @@ function parseobject(input_uid,external,extObject) {
 		},600);
 	}
 
+	trk();
+	
 	function parsebolusadmin(x,ind) {
 		var working_clock2 = Math.floor(time_in_s);
 		l1 = Math.exp(-drug_sets[ind].lambda[1]);
