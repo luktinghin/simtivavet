@@ -631,27 +631,9 @@ const chartInfRateLayer = {
 
 		function() {
 
-
 		var ctx = document.getElementById('myChart').getContext('2d');
 
 		var y = document.getElementById('chartwrapper').offsetHeight*0.6;
-
-		/*
-		var gradientGreen = ctx.createLinearGradient(0, 100, 0, y+100);  //x0y0x1y1  //y+100 last param
-			gradientGreen.addColorStop(0.4, 'rgba(9, 203, 93,0.4)');   
-			gradientGreen.addColorStop(1, 'rgba(9, 203, 93,0.05)');
-
-			console.log(gradientGreen);
-			*/
-
-
-		/*
-		var gradientRed = ctx.createLinearGradient(0, 0, 0, y); // y last param
-			gradientRed.addColorStop(0.4, 'rgba(231, 50, 39,0.4)');   
-			gradientRed.addColorStop(1, 'rgba(231, 50, 39,0)');
-
-			*/
-
 
 		myChart = new Chart(ctx, {
 	    type: 'line',
@@ -1031,6 +1013,8 @@ const chartInfRateLayer = {
 
 
 },1100);
+
+
 
 //dark mode activation
 	
