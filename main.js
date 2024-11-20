@@ -1930,8 +1930,9 @@ function trk() {
 			temptext2 += ", Premed: " + drug_sets[0].state_premed;
 		}
 		combinedtext = temptext0 + " - " + temptext1;
+	        combinedtext2 = temptext0 + " - " + temptext2;
 		trackerprops.string_model = combinedtext;
-		trackerprops.string_demographics = temptext2;
+		trackerprops.string_demographics = combinedtext2;
 		trackerprops.displaymode = displaymode;
 		if (parseloading == 0) {
 			umami.track('run', trackerprops);
