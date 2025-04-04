@@ -3801,7 +3801,8 @@ function deliver_cpt(x, effect_flag, compensation, ind, continuation_fen_weighta
 					if ((drug_sets[ind].model_name == "Cattai-Propofol") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
 					if ((drug_sets[ind].model_name == "Cattai-Propofol-Cats") && (drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1)) {test_rate = Math.ceil(drug_sets[ind].cpt_rates[1]*1.03*roundingfactor)/roundingfactor};
 					//}
-					if ((drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1) && (drug_sets[ind].cpt_rates[0]>0) && (drug_sets[ind].cpt_rates[0]>drug_sets[ind].cpt_rates[1])) {
+					cond1 = (((drug_sets[ind].cpt_rates[0] > 0) && (drug_sets[ind].cpt_rates[0]>drug_sets[ind].cpt_rates[1])) || ((bolus_duration > 0) && (drug_sets[ind].cpt_bolus > 0)));
+					if ((drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1] == 1) && cond1) {
 						for (k=0; k<cpt_interval; k++) {drug_sets[ind].cpt_rates_real.push(test_rate);}
 					}
 					for (k=drug_sets[ind].cpt_times[drug_sets[ind].cpt_times.length-1]*cpt_interval; k<j*cpt_interval; k++) {
