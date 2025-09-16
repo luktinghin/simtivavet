@@ -2668,7 +2668,7 @@ body.dark #timecopy {
   height: 220px;
   border-radius: 9px;
   position: absolute;
-  bottom: 87px;
+  bottom: 96px;
   right: 20px;
   background: #0009;
   padding: 5px 10px;
@@ -2711,14 +2711,15 @@ body.dark #timecopy {
 
 #chartoverlayoptionscontentarrow {
   position: absolute;
-  bottom: 72px;
-  right: 72px;
+  bottom: 87px;
+  right: 74px;
   display:block;
   width: 0;
   height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 15px solid #0009;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #0009;
+  z-index:6;
 }
 #chartoverlayoptionscontentarrow2 {
   position: absolute;
@@ -2914,7 +2915,7 @@ input[type=range]:focus::-ms-fill-upper {
   width:126px;
     justify-content: center;
   align-items: center;
-  z-index:5;
+  z-index:2;
 }
 #chartbuttons a:hover, a:active {
   color:black;

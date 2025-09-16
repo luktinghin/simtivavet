@@ -1,5 +1,5 @@
 
-const cacheName = "simtivavet-v1-15";
+const cacheName = "simtivavet-v1-16a";
 
 const assets = [
 	"/",
@@ -79,12 +79,12 @@ self.addEventListener("install", installEvent => {
 
 
 
-//ref: https://web.dev/offline-cookbook/#network-falling-back-to-cache
-self.addEventListener('fetch', function(event) {
+//alternative fetch: cache fallback to network from web.dev (cache first)
+self.addEventListener('fetch', function (event) {
   event.respondWith(
-    fetch(event.request).catch(function() {
-      return caches.match(event.request);
-    })
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request);
+    }),
   );
 });
 

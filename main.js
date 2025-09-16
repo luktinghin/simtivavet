@@ -8574,7 +8574,7 @@ function readmodel(x, drug_set_index) {
 			state_elderly_1 = (age >= 7) ? true:false;
 			state_elderly_2 = (age >= 8) ? true:false;
 		}
-		console.log("stateelderly1" + state_elderly_1 + "stateelderly2" + state_elderly_2);
+		
 		if (state_premed == true) {
 			k_premed = 1.209;
 		} else {
@@ -8595,32 +8595,73 @@ function readmodel(x, drug_set_index) {
 		} else {
 			k_ag1 = 1;
 		}
+		if (gender == 0) {
+			if ((k_premed == 1) && (k_ag2 == 1) && (k_ag1 == 1)) {
+				ke0_con = 0.131714;
+				ke0_exp = 0.007278;
+			} else if ((k_premed == 1) && (k_ag2 == 1) && (k_ag1 == 1.347)) {
+				ke0_con = 0.123401;
+				ke0_exp = 0.007122;
+			} else if ((k_premed == 1) && (k_ag2 == 1.521) && (k_ag1 == 1.347)) {
+				ke0_con = 0.089347;
+				ke0_exp = 0.009638;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1) && (k_ag1 == 1)) {
+				ke0_con = 0.114525;
+				ke0_exp = 0.008537;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1) && (k_ag1 == 1.347)) {
+				ke0_con = 0.107906;
+				ke0_exp = 0.008143;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1.521) && (k_ag1 == 1.347)) {
+				ke0_con = 0.075271;
+				ke0_exp = 0.010854;
+			}
+		} else {
+			if ((k_premed == 1) && (k_ag2 == 1) && (k_ag1 == 1)) {
+				ke0_con = 0.140484;
+				ke0_exp = 0.007592;
+			} else if ((k_premed == 1) && (k_ag2 == 1) && (k_ag1 == 1.347)) {
+				ke0_con = 0.134665;
+				ke0_exp = 0.007403;
+			} else if ((k_premed == 1) && (k_ag2 == 1.521) && (k_ag1 == 1.347)) {
+				ke0_con = 0.096087;
+				ke0_exp = 0.010077;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1) && (k_ag1 == 1)) {
+				ke0_con = 0.121836;
+				ke0_exp = 0.008736;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1) && (k_ag1 == 1.347)) {
+				ke0_con = 0.116851;
+				ke0_exp = 0.008538;
+			} else if ((k_premed == 1.209) && (k_ag2 == 1.521) && (k_ag1 == 1.347)) {
+				ke0_con = 0.080041;
+				ke0_exp = 0.011416;
+			}
+		}
 		drug_sets[drug_set_index].vc = 1.48 * (1 + 0.0933 * (mass - 12.25));
 		drug_sets[drug_set_index].k10 = 0.382 * (1 + -0.0111 * (mass - 12.25)) * k_premed * k_ag2;
 		drug_sets[drug_set_index].k12 = 0.544;
 		drug_sets[drug_set_index].k21 = 0.228;
 		drug_sets[drug_set_index].k13 = 0.129 * k_sex * k_ag1;
 		drug_sets[drug_set_index].k31 = 0.00993;
-		//drug_sets[drug_set_index].k41 = 0.723;
+		drug_sets[drug_set_index].k41 = ke0_con * Math.exp(ke0_exp * mass);
+
 		//Bras ke0 0.7230 -> tpeak 185 (~3.1min)
-		drug_sets[drug_set_index].k41 = 0.1185;
 		//assume k_premed 1     k_ag2 1     k_ag1 1     -> 0.147 for 15kg, 0.142 for 10kg, 
 		//assume k_premed 1     k_ag2 1     k_ag1 1.347 -> 0.137
 		//assume k_premed 1     k_ag2 1.521 k_ag1 1.347 -> 0.103
 		//assume k_premed 1.209 k_ag2 1     k_ag1 1     -> 0.130
 		//assume k_premed 1.209 k_ag2 1     k_ag1 1.347 -> 0.122
 		//assume k_premed 1.209 k_ag2 1.521 k_ag1 1.347 -> 0.0886
-
-		alert(k_premed + " " + k_ag2 + " " + k_ag1);
+		console.log("stateelderly1" + state_elderly_1 + "; stateelderly2" + state_elderly_2 + "; gender " + gender);
+		console.log(ke0_con + " " + ke0_exp + " : calc ke0 " + drug_sets[drug_set_index].k41);
 
 		drug_sets[drug_set_index].modeltext = "Cattai-propofol model for dogs (Vet Anaesth Analg. 2019;48:568-578)" + "<br>" +
-		"vc = " + drug_sets[drug_set_index].vc + "<br>" +
-		"k10 = " + drug_sets[drug_set_index].k10 + "<br>" +
-		"k12 = " + drug_sets[drug_set_index].k12 + "<br>" +
-		"k13 = " + drug_sets[drug_set_index].k13 + "<br>" +
-		"k21 = " + drug_sets[drug_set_index].k21 + "<br>" +
+		"vc = " + rnd3(drug_sets[drug_set_index].vc)+ "<br>" +
+		"k10 = " + rnd3(drug_sets[drug_set_index].k10) + "<br>" +
+		"k12 = " + rnd3(drug_sets[drug_set_index].k12) + "<br>" +
+		"k13 = " + rnd3(drug_sets[drug_set_index].k13) + "<br>" +
+		"k21 = " + rnd3(drug_sets[drug_set_index].k21) + "<br>" +
 		"k31 = " + drug_sets[drug_set_index].k31 + "<br>" + 
-		"ke0 = 0.723, from Bras (J Vet Pharmacol. Therap. 2008;32:182-188)";
+		"ke0 = " + rnd3(drug_sets[drug_set_index].k41) + " (ke0 estimated from time-to-peak: 3.1min), from Bras (J Vet Pharmacol. Therap. 2008;32:182-188)";
 		if (state_premed == true) {
 			drug_sets[drug_set_index].modeltext = drug_sets[drug_set_index].modeltext.concat("<br>(Assume usage of acepromazine-based premed)");
 		} else {
@@ -8730,71 +8771,8 @@ function readmodel(x, drug_set_index) {
 	}
 }
 
-//bis functions
-function BIS_Ce50() {
-	return 3.08 * (fageing(-0.00635));
-}
-
-function BIS_effect(Ceinput) {
-	Ce50 = BIS_Ce50();
-	gamma = BIS_gamma(Ceinput);
-	drugeffect = Math.pow(Ceinput,gamma) / (Math.pow(Ce50,gamma) + Math.pow(Ceinput,gamma));
-	return drugeffect;
-}
-
-function BIS_Ce_for_effect(effectinput) {
-	Ce50 = BIS_Ce50();
-	if (effectinput > 0.5) {
-		gamma = 1.47;
-	} else {
-		gamma = 1.89;
-	}
-	Ceoutput = Math.pow(effectinput * Math.pow(Ce50,gamma) / (1-effectinput), 1/gamma); 
-	return Ceoutput;
-}
-
-function BIS_Ce_for_BIS(bisinput) {
-	effect = (93 - bisinput) / 93;
-	return BIS_Ce_for_effect(effect);
-}
-
-function BIS_gamma(Ceinput) {
-	Ce50 = BIS_Ce50();
-	if (Ceinput <= Ce50) {
-		gamma = 1.89; //different theta values for manuscript text vs table - check mmc
-	} else {
-		gamma = 1.47;
-	}
-	return gamma;
-}
-
-function BIS_estimated(Ceinput) {
-	return 93 * (1-BIS_effect(Ceinput));
-	// don't know what the residual error +8.03 * epsilon is about, omit
-}
-
-function BIS_solve_eBIS(paramfrom, paramto) {
-	BIS_array.length = 0;
-	for (biscounter = 0; biscounter < drug_sets[0].cpt_cp.length; biscounter++) {
-		BIS_array.push(Math.round(BIS_estimated(getce(biscounter,0))));
-	}
-}
-
-function BIS_charting() {
-	BIS_solve_eBIS();
-	BIS40 = BIS_Ce_for_BIS(40);
-	BIS60 = BIS_Ce_for_BIS(60);
-	length = drug_sets[0].cpt_cp.length;
-	myChart.data.datasets[11].data = [{x:0, y:BIS60},{x:length, y:BIS60}];
-	myChart.data.datasets[10].data = [{x:0, y:BIS40},{x:length, y:BIS40}];
-
-}
-
-
-function BIS_update(interval) {
-	updateBIS = setInterval(function() {
-		document.getElementById("ptolcard_right").innerHTML = BIS_array[Math.floor(time_in_s)]
-	},interval)
+function rnd3(inputparam) {
+	return Math.round(inputparam * 1000)/1000;
 }
 
 function proceedComplex() {
