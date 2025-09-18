@@ -1542,7 +1542,7 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 }
 
 .animalbox {
-  border-radius: 9px;
+  border-radius: 6px;
   height: 100%;
   border-radius: 11px;
   color: #555;
@@ -5544,6 +5544,17 @@ body.dark #preview-expand-box > div > div.timespan {
   border-color: #999;
 }
 
+#offlineindicator {
+  position:fixed;
+  top:0;
+  right:8px;
+  font-size:7px;
+  line-height:8px;
+  font-weight:bold;
+  z-index:999;
+  color:white;
+  display:none;
+}
 
 @media (max-height:480px) {
   #parallax3 {

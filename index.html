@@ -62,6 +62,9 @@
     <!--<script defer src="https://cloud.umami.is/script.js" data-website-id="64bee589-7862-47ec-9970-39cd3740ba02"></script>-->
 </head>
 <body class="" id="windowbody">
+		<div id="offlineindicator">
+			OFFLINE
+		</div>
 		<div id="rescuebuttons">
 			<a class="button frontpage"  onclick="displayModalOptions();"><i class="fas fa-cog fa-fw" style="padding-right: 6px"></i>Options</a>
 			<a class="button frontpage"  onclick="rescue();"><i class="fas fa-life-ring fa-fw " style="padding-right:6px"></i>Rescue</a>
@@ -1042,29 +1045,29 @@
 				</div>
 				<div id="chartoverlayoptions2" >
 					<div id="chartoverlayoptions2content">
-						<div id="closeoptions2" onclick="togglepopupoptions();">&times;</div>
-						<div id="" style="font-weight:bold; margin-top:6px; margin-bottom:7px">Chart Options</div>
-						<div id="chartoptionscheckbox2">
-				      <label class="container labeloptionscontainer" style="">Automatic time scale
-				          <input type="checkbox" id="isTimeAutomatic2" onChange="toggleautotime();" checked><span class="checkmark"></span>
+						<div id="closeoptions2" class="optitem" onclick="togglepopupoptions();">&times;</div>
+						<div id="" class="optitem" style="font-weight:bold; margin-top:6px; margin-bottom:7px">Chart Options</div>
+						<div class="optitem" id="chartoptionscheckbox2">
+				      <label class="container labeloptionscontainer optitem" style="">Automatic time scale
+				          <input type="checkbox" class="optitem" id="isTimeAutomatic2" onChange="toggleautotime();" checked><span class="checkmark optitem"></span>
 				      </label>
 						</div>
-						<div style="padding-left:30px">Custom time range (min):</div>
-						<div id="timerangeslider2">
-							<div id="leftslidercontainer2">
-								<input id="range0copy" value="10" min="0" max="30" step="5" type="range" oninput="processrange(0);">
-								<div class="timerangetext" id="rangetext0copy">0</div>
+						<div class="optitem" style="padding-left:30px">Custom time range (min):</div>
+						<div id="timerangeslider2" class="optitem">
+							<div id="leftslidercontainer2" class="optitem">
+								<input id="range0copy" class="optitem" value="10" min="0" max="30" step="5" type="range" oninput="processrange(0);">
+								<div class="timerangetext optitem" id="rangetext0copy">0</div>
 							</div>
-							<div id="rightslidercontainer2">
-								<input id="range1copy" value="90" min="30" max="120" step="5" type="range" oninput="processrange(1);">
-								<div class="timerangetext" id="rangetext1copy">30</div>
+							<div id="rightslidercontainer2" class="optitem">
+								<input id="range1copy" class="optitem" value="90" min="30" max="120" step="5" type="range" oninput="processrange(1);">
+								<div class="timerangetext optitem" id="rangetext1copy">30</div>
 							</div>		
 						</div>
-						<div style="margin-top:30px" id="PD_options_group2">
-				      <label class="container labeloptionscontainer" style="margin-bottom:0px">PD Effect estimation
-				          <input type="checkbox" id="isEffectEstimationOn2" onChange="if (document.getElementById('isEffectEstimationOn').checked == true) {document.getElementById('isEffectEstimationOn').checked = false} else {document.getElementById('isEffectEstimationOn').checked = true;}toggleEffectEst();" checked><span class="checkmark"></span>
+						<div style="margin-top:30px" id="PD_options_group2" class="optitem">
+				      <label class="container labeloptionscontainer optitem" style="margin-bottom:0px">PD Effect estimation
+				          <input type="checkbox" class="optitem" id="isEffectEstimationOn2" onChange="if (document.getElementById('isEffectEstimationOn').checked == true) {document.getElementById('isEffectEstimationOn').checked = false} else {document.getElementById('isEffectEstimationOn').checked = true;}toggleEffectEst();" checked><span class="checkmark optitem"></span>
 				      </label>
-				      <select id="select_effect_measure2" style="margin-left:30px;width:calc(100% - 30px)" onChange="document.getElementById('select_effect_measure').value=document.getElementById('select_effect_measure2').value;toggleEffectEst();">
+				      <select id="select_effect_measure2" style="margin-left:30px;width:calc(100% - 30px)" onChange="document.getElementById('select_effect_measure').value=document.getElementById('select_effect_measure2').value;toggleEffectEst();" class="optitem">
 				      	<option value="bis">BIS 40-60</option>
 				      	<option value="ptol">PTOL 50-90</option>
 				      	<option value="nsri">NSRI 20-50</option>
@@ -1499,33 +1502,33 @@
 					<a id="chartzoomout" onclick="chartZoomToggle(0);"><i class="fas fa-search-minus"></i></a>
 				</div>
 				<div id="chartoverlayoptions">
-					<div id="chartoverlayoptionscontent">
-						<div id="closeoptions" onclick="chartOptionsToggle();">&times;</div>
-						<div id="" style="font-weight:bold; margin-top:6px; margin-bottom:7px">Chart Options</div>
-						<div id="chartoptionscheckbox">
-				      <label class="container labeloptionscontainer" style="">Display events
-				          <input type="checkbox" onChange="toggleshowevents();" id="isShowEvents" checked><span class="checkmark"></span>
+					<div id="chartoverlayoptionscontent" class="optitem">
+						<div id="closeoptions" class="optitem" onclick="chartOptionsToggle();">&times;</div>
+						<div id="" class="optitem" style="font-weight:bold; margin-top:6px; margin-bottom:7px">Chart Options</div>
+						<div id="chartoptionscheckbox" class="optitem">
+				      <label class="container labeloptionscontainer optitem" style="">Display events
+				          <input type="checkbox" onChange="toggleshowevents();" id="isShowEvents" class="optitem" checked><span class="checkmark optitem"></span>
 				      </label>
-				      <label class="container labeloptionscontainer" style="">Automatic time scale
-				          <input type="checkbox" id="isTimeAutomatic" onChange="toggleautotime();" checked><span class="checkmark"></span>
+				      <label class="container labeloptionscontainer optitem" style="">Automatic time scale
+				          <input type="checkbox" class="optitem" id="isTimeAutomatic" onChange="toggleautotime();" checked><span class="checkmark optitem"></span>
 				      </label>
 						</div>
-						<div style="padding-left:30px">Custom time range (min):</div>
-						<div id="timerangeslider">
-							<div id="leftslidercontainer">
-								<input id="range0" value="10" min="0" max="30" step="5" type="range" oninput="processrange(0);">
-								<div class="timerangetext" id="rangetext0">0</div>
+						<div style="padding-left:30px" class="optitem">Custom time range (min):</div>
+						<div id="timerangeslider" class="optitem">
+							<div id="leftslidercontainer" class="optitem">
+								<input id="range0" class="optitem" value="10" min="0" max="30" step="5" type="range" oninput="processrange(0);">
+								<div class="timerangetext optitem" id="rangetext0">0</div>
 							</div>
-							<div id="rightslidercontainer">
-								<input id="range1" value="90" min="30" max="120" step="5" type="range" oninput="processrange(1);">
-								<div class="timerangetext" id="rangetext1">30</div>
+							<div id="rightslidercontainer" class="optitem">
+								<input id="range1" class="optitem" value="90" min="30" max="120" step="5" type="range" oninput="processrange(1);">
+								<div class="timerangetext optitem" id="rangetext1">30</div>
 							</div>		
 						</div>
-						<div style="margin-top:30px" id="PD_options_group">
-				      <label class="container labeloptionscontainer" style="margin-bottom:0px">PD Effect estimation
-				          <input type="checkbox" id="isEffectEstimationOn" onChange="toggleEffectEst();" checked><span class="checkmark"></span>
+						<div style="margin-top:30px" id="PD_options_group" class="optitem">
+				      <label class="container labeloptionscontainer optitem" style="margin-bottom:0px">PD Effect estimation
+				          <input type="checkbox" class="optitem" id="isEffectEstimationOn" onChange="toggleEffectEst();" checked><span class="checkmark optitem"></span>
 				      </label>
-				      <select id="select_effect_measure" style="margin-left:30px;width:calc(100% - 30px)" onChange="toggleEffectEst();">
+				      <select id="select_effect_measure" class="optitem" style="margin-left:30px;width:calc(100% - 30px)" onChange="toggleEffectEst();">
 				      	<option value="bis">BIS 40-60</option>
 				      	<option value="ptol">PTOL 50-90</option>
 				      	<option value="nsri">NSRI 20-50</option>

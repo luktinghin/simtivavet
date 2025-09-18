@@ -187,13 +187,6 @@ var loop7 = null;
 window.BIS_array = [];
 window.eventArray = [];
 
-const arrBodyIcons = [
-	["baby","<i class='fas fa-baby fa-fw tooltip bodyicon'><span class='tooltiptext'>BMI-for-age reference range from WHO</span></i>"],
-	["child","<i class='fas fa-child fa-fw tooltip bodyicon'><span class='tooltiptext'>BMI-for-age & weight-for-age reference range from WHO</span></i>"],
-	["male","<i class='fas fa-male fa-fw tooltip bodyicon'><span class='tooltiptext'>BMI reference range from WHO</span></i>"],
-	["female","<i class='fas fa-female fa-fw tooltip bodyicon'><span class='tooltiptext'>BMI reference range from WHO</span></i>"]
-]
-
 // variables for loading and saving
 var uid;
 //for local storage: data structure
@@ -234,8 +227,8 @@ var isFullscreen = false;
 var popupUpdateInterval;
 var numpadValue = 0;
 var numpadOrig;
-
-
+var initiated = false;
+var optionsactive = false;
 
 var collapsibles = document.getElementsByClassName("collapsible");
 var i;
@@ -1038,8 +1031,6 @@ const chartInfRateLayer = {
 				myChart.options.scales.y.grid.borderColor = "rgba(255,255,255,0.6)";
 				myChart.options.scales.x.ticks.color = "rgba(255,255,255,0.6)";
 				myChart.options.scales.y.ticks.color = "rgba(255,255,255,0.6)";
-
-
 			}
 		},1500);
 
@@ -1049,7 +1040,22 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register("/serviceworker.js")
       .then(res => console.log("service worker registered"))
-      .catch(err => console.log("service worker not registered", err))
+      .catch(err => console.log("service worker not registered", err));
+      initiated = true;
+  });
+  window.addEventListener("load", function() {
+  	function handleNetworkChange(event) {
+  		if (navigator.onLine) {
+  			document.getElementById("offlineindicator").style.display = "none";
+  			console.log("network change - network on is " + navigator.onLine);
+  		} else {
+  			document.getElementById("offlineindicator").style.display = "block";
+  			console.log("network change - network on is " + navigator.onLine);
+  		}
+  	}
+  	handleNetworkChange();
+  	window.addEventListener("online", handleNetworkChange);
+  	window.addEventListener("offline", handleNetworkChange);
   })
 }
 
@@ -1062,41 +1068,113 @@ screen.orientation.addEventListener("change", (event) => {
 	setTimeout(updatechartview2,500); //workaround for chartjs background problem
 })
 
+//GLOBAL UI code below:
+
+window.onclick = function(event) {
+  if ((event.target == modal) && (modal.id != "modalInitial") && (modal.id != "modalScreen2") && (modal.id != "modalLoad")) {
+    if (modal.id == "modalShare") {
+	  	clearInterval(canvasUpdateInterval);
+	  	canvasUpdateInterval = null;
+	  }
+    modalcontent = document.getElementById(modal.id + "content");
+    modal.classList.remove("fadein");
+    modalcontent.classList.remove("open");
+    modal = undefined;
+  }
+}
+
+document.addEventListener('touchstart', function(event){
+  if ((event.target == modal) && (modal.id != "modalInitial") && (modal.id != "modalScreen2") && (modal.id != "modalLoad")) {
+    if (modal.id == "modalShare") {
+	  	clearInterval(canvasUpdateInterval);
+	  	canvasUpdateInterval = null;
+	  }
+    modalcontent = document.getElementById(modal.id + "content");
+    modal.classList.remove("fadein");
+    modalcontent.classList.remove("open");
+    modal = undefined;
+  }
+});
+
+//infusion unit selector destruction & chart options destruction
+
+document.addEventListener('touchstart', function(event) {
+	if (initiated) {
+    if (event.target.className != "infusionratedropdownitem") {
+      	if (event.target.parentElement.classList.contains("infusionrateselector")) {
+      		//this is to avoid interfering with dropdown selector code
+      	} else {
+      		dropdownhide();
+      	}
+    } else {
+    }
+    if (optionsactive) {
+    	if (event.target.classList.contains("optitem")) {
+    		//do nothing
+    	} else {
+    		//hide the options panel
+    		if (popupon) {
+	    		if (event.target.parentElement.id != "pop_button_options") {
+	    			if (event.target.id != "pop_button_options") {
+	    				togglepopupoptions();	
+	    			}
+	    		}
+    		} else {
+	    		if (event.target.parentElement.id != "chartoptions") {
+	    			if (event.target.id != "chartoptions") {
+	    				chartOptionsToggle();	
+	    			}
+	    		}
+    		}
+    	}
+    }
+  }
+})
+
+document.addEventListener('mousedown', function(event) {
+	if (initiated) {
+    if (event.target.className != "infusionratedropdownitem") {
+      	if (event.target.parentElement.classList.contains("infusionrateselector")) {
+      		//this is to avoid interfering with dropdown selector code
+      	} else {
+      		dropdownhide();
+      	}
+    } else {
+    }
+    if (optionsactive) {
+    	if (event.target.classList.contains("optitem")) {
+    		//do nothing
+    	} else {
+    		//hide the options panel
+    		if (popupon) {
+	    		if (event.target.parentElement.id != "pop_button_options") {
+	    			if (event.target.id != "pop_button_options") {
+	    				togglepopupoptions();	
+	    			}
+	    		}
+    		} else {
+	    		if (event.target.parentElement.id != "chartoptions") {
+	    			if (event.target.id != "chartoptions") {
+	    				chartOptionsToggle();	
+	    			}
+	    		}
+    		}
+    	}
+    }
+  }
+})
 //for tooltip destruction on touchend for mobile devices
 document.addEventListener('touchend', function(event) {
     if (event.target && event.target.tagName.toLowerCase() !== "canvas") {
     	if (popupon) {
     		popupchart.canvas.dispatchEvent(new Event("mouseout"));
     	} else {
-    		myChart.canvas.dispatchEvent(new Event("mouseout"));	
+    		if (myChart != undefined) {
+    			myChart.canvas.dispatchEvent(new Event("mouseout"));		
+    		}
     	}
-        
     }
 })
-
-
-/*
-window.addEventListener('hashchange', function(event) {
-    // The popstate event is fired each time when the current history entry changes.
-
-    var r = confirm("You pressed a Back button! Are you sure?!");
-
-    if (r == true) {
-        // Call Back button programmatically as per user confirmation.
-        history.back();
-
-    } else {
-        // Stay on the current page.
-        history.pushState(null, null, window.location.pathname);
-    }
-
-    history.pushState(null, null, window.location.pathname);
-
-}, false);
-*/
-
-
-
 
 function init() {	
 	setmodal("modalInitial");	
@@ -9903,7 +9981,7 @@ function displayAbout() {
 					<br>
 					<br>Coding is done in Javascript. The code to the mathematical calculations are based on "STANPUMP", which is freely available from the link below. Details of the pharamcological are described in the 'Documentation' section. For instructions on using this app, visit the 'Help' page. 
 					<br>
-					<br>Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated!</a>.
+					<br>Read more about the project <a href='https://simtiva.blogspot.com/' target='_blank'>here</a>, or contact me on <a href='https://twitter.com/simtiva_app' target='_blank'>Twitter/X</a> for ideas, suggestions or comments. Your advice is greatly appreciated.
               		<div class="collapsible" onclick="
               			if (!this.classList.contains('active')) {this.classList.add('active');this.nextElementSibling.style.display='block';} else {this.classList.remove('active');this.nextElementSibling.style.display='none';}"">Acknowledgments & Licenses</div>
               		<div class="collapsiblecontent">
@@ -10801,38 +10879,6 @@ function setmodal(modalname) {
   modalcontent.classList.add("open");
   //document.getElementById("bodywrapper").classList.add("blurry");
 }
-
-window.onclick = function(event) {
-  if ((event.target == modal) && (modal.id != "modalInitial") && (modal.id != "modalScreen2") && (modal.id != "modalLoad")) {
-    //document.getElementById("bodywrapper").classList.remove("blurry");
-
-    if (modal.id == "modalShare") {
-	  	clearInterval(canvasUpdateInterval);
-	  	canvasUpdateInterval = null;
-	  }
-
-    modalcontent = document.getElementById(modal.id + "content");
-    modal.classList.remove("fadein");
-    modalcontent.classList.remove("open");
-    modal = undefined;
-    
-  }
-}
-document.addEventListener('touchstart', function(event){
-  if ((event.target == modal) && (modal.id != "modalInitial") && (modal.id != "modalScreen2") && (modal.id != "modalLoad")) {
-    //document.getElementById("bodywrapper").classList.remove("blurry");
-
-    if (modal.id == "modalShare") {
-	  	clearInterval(canvasUpdateInterval);
-	  	canvasUpdateInterval = null;
-	  }
-    modalcontent = document.getElementById(modal.id + "content");
-    modal.classList.remove("fadein");
-    modalcontent.classList.remove("open");
-    modal = undefined;
-    //document.getElementById("bodywrapper").classList.remove("blurry");
-  }
-});
 
 function show_graph() {
 	document.getElementById("chartwrapper").classList.remove("hide");
@@ -15290,9 +15336,11 @@ function chartOptionsToggle() {
 	if (time_in_s > 0) {
 	ElOptions = document.getElementById("chartoverlayoptions");
 	if (ElOptions.classList.contains("show")) {
+		optionsactive = false;
 		ElOptions.classList.remove("show");
 		
 	} else {
+		optionsactive = true;
 		if (chartprofile == 2) {
 			document.getElementById("isTimeAutomatic").checked = false;
 		} else {
@@ -15308,8 +15356,10 @@ function togglepopupoptions() {
 	if (time_in_s > 0) {
 		ElOptions = document.getElementById("chartoverlayoptions2");
 		if (ElOptions.classList.contains("show")) {
+			optionsactive = false;
 			ElOptions.classList.remove("show");
 		} else {
+			optionsactive = true;
 			if (chartprofile == 2) {
 				document.getElementById("isTimeAutomatic2").checked = false;
 			} else {
