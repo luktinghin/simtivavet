@@ -1044,6 +1044,7 @@ if ("serviceWorker" in navigator) {
       initiated = true;
   });
   window.addEventListener("load", function() {
+  	jumpEnd();
   	function handleNetworkChange(event) {
   		if (navigator.onLine) {
   			document.getElementById("offlineindicator").style.display = "none";
@@ -16607,8 +16608,6 @@ function iOS() {
   // iPad on iOS 13 detection
   || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
 }
-
-jumpEnd();
 
 if (iOS()) {
 	r = document.querySelector(":root");
