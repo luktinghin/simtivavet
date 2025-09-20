@@ -151,7 +151,7 @@ body {
   font-family:  "SourceSans", "Calibri", "Trebuchet MS", "Lucida Sans", sans-serif;
   font-size: 16px; 
   margin: 0px;
-  background:#7B8092;
+  background:#000;
   overscroll-behavior-y: contain;
 }
 
@@ -501,7 +501,8 @@ button.bodybutton:active, focus {
 select {
   height: 30px;
   border: 1px solid #aaa;
-  margin: 2px 0px 2px 0px; padding:0px; 
+  margin: 2px 0px 2px 0px; 
+  padding:0px 2px; 
   outline: none;
   vertical-align:bottom;
   border-radius:4px;
@@ -1819,13 +1820,13 @@ a.interactionstab.active {
 #controlpanel {
   display:block;
   padding-top:150px;
-  width:calc(100% - 1rem);
+  width:100%;
   background:#fff;
   margin-left:0.5rem;
   margin-right:0.5rem;
   margin-bottom:0.5rem;
   padding-bottom:0;
-  border-radius:0px 0px 9px 9px;
+  border-radius:0px 0px 16px 16px;
 }
 .narrowbodywrapper>#controlpanel {
   margin-left: 0px;
@@ -1838,7 +1839,7 @@ a.interactionstab.active {
   background:#ddd;
   font-size:85%;
   padding:1rem;
-  border-radius:0px 0px 9px 9px;
+  border-radius:0px 0px 16px 16px;
   font-weight:normal;
 }
 .card {
@@ -3620,15 +3621,7 @@ tr.subheading7 {
 }
 
 .top-bar-container {
-  -webkit-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5);
-  box-shadow: 3px 3px 7px 0px rgba(0,0,0,0.5); 
-  border-radius:9px;
-  background-color:#fff;
-  /*width: calc(100% - 2rem);*/
-  /*margin: 0 0.5rem 0.5rem 0.5rem;*/
   padding: 0 0.5rem 0 0.5rem;
-  /*position:relative;*/
   display:flex;
   align-items:center;
   height:60px;
@@ -3638,9 +3631,7 @@ tr.subheading7 {
   position:fixed;
   top:80px;
   z-index:10;
-  padding-left:0.5rem;
-  padding-right:0.5rem;
-  background:#7B8092;
+  background:#000;
   width:100%;
 }
 
@@ -3653,7 +3644,7 @@ tr.subheading7 {
   height:65px;
   align-items:center;
   background:#eee;
-  border-radius:9px 9px 0px 0px;
+  border-radius:16px 16px 0px 0px;
   -webkit-box-shadow: 0px 3px 4px -1px rgba(0,0,0,0.3);
   -moz-box-shadow: 0px 3px 4px -1px rgba(0,0,0,0.3);
   box-shadow: 0px 3px 4px -1px rgba(0,0,0,0.3); 
@@ -3663,17 +3654,16 @@ tr.subheading7 {
 }
 
 #parallax2 {
-  background:#7B8092;
+  background:#000;
   position:fixed;
   z-index:10;
   padding-left:0.5rem;
   padding-right:0.5rem;
-  padding-top:8px;
+  padding-top:calc(20px + env(safe-area-inset-top));
   padding-bottom:8px;
   height:80px;
   width:100%;
   transition: all 0.3s ease;
-  /*box-shadow: inset 0 -5px 6px -2px rgba(0, 0, 0, 0.2);*/
 }
 
 .narrowbodywrapper>#parallax2 {
@@ -3821,7 +3811,7 @@ tr.subheading7 {
 }
 
 .topleft.stop {
-  background:#ddd;
+  background:#ccc5;
   animation:0;
 }
 .topleft.notif {
@@ -3865,6 +3855,7 @@ tr.subheading7 {
 
 .top_subtitle {
   font-size:18px;
+  color:white;
   padding-bottom:2px;
   position: relative;
   top: 2px;
@@ -3879,7 +3870,7 @@ tr.subheading7 {
   transition: 0.3s opacity ease;
   transition-delay: 0.5s;
   position: absolute;
-  top: 18px;
+  top: calc(32px + env(safe-area-inset-top));
   /*font-size:130%;
   font-weight:bold;
   line-height:1.2;*/
@@ -3892,38 +3883,35 @@ tr.subheading7 {
 }
 
 .top_title_box {
-  border: 1px solid;
-  border-radius: 9px;
+  border-bottom: 2px solid;
+  color:#fff;
   margin-right: 3px;
   width: 66px;
   text-align: center;
   font-weight: bold;
-  font-size: 26px;
-  line-height: 38px;
+  font-size: 24px;
+  line-height: 22px;
   position: relative;
   display: inline-block;
-  box-shadow: 0;
-  /*background: white;
-  transition: 10s background ease;*/
 }
 .top_title_box::after {
   font-weight: normal;
   font-size: 12px;
   position: absolute;
-  top: 32px;
+  top: 25px;
   line-height: 14px;
   left: 17px;
   width: 30px;
-  background: white;
+  color:#eee;
 }
 .top_title_box.cp {
-  border-color: rgb(228, 196, 196);
+  border-color: rgb(231, 50, 39);
 }
 .top_title_box.ce {
-  border-color: rgb(155,201,157);
+  border-color: rgb(9,203,93);
 }
 .top_title_box.infrate {
-  border-color: #ddd;
+  border-color: rgb(251,192,45);
 }
 .top_title_box.cp::after {
   content: 'Cp';
@@ -4302,8 +4290,8 @@ tr.subheading7 {
   position:fixed;
   z-index:89;
   cursor: pointer;
-  top:22px;
-  right:10px;
+  top: calc(32px + env(safe-area-inset-top));
+  right:5px;
   display:inline-block;
   width:38px;
 }
@@ -5232,8 +5220,8 @@ body.dark .infusionratedropdownitem:hover {
     top:80px;
     z-index:10;
     left:calc((100% - 768px)/2 + 320px);
-    width:calc(768px - 320px - 0.5rem);
-    padding-right:0.5rem;
+    width:calc(768px - 320px);
+    padding-right:0;
     padding-left:0.5rem;
     padding-top:0.5rem;
     border-radius: 0 9px 0 0 ;
@@ -5679,7 +5667,7 @@ body.dark #preview-expand-box > div > div.timespan {
 @media (max-height:480px) and (min-width:610px) and (max-width:767px) {
   /*narrow screen phone with reduced height - landscape*/
   #controlpanel {
-    margin-top:10px;
+    margin-top:16px;
     padding-top:80px;
   }
   #parallax1container {
@@ -5698,10 +5686,10 @@ body.dark #preview-expand-box > div > div.timespan {
   }
   #prompts_container {
     border-radius: 0 9px 0 0 ;
-    width:calc(100% - 260px - 1rem);
+    width:calc(100% - 260px);
     /*transform:translate(300px,-90px);*/
     position:absolute;
-    left:calc(260px + 0.5rem);
+    left:260px;
     top:80px;
     height:92px;
     box-shadow:none;
@@ -5752,24 +5740,24 @@ body.dark #preview-expand-box > div > div.timespan {
 @media (max-height:480px) and (min-width:768px) {
   /*wide screen phone with reduced height, e.g. landscape*/
   body {
-    background:#525769;
+    background:#000;
   }
   #controlpanel {
-    margin-top:10px;
+    margin-top:16px;
     padding-top:80px;
   }
   #parallax1container {
     /*box-shadow:0px 6px 8px -5px rgb(0 0 0 / 15%);*/
     position:absolute;
     background:#eee;
-    border-radius: 9px 0 0 0;
+    border-radius: 16px 0 0 0;
     box-shadow:none;
     width:320px;
     height:92px;
     border-bottom:2px solid #ddd;
   }
   #prompts_container {
-    border-radius: 0 9px 0 0 ;
+    border-radius: 0 16px 0 0 ;
     width:calc(768px - 320px - 1rem);
     /*transform:translate(300px,-90px);*/
     position:absolute;
@@ -6121,8 +6109,8 @@ body.dark .modal-header.alt {
 }
 
 body.dark #controlpanel {
-  background: #111;
-  border: 1px solid #999;
+  background: #222;
+  border: 1px solid #666;
 }
 
 body.dark td {
@@ -6324,7 +6312,7 @@ body.dark #chart2wrapper {
     background: rgba(255,255,255,0.01);
   }
   body.dark .hamburger {
-    right: calc((100% - 768px)/2 + 16px);
+    right: calc((100% - 768px)/2);
   }
 }
 

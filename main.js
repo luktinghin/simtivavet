@@ -1014,8 +1014,6 @@ const chartInfRateLayer = {
 	
 	if (localStorage.getItem("colourMode") == "dark") {
 		isDark = true;
-		var metaThemeColor = document.querySelector("meta[name=theme-color]");
-		metaThemeColor.setAttribute("content", "#000");
 		document.body.classList.add("dark");
 		document.getElementById("darkmodebutton").innerHTML = "<i class='fas fa-adjust fa-fw'></i>";
 	}
@@ -13658,8 +13656,6 @@ function goDark(arg) {
 
 
 	if (!isDark) {
-		var metaThemeColor = document.querySelector("meta[name=theme-color]");
-		metaThemeColor.setAttribute("content", "#000");
 		document.getElementById("darkmodebutton").innerHTML = "<i class='fas fa-adjust fa-fw'></i>";
 		document.getElementById("windowbody").classList.add("dark");
 				myChart.options.scales.x.grid.color = "rgba(255,255,255,0.2)";
@@ -13673,8 +13669,6 @@ function goDark(arg) {
 			
 			isDark = true;
 	} else {
-		var metaThemeColor = document.querySelector("meta[name=theme-color]");
-		metaThemeColor.setAttribute("content", "#7B8092");
 		document.getElementById("darkmodebutton").innerHTML = "<i class='fas fa-moon fa-fw'></i>";
 		document.getElementById("windowbody").classList.remove("dark");
 				myChart.options.scales.x.grid.color = "rgba(0,0,0,0.1)";
