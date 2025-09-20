@@ -1293,7 +1293,7 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 
 #modalInitial, #modalLoad {
   padding-top: 5vw;
-  background-color:  rgba(0,0,0,0.7);
+  background-color:  #222;
 }
 
 #modalInitialcontent, #modalLoadcontent {
