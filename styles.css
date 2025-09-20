@@ -1293,11 +1293,18 @@ body.dark #custom_fendilution, body.dark #custom_remidilution, body.dark #custom
 
 #modalInitial, #modalLoad {
   padding-top: 5vw;
+  background: linear-gradient(180deg, rgb(40,40,60) 0%, rgb(40,40,60) 65%, rgb(0,0,0) 100%);
   background-color:  #222;
 }
 
 #modalInitialcontent, #modalLoadcontent {
   width: 90vw;
+}
+
+#modalInitial, #modalLoad {
+  padding-top: 5vw;
+  background: linear-gradient(180deg, rgb(20,20,25) 0%, rgb(20,20,25) 65%, rgb(0,0,0) 100%);
+  background-color: #222;
 }
 
 
@@ -4362,7 +4369,7 @@ body.dark #ptolcard_switch {
   z-index:20;
   top:0;
   left:0;
-  background: rgb(0,0,0,0.8);
+  background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 75%, rgb(0,0,0) 100%);
   overflow-y:hidden;
     -webkit-transform: translateY(-100%);
       transform: translateY(-100%);

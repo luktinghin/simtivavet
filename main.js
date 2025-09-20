@@ -233,6 +233,8 @@ var optionsactive = false;
 var collapsibles = document.getElementsByClassName("collapsible");
 var i;
 
+var scrollpos = 0;
+
 for (i = 0; i < collapsibles.length; i++) {
   collapsibles[i].addEventListener("click", function() {
     this.classList.toggle("active");
@@ -9802,7 +9804,7 @@ function toPageTwo() {
 	document.getElementById("modalInitScreen1").style.display = "none";
 	document.getElementById("modalInitScreen2").style.display = "block";
 	document.getElementById("btn_initProceed").innerHTML = "Proceed";
-	document.getElementById("btn_initProceed").setAttribute("onclick","confirmProceed()");
+	document.getElementById("btn_initProceed").setAttribute("onclick","confirmProceed();jumpLoad();");
 	document.getElementById("btn_disclaimer").style.display = "none";
 	document.getElementById("btn_about").style.display = "none";
 	document.getElementById("btn_back").style.display = "block";
@@ -10813,12 +10815,10 @@ function togglemenu() {
   document.getElementById("hamburger").classList.toggle("change");
   if (document.getElementById("hamburger").classList.contains("change")) {
     document.getElementById("menu").classList.add("open");
-    //document.getElementById("bodywrapper").classList.add("blurry");
-    //navscrollable = false;
+    jumpEnd();
   } else {
     document.getElementById("menu").classList.remove("open");
-    //document.getElementById("bodywrapper").classList.remove("blurry");
-    //navscrollable = true;
+    jumpRestore();
   }
 
 }
@@ -16569,63 +16569,48 @@ function extendSession(ind) {
 }
 
 
-/* failed code below 
-
-let arrLines = new Array();
-arrLines = [5,10];
-let arrLables = new Array();
-arrLabels = ["testline1", "testline2"];
-
-function getEventLine(arg) {
-	
-	return arrLines[arg];
+//new scripts
+function jumpEnd() {
+	//store scrollpos
+	scrollpos = window.scrollY;
+	window.scrollTo(0,10000);
 }
 
-function getEventLabel(arg) {
-	
-	return arrLabels[arg];
+function jumpStart() {
+	window.scrollTo(0,0);
 }
 
-*/
-
-
-/*
-
-
-function outputscheme_obsolete() {
-	html2canvas(document.getElementById("historywrapper"), {
-		width:600,
-		height:600,
-		useCORS:true
-	}).then(function(canvas) {
-		document.body.appendChild(canvas);
-		const link = document.createElement('a');
-	  link.download = 'download.png';
-	  link.href = canvas.toDataURL();
-	  link.click();
-	  link.delete;
-	});
-
+function jumpRestore() {
+	if (scrollpos>0) {
+		window.scrollTo(0,scrollpos);	
+	} else {
+		window.scrollTo(0,0);
+	}
 }
 
-*/
-
-
-/*
-function showMessage(message) {
-  if (!("Notification" in window)) {
-    // Code to run if notifications are not
-    // supported by the visitor's browser
-  } else {
-    if (Notification.permission === "granted") {
-      var notification = new Notification(message);
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {
-          var notification = new Notification(message);
-        }
-  });
-    }
-  }
+function jumpLoad() {
+	//this is triggered on clicking of rescue or loading a simfile
+	document.getElementById("bodywrapper").style.opacity = 1;
+	document.getElementById("parallax3").style.opacity = 1;
+	jumpStart();
 }
-*/
+
+function iOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  // iPad on iOS 13 detection
+  || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
+jumpEnd();
+
+if (iOS()) {
+	r = document.querySelector(":root");
+	r.style.setProperty('--extrapad', '8px');
+}

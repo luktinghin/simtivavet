@@ -67,7 +67,7 @@
 		</div>
 		<div id="rescuebuttons">
 			<a class="button frontpage"  onclick="displayModalOptions();"><i class="fas fa-cog fa-fw" style="padding-right: 6px"></i>Options</a>
-			<a class="button frontpage"  onclick="rescue();"><i class="fas fa-life-ring fa-fw " style="padding-right:6px"></i>Rescue</a>
+			<a class="button frontpage"  onclick="rescue();jumpLoad();"><i class="fas fa-life-ring fa-fw " style="padding-right:6px"></i>Rescue</a>
 			<a class="button frontpage"  onclick="load();"><i class="fas fa-save fa-fw " style="padding-right:6px"></i>Load file</a>
 		</div>
 		<div id="modalAbout" class="modal">
@@ -298,13 +298,13 @@
 						<div style="height:30px"></div>
 					</div>
 					<div id="modalLoadNormalButtons">
-						<a class="button wide invert" id="btn_load" onclick="init_rescue(selected_uid);">Load Selection</a>
+						<a class="button wide invert" id="btn_load" onclick="init_rescue(selected_uid);jumpLoad();">Load Selection</a>
 						<a class="button muted right" onclick="toPageOneFromLoad();">Back</a>
 						<a class="button muted right" id="btn_manageFiles" onclick="manageFileList();">Manage</a>
 						<div><a class="button hide" id="btn_export" onclick="exportFunction()">Export all</a></div>
 					</div>
 					<div id="modalLoadImportButtons">
-						<a class="button wide invert disabled" id="btn_load_import" onclick="init_rescue(selected_uid,true)">Load Selection</a> &nbsp;
+						<a class="button wide invert disabled" id="btn_load_import" onclick="init_rescue(selected_uid,true);jumpLoad();">Load Selection</a> &nbsp;
 						<a class="button muted right" onclick="toPageOneFromLoad();">Back</a>
 					</div>
 				</div>
@@ -919,7 +919,7 @@
     </div>
 
 
-	<div id="bodywrapper" class="">
+	<div id="bodywrapper" class="" style="opacity:0">
 		<div class="sharebutton" id="sharebutton" onclick="sharefunction();">
 			<i class="fas fa-share-alt fa-fw"></i>
 		</div>
