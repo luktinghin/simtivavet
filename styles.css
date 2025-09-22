@@ -5982,7 +5982,7 @@ body.dark a.timeFxButton {
 
 /* dark styles go here */
 body.dark {
-  background: #222;
+  background: #000;
   color: #cecece;
 }
 
@@ -6058,7 +6058,7 @@ body.dark .modal-content {
 }
 
 body.dark .top-bar-container {
-  background: #222;
+  background: #000;
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -6130,8 +6130,7 @@ body.dark .hamburger {
 }
 
 body.dark #parallax2 {
-  background: #222;
-  padding-left: 0rem;
+  background: #000;
 }
 
 body.dark #parallax1container {
