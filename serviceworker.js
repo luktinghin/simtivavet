@@ -1,5 +1,5 @@
 
-const cacheName = "simtivavet-v2-26";
+const cacheName = "simtivavet-v2-26b";
 
 const assets = [
 	"/",
@@ -11,15 +11,10 @@ const assets = [
 	"/css/regular.min.css",
 	"/css/brands.min.css",
 	"/css/solid.min.css",
-	"/webfonts/fa-solid-900.ttf",
 	"/webfonts/fa-solid-900.woff2",
-	"/webfonts/fa-regular-400.ttf",
-	"/webfonts/fa-regular-400.woff2",
 	"/chart.min.js",
 	"/beep.mp3",
 	"/beep-2.mp3",
-	"/eleveld1.gif",
-	"/eleveld2.gif",
 	"/icon.png",
 	"/apple-touch-icon-180x180.png",
 	"/fonts/BrandonText-Bold.otf",

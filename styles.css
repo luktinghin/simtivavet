@@ -1,4 +1,12 @@
 @font-face {
+  font-family: Brandon Text;
+  src: url(fonts/BrandonText-Bold.otf);
+  font-weight: bold;
+  font-display: swap;
+  unicode-range:  U+000-5FF;
+}
+
+@font-face {
    font-family: SourceSans;
    src: url(fonts/SourceSans3-Regular.otf.woff2);
    font-display: swap;
