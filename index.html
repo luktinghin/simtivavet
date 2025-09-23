@@ -891,19 +891,19 @@
             ontouchstart="showbaselayer(); window.scrollTo(0,0); event.preventDefault(); togglemenu();">Home</a>-->
             <!--ontouchstart="setmodal('modalAbout'); event.preventDefault(); togglemenu();"-->
             <a href="#" 
-            onclick="setmodal('modalAbout'); togglemenu();" 
+            onclick="togglemenu();setmodal('modalAbout'); " 
             >About</a>
             <a href="#" 
-            onclick="setmodal('modalReset'); togglemenu();" 
+            onclick="togglemenu();setmodal('modalReset'); " 
             >Reload</a>
             <a href="#" 
-            onclick="setmodal('modalHelp'); togglemenu();" 
+            onclick="togglemenu();setmodal('modalHelp'); " 
             >Help</a>
             <a href="#" 
-            onclick="setmodal('modalDocumentation'); togglemenu();" 
+            onclick="togglemenu();setmodal('modalDocumentation'); " 
             >Documentation</a>
             <a href="#"
-            onclick="sharefunction(); togglemenu();"
+            onclick="togglemenu();sharefunction(); "
             >Share</a><!--
             <a href="#" 
             onclick="setmodal('modalExport'); togglemenu();" 

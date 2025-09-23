@@ -1081,6 +1081,7 @@ window.onclick = function(event) {
     modal.classList.remove("fadein");
     modalcontent.classList.remove("open");
     modal = undefined;
+    dim(0);
   }
 }
 
@@ -1094,6 +1095,7 @@ document.addEventListener('touchstart', function(event){
     modal.classList.remove("fadein");
     modalcontent.classList.remove("open");
     modal = undefined;
+    dim(0);
   }
 });
 
