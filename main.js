@@ -1939,31 +1939,6 @@ function common_start_calls() {
 		trk();
 }
 
-var displaymode = '';
-
-function getPWADisplayMode() {
-  if (document.referrer.startsWith('android-app://'))
-    return 'twa';
-  if (window.matchMedia('(display-mode: browser)').matches)
-    return 'net-browser';
-  if (window.matchMedia('(display-mode: standalone)').matches)
-    return 'PWA-standalone';
-  if (window.matchMedia('(display-mode: minimal-ui)').matches)
-    return 'PWA-minimal-ui';
-  if (window.matchMedia('(display-mode: fullscreen)').matches)
-    return 'PWA-fullscreen';
-  if (window.matchMedia('(display-mode: window-controls-overlay)').matches)
-    return 'PWA-window-controls-overlay';
-
-  return 'unknown';
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  // Log launch display mode to analytics
-  displaymode = getPWADisplayMode();
-  console.log(displaymode);
-});
-
 function trk() {
 	if (umami != undefined) {
 		//custom umami tracker function
@@ -2013,16 +1988,15 @@ function trk() {
 			temptext2 += ", Premed: " + drug_sets[0].state_premed;
 		}
 		combinedtext = temptext0 + " - " + temptext1;
-	        combinedtext2 = temptext0 + " - " + temptext2;
+	  combinedtext2 = temptext0 + " - " + temptext2;
 		trackerprops.string_model = combinedtext;
 		trackerprops.string_demographics = combinedtext2;
-		trackerprops.displaymode = displaymode;
 		if (parseloading == 0) {
 			umami.track('run', trackerprops);
 		} else {
-			umami.track('view', trackerprops);	
+			//umami.track('view', trackerprops);	
 		}
-		umami.identify(trackerprops);
+		//umami.identify(trackerprops);
 	}
 }
 
