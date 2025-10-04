@@ -1951,12 +1951,12 @@ function trk() {
 		}
 		trackerprops.model = drug_sets[0].model_name;
 		if (drug_sets[0].cpt_active > 0) {
-			trackerprops.mode = 'CPT';
+			tempmode = 'CPT';
 		} else if (drug_sets[0].manualmode_active > 0) {
-			trackerprops.mode = 'Manual';
+			tempmode = 'Manual';
 		}
 		temptext0 = trackerprops.animal;
-		temptext1 = trackerprops.mode + trackerprops.model;
+		temptext1 = tempmode + trackerprops.model;
 		temptext2 = "";
 		//patient data 
 		if (mass != undefined) {
@@ -1969,28 +1969,28 @@ function trk() {
 		}
 		if (age != undefined) {
 			if (drug_sets[0].model_name == "Cattai-Propofol") {
-				trackerprops.age = age;
 				temptext2 += "; Age: " + age;
 			}
 		}
 		if (gender != undefined) {
-			if ((drug_sets[0].model_name == "Cattai-Propofol") || (drug_sets[0].model_name == "Cattai-Fentanyl")) {
+			if (drug_sets[0].model_name == "Cattai-Propofol") {
 				if (gender == 0) {
-					trackerprops.sex = "male";
+					tempsex = "male";
 				} else if (gender == 1) {
-					trackerprops.sex = "female";
+					tempsex = "female";
 				}
-				temptext2 += ", Sex: " + trackerprops.sex;
+				temptext2 += ", Sex: " + tempsex;
 			}
 		}
 		if (drug_sets[0].state_premed != undefined) {
-			trackerprops.premed = drug_sets[0].state_premed;
 			temptext2 += ", Premed: " + drug_sets[0].state_premed;
 		}
-		combinedtext = temptext0 + " - " + temptext1;
-	  combinedtext2 = temptext0 + " - " + temptext2;
-		trackerprops.string_model = combinedtext;
-		trackerprops.string_demographics = combinedtext2;
+		trackerprops.string_model = temptext0 + " - " + temptext1;
+		if (drug_sets[0].model_name == "Cattai-Propofol") {
+			//only track string demographics for cattai propofol
+			trackerprops.string_demographics = temptext2;
+		}
+		
 		if (parseloading == 0) {
 			umami.track('run', trackerprops);
 		} else {
