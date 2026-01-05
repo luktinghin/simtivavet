@@ -6125,7 +6125,7 @@ body.dark .top_title_box {
   color: #fff;
 }
 body.dark .top_title_box::after {
-  background: #222;
+  
 }
 
 body.dark .hamburger {

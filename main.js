@@ -1355,6 +1355,12 @@ function initsubmit() {
 		  	document.getElementById("card_wakeup").style.display = "none";
 		  			document.getElementById("rescuebuttons").style.display="none";
 
+		if (drug_sets[0].drug_name == "Propofol") {
+			myChart.options.scales.y.title.text = "Concentration (mcg/ml)";
+		} else {
+			myChart.options.scales.y.title.text = "Concentration (ng/ml)";
+		}
+
 		var conc_units_fields = document.getElementsByClassName("conc_units");
 		for (i=0; i<conc_units_fields.length; i++) {
 			conc_units_fields[i].innerHTML = drug_sets[active_drug_set_index].conc_units;
@@ -6614,6 +6620,7 @@ function update() {
 function timeFxReset() {
 	conditions = ((time_in_s>1) && (drug_sets[0].cpt_rates_real.length > 1));
 	if (conditions) {
+		orig_max_rate = drug_sets[0].max_rate;
 		document.getElementById("timeFxRowSuspend").classList.remove("hide");
 		document.getElementById("timeFxRowResume").classList.add("hide");
 		timeFxSuspend();
@@ -6672,10 +6679,11 @@ function timeFxReset() {
 		document.getElementById("status").innerHTML="Waiting to start";
 		document.getElementById("historywrapper").innerHTML="Waiting to start";
 		document.getElementById("historywrapperCOPY").innerHTML="Waiting to start";
-		document.getElementById("ptolcard_right").innerHTML="-";
+		
 		document.getElementById("timeFxRowSuspend").classList.remove("hide");
 		document.getElementById("timeFxRowResume").classList.add("hide");
 		document.getElementById("suspendBanner").style.display = "none";
+		drug_sets[0].max_rate = orig_max_rate;
 	}
 }
 
